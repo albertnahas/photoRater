@@ -16,7 +16,7 @@ export const Landing = (props: any) => {
             flexDirection: 'column'
         }}>
             <Typography sx={{ fontWeight: 'lighter' }} variant="h3" color="white">Always use your best photos!</Typography>
-            <Typography sx={{ m: 1 }} variant="body1" color="white">Get the opinion of people from all over the world</Typography>
+            <Typography sx={{ m: 1 }} variant="body1" color="white">Get the opinion of people from all over the world to rate your photos</Typography>
             <Intro sx={{ mt: 3, width: 280, height: 280 }} />
             <Button
                 color="primary"
