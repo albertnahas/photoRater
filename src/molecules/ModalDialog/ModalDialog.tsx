@@ -6,7 +6,7 @@ import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-const style = {
+const style: any = {
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -14,14 +14,14 @@ const style = {
     width: {
         lg: 800,
         md: 600,
-        sm:  380,
-        xs:  '70%',
+        sm: 380,
+        xs: '70%',
     },
     bgcolor: 'background.paper',
     borderRadius: 1,
     boxShadow: 24,
     p: 4,
-};
+}
 
 export default function ModalDialog(props: any) {
     const handleOpen = () => props.setOpen(true);

@@ -3,7 +3,7 @@ import { useTheme } from '@mui/system';
 import { Button, Typography } from '@mui/material'
 import { Intro } from '../../icons/intro';
 
-export const Landing = (props) => {
+export const Landing = (props: any) => {
 
     const theme = useTheme()
 

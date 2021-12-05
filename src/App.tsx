@@ -40,7 +40,7 @@ const App = ({
   user,
   // error,
   loading,
-}) => {
+}:any) => {
 
   const [authPage, setAuthPage] = useState('landing')
   const [intro, setInto] = useState(true)
