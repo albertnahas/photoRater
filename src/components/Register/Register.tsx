@@ -66,7 +66,6 @@ export const Register = (props: any) => {
                         email: values.email,
                         age: values.age,
                         gender: values.gender,
-                        complete: true,
                     });
                 }
             }).catch((e: any) => {

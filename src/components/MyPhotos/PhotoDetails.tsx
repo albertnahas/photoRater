@@ -111,7 +111,7 @@ export const PhotoDetails = (props: any) => {
                 {photo?.ageRange
                     && photo?.ageRange.length === 2
                     && <Typography sx={{ mt: 2, fontSize: 12 }} variant="body2" color={theme.palette.text.secondary}>Voters age range: {photo?.ageRange[0]} - {photo?.ageRange[1]} </Typography>}
-                <Typography sx={{ mt: 1, fontSize: 12 }} variant="body2" color={theme.palette.text.secondary}>Last update: {photo?.updatedAt.toDate().toLocaleString()} </Typography>
+                {photo?.updatedAt && <Typography sx={{ mt: 1, fontSize: 12 }} variant="body2" color={theme.palette.text.secondary}>Last update: {photo?.updatedAt.toDate().toLocaleString()} </Typography>}
 
             </Grid>
         </Grid>
