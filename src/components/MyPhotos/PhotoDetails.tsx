@@ -23,8 +23,8 @@ export const PhotoDetails = (props: any) => {
     }, [votes])
 
     const chips = useMemo(() => {
+        if (votes.length === 0) return []
         const chips = votes.flatMap((v) => v.chips)
-        console.log(votes)
         const uniqueChips = [...new Set(chips)];
         const weightedChips = []
         for (const chip of uniqueChips) {
@@ -91,7 +91,7 @@ export const PhotoDetails = (props: any) => {
                     <>
                         <Typography variant="body2" color={theme.palette.primary.main}>Impressions: </Typography>
                         <Box sx={{ mt: 1, mb: 1 }}>
-                            {chips.map(c => { return <Chip sx={{ m: 0.5 }} key={c.chip} label={`${c.chip} (${c.count})`} /> })}
+                            {chips.map(c => { return c.chip ? <Chip sx={{ m: 0.5 }} key={c.chip} label={`${c.chip} (${c.count})`} /> : <span /> })}
                         </Box>
                         <Divider sx={{ m: 1 }} variant="middle" />
                     </>
