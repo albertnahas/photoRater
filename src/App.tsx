@@ -19,6 +19,7 @@ import { Landing } from './components/Landing/Landing'
 const firebaseAppAuth = firebase.auth()
 const providers = {
   googleProvider: new firebase.auth.GoogleAuthProvider(),
+  facebookProvider: new firebase.auth.FacebookAuthProvider(),
 }
 
 const createComponentWithAuth = withFirebaseAuth({
@@ -32,7 +33,7 @@ const App = ({
   createUserWithEmailAndPassword,
   signInWithGoogle,
   signInWithFacebook,
-  // signInWithGithub,
+  signInWithGithub,
   signInWithTwitter,
   // signInAnonymously,
   signOut,
@@ -107,7 +108,7 @@ const App = ({
       {!currentUser && authPage == "login"
         && <Login
           signInWithGoogle={signInWithGoogle}
-          signInWithFacebook={() => firebase.auth().signInWithPopup(provider)}
+          signInWithFacebook={signInWithFacebook}
           signUp={() => setAuthPage('register')}
           onSubmit={signInWithEmailAndPassword}
         />}
