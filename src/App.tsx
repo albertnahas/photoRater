@@ -15,6 +15,8 @@ import { Box } from '@mui/system'
 import { CircularProgress, Typography } from '@mui/material'
 import { TopBar } from './components/Header/TopBar'
 import { Landing } from './components/Landing/Landing'
+import { OnBoarding } from './components/OnBoarding/OnBoarding'
+import ModalDialog from './molecules/ModalDialog/ModalDialog'
 
 const firebaseAppAuth = firebase.auth()
 
@@ -49,6 +51,7 @@ const App = ({
 
   const [authPage, setAuthPage] = useState('landing')
   const [intro, setInto] = useState(true)
+  const [onBoarding, setOnBoarding] = useState(true)
 
   const currentUser = useSelector((state: any) => state.user.value)
   const dispatch = useDispatch()
@@ -91,6 +94,14 @@ const App = ({
     dispatch(setUser(undefined))
   }
 
+  const finishOnBoarding = () => {
+    firebase.firestore().collection("users").doc(user.uid).update({
+      onBoarding: true,
+    }).then((res) => {
+      setOnBoarding(false)
+    })
+  }
+
   return intro ? (<Box sx={{ textAlign: 'center', mt: 6 }}>
     <Logo sx={{ width: 120, height: 120, m: 8, ml: 'auto', mr: 'auto' }} />
     <Typography variant="h3" color="primary" >Photo Rater</Typography>
@@ -119,6 +130,9 @@ const App = ({
           onSubmit={createUserWithEmailAndPassword}
           login={() => setAuthPage('login')} />}
 
+      {currentUser && !currentUser.onBoarding && <ModalDialog customStyle={{ maxWidth: 420 }} open={onBoarding} setOpen={setOnBoarding}>
+        <OnBoarding done={finishOnBoarding} />
+      </ModalDialog>}
     </div>
   )
 }

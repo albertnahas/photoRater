@@ -5,28 +5,29 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { NoEncryptionTwoTone } from '@mui/icons-material';
 
 const style: any = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
+    bgcolor: 'background.paper',
+    borderRadius: 1,
+    boxShadow: 24,
+    p: 4,
+    border: 'none',
     width: {
         lg: 800,
         md: 600,
         sm: 380,
         xs: '70%',
-    },
-    bgcolor: 'background.paper',
-    borderRadius: 1,
-    boxShadow: 24,
-    p: 4,
+    }
 }
 
 export default function ModalDialog(props: any) {
     const handleOpen = () => props.setOpen(true);
     const handleClose = () => props.setOpen(false);
-
     return (
         <div>
             <Modal
@@ -41,7 +42,7 @@ export default function ModalDialog(props: any) {
                 }}
             >
                 <Fade in={props.open}>
-                    <Box sx={style}>
+                    <Box sx={props.customStyle ? { ...style, ...props.customStyle } : style}>
                         {props.children}
                     </Box>
                 </Fade>

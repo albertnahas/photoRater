@@ -41,24 +41,69 @@ button {
 	font-size: calc(10px + 2vmin);
 }
 
-.cls-1 {
+.intro-1 {
 	fill: #effafe;
 }
-.cls-2 {
+.intro-2 {
 	fill: #fd0;
 }
-.cls-3 {
+.intro-3 {
 	fill: #efc803;
 }
-.cls-4 {
+.intro-4 {
 	fill: #e4ebed;
 }
-.cls-5 {
+.intro-5 {
 	fill: #40bdff;
 }
-.cls-6 {
+.intro-6 {
 	fill: #2197f7;
 }
-.cls-7 {
+.intro-7 {
 	fill: #263238;
+}
+
+.step-1-1 {
+	fill: none;
+	stroke: #2196f3;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-width: 10px;
+}
+
+.step-2-1,
+.step-2-3 {
+	fill: none;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+.step-2-1 {
+	stroke: #2196f3;
+	stroke-width: 10px;
+}
+.step-2-2 {
+	fill: #2196f3;
+}
+.step-2-3 {
+	stroke: #fff;
+	stroke-width: 14.93px;
+}
+
+.step-3-1 {
+	fill: #2196f3;
+}
+.step-3-2 {
+	fill: none;
+	stroke: #2196f3;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-width: 10px;
+}
+
+.step-4-1 {
+	fill: none;
+	stroke: #2196f3;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-width: 10px;
 }
