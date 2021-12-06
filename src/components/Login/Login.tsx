@@ -69,6 +69,13 @@ export const Login = (props: any) => {
                             >
                                 Sign in and get started
                             </Typography>
+                            {props.error && <Typography
+                                color="error.main"
+                                gutterBottom
+                                variant="body2"
+                            >
+                                {props.error}
+                            </Typography>}
                         </Box>
                         <Grid
                             container

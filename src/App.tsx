@@ -17,8 +17,12 @@ import { TopBar } from './components/Header/TopBar'
 import { Landing } from './components/Landing/Landing'
 
 const firebaseAppAuth = firebase.auth()
+
+const googleProvider = new firebase.auth.GoogleAuthProvider();
+googleProvider.addScope('https://www.googleapis.com/auth/user.birthday.read');
+
 const providers = {
-  googleProvider: new firebase.auth.GoogleAuthProvider(),
+  googleProvider: googleProvider,
   facebookProvider: new firebase.auth.FacebookAuthProvider(),
 }
 
@@ -33,13 +37,13 @@ const App = ({
   createUserWithEmailAndPassword,
   signInWithGoogle,
   signInWithFacebook,
-  signInWithGithub,
-  signInWithTwitter,
+  // signInWithGithub,
+  // signInWithTwitter,
   // signInAnonymously,
   signOut,
   // setError,
   user,
-  // error,
+  error,
   loading,
 }: any) => {
 
@@ -48,8 +52,6 @@ const App = ({
 
   const currentUser = useSelector((state: any) => state.user.value)
   const dispatch = useDispatch()
-
-  const provider = new firebase.auth.FacebookAuthProvider();
 
   useEffect(() => {
     if (user && user.uid) {
@@ -99,7 +101,6 @@ const App = ({
       <TopBar signOut={signOutFromApp} />
       {currentUser && currentUser.complete && <Home />}
       {currentUser && !currentUser.complete && <RegisterStep2 uid={currentUser.uid} />}
-
       {!currentUser && authPage == "landing"
         && <Landing
           login={() => setAuthPage('login')}
@@ -110,6 +111,7 @@ const App = ({
           signInWithGoogle={signInWithGoogle}
           signInWithFacebook={signInWithFacebook}
           signUp={() => setAuthPage('register')}
+          error={error}
           onSubmit={signInWithEmailAndPassword}
         />}
 
@@ -133,7 +135,7 @@ App.propTypes = {
   signOut: PropTypes.func,
   // setError: PropTypes.object,
   user: PropTypes.object,
-  // error: PropTypes.object,
+  error: PropTypes.string,
   loading: PropTypes.bool,
 }
 
