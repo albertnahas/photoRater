@@ -74,7 +74,7 @@ export const Login = (props: any) => {
                             container
                             spacing={3}
                         >
-                            {/* <Grid
+                            <Grid
                                 item
                                 xs={12}
                                 md={6}
@@ -89,11 +89,11 @@ export const Login = (props: any) => {
                                 >
                                     Login with Facebook
                                 </Button>
-                            </Grid> */}
+                            </Grid>
                             <Grid
                                 item
                                 xs={12}
-                                md={12}
+                                md={6}
                             >
                                 <Button
                                     fullWidth

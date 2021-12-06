@@ -31,9 +31,9 @@ const App = ({
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signInWithGoogle,
-  // signInWithFacebook,
+  signInWithFacebook,
   // signInWithGithub,
-  // signInWithTwitter,
+  signInWithTwitter,
   // signInAnonymously,
   signOut,
   // setError,
@@ -105,6 +105,7 @@ const App = ({
       {!currentUser && authPage == "login"
         && <Login
           signInWithGoogle={signInWithGoogle}
+          signInWithFacebook={signInWithFacebook}
           signUp={() => setAuthPage('register')}
           onSubmit={signInWithEmailAndPassword}
         />}
@@ -122,7 +123,7 @@ App.propTypes = {
   signInWithEmailAndPassword: PropTypes.func,
   createUserWithEmailAndPassword: PropTypes.func,
   signInWithGoogle: PropTypes.func,
-  // signInWithFacebook: PropTypes.func,
+  signInWithFacebook: PropTypes.func,
   // signInWithGithub: PropTypes.object,
   // signInWithTwitter: PropTypes.object,
   // signInAnonymously: PropTypes.object,
