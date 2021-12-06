@@ -63,7 +63,7 @@ export const RegisterStep2 = (props: any) => {
                                 color="textPrimary"
                                 variant="h4"
                             >
-                                Compelete your account
+                                Complete your account
                             </Typography>
                             <Typography
                                 color="textSecondary"
