@@ -40,13 +40,15 @@ const App = ({
   user,
   // error,
   loading,
-}:any) => {
+}: any) => {
 
   const [authPage, setAuthPage] = useState('landing')
   const [intro, setInto] = useState(true)
 
   const currentUser = useSelector((state: any) => state.user.value)
   const dispatch = useDispatch()
+
+  const provider = new firebase.auth.FacebookAuthProvider();
 
   useEffect(() => {
     if (user && user.uid) {
@@ -105,7 +107,7 @@ const App = ({
       {!currentUser && authPage == "login"
         && <Login
           signInWithGoogle={signInWithGoogle}
-          signInWithFacebook={signInWithFacebook}
+          signInWithFacebook={() => firebase.auth().signInWithPopup(provider)}
           signUp={() => setAuthPage('register')}
           onSubmit={signInWithEmailAndPassword}
         />}
