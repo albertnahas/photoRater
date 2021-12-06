@@ -66,7 +66,6 @@ const App = ({
             });
           } else {
             // doc.data() will be undefined in this case
-            console.log("No such document!")
             firebase.firestore().collection("users").doc(user.uid).set({
               displayName: user.displayName,
               photoURL: user.photoURL,

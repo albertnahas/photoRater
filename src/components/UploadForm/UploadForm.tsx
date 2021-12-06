@@ -29,7 +29,6 @@ export const UploadForm = (props: any) => {
 
     const handlePhotoSubmit = (e: any) => {
         e.preventDefault()
-        console.log('start of upload')
         // async magic goes here...
         if (!imageAsFile || imageAsFile === '') {
             console.error(`not an image, the image file is a ${typeof (imageAsFile)}`)
@@ -39,8 +38,6 @@ export const UploadForm = (props: any) => {
             uploadTask.on('state_changed',
                 (snapShot: any) => {
                     //takes a snap shot of the process as it is happening
-                    console.log(snapShot)
-                    console.log('uploading')
                     setUploading(true)
 
                 }, (err: any) => {

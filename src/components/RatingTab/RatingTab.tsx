@@ -38,7 +38,6 @@ export const RatingTab = () => {
         const getPhotos = functions.httpsCallable('getPhotos')
         getPhotos({ userId: user.uid }).then((result: any) => {
 
-            console.log(result);
             setPhotos(result.data)
             setCurrentPhotoIndex(0)
             setPhotosLoaded(true)
@@ -75,7 +74,6 @@ export const RatingTab = () => {
     }
 
     const handleCommentChange = (event: any) => {
-        console.log(event)
         setComment(event.target.value)
     }
 

@@ -61,7 +61,7 @@ export const Register = (props: any) => {
                 }
                 else {
                     const newUser = res
-                    firebase.database().ref('/users').child(newUser.uid).set({
+                    firebase.firestore().collection("users").doc(newUser.uid).set({
                         displayName: `${values.firstName} ${values.lastName}`,
                         email: values.email,
                         age: values.age,
