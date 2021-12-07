@@ -34,7 +34,7 @@ export const RatingTab = () => {
         }
         if (photosLoaded && !noPhotos)
             return
-
+        console.log('getPhotos')
         const getPhotos = functions.httpsCallable('getPhotos')
         getPhotos({ userId: user.uid }).then((result: any) => {
 
@@ -194,8 +194,9 @@ export const RatingTab = () => {
             }}
         >
             <Container maxWidth="lg">
+                
                 {photosLoaded && displayPhotos()}
-                {!photosLoaded && <CircularProgress variant="determinate" size={120} />}
+                {!photosLoaded && <CircularProgress />}
             </Container>
         </Box >
     )

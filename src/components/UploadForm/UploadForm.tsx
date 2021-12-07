@@ -7,6 +7,7 @@ import CollectionsIcon from '@mui/icons-material/Collections';
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import { CircularProgress } from '@mui/material';
 import { useTheme } from '@mui/system'
+import { getResizedName } from '../../utils/utils'
 
 const storage = firebase.storage()
 
@@ -46,11 +47,13 @@ export const UploadForm = (props: any) => {
                 }, () => {
                     // gets the functions from storage refences the image storage in firebase by the children
                     // gets the download url then sets the image from firebase as the value for the imgUrl key:
+                    const resizedImageName = getResizedName(imageAsFile?.name)
                     storage.ref(`images/${user.uid}`).child(imageAsFile?.name).getDownloadURL()
                         .then((fireBaseUrl: string) => {
                             setImageAsUrl((prevObject: any) => ({ ...prevObject, imgUrl: fireBaseUrl }))
                             firebase.firestore().collection(`users/${user.uid}/photos`).add({
                                 imageName: imageAsFile?.name,
+                                resizedImageName: resizedImageName,
                                 imageUrl: fireBaseUrl,
                                 userId: user.uid,
                                 showTo: showToGender,
@@ -137,7 +140,7 @@ export const UploadForm = (props: any) => {
                         </Box>
                         <Box sx={{ mb: 2 }}>
                             <FormControl sx={{
-                                width: 
+                                width:
                                 {
                                     md: '80%',
                                     xs: '100%',

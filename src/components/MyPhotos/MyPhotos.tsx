@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import firebase from "../../config"
-import { Container, Box, Stack, Typography, CardContent, Card, CardActionArea, CardMedia, CardActions, Grid, Button, IconButton, Tooltip, Divider } from '@mui/material'
+import { Container, Box, Stack, Typography, CardContent, Card, CardActionArea, CardMedia, CardActions, Grid, Button, IconButton, Tooltip, Divider, CircularProgress } from '@mui/material'
 import { useSelector } from 'react-redux'
 import { UploadForm } from '../UploadForm/UploadForm'
 import SwitchToggle from '../../atoms/SwitchToggle/SwitchToggle'
@@ -15,6 +15,8 @@ import { PhotoDetails } from './PhotoDetails'
 export const MyPhotos = () => {
 
     const [photos, setPhotos] = useState<any[]>([])
+    const [photosLoaded, setPhotosLoaded] = useState(false)
+
     const [selectedPhoto, setSelectedPhoto] = useState<any>()
     const [openPhotoDialog, setOpenPhotoDialog] = useState(false)
 
@@ -37,6 +39,7 @@ export const MyPhotos = () => {
                     userPhotos.push(doc)
                 });
                 setPhotos(userPhotos)
+                setPhotosLoaded(true)
                 firebase.firestore().collection(`users`).doc(user.uid).update({
                     newVotes: 0
                 })
@@ -183,6 +186,7 @@ export const MyPhotos = () => {
                     </Grid >
                 </Grid>}
             </Container>
+            {!photosLoaded && <CircularProgress />}
             <ModalDialog open={openPhotoDialog} setOpen={setOpenPhotoDialog}>
                 <PhotoDetails photoId={selectedPhoto} />
             </ModalDialog>
