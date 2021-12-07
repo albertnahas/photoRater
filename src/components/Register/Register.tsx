@@ -60,8 +60,9 @@ export const Register = (props: any) => {
                     setSubmitting(false)
                 }
                 else {
-                    const newUser = res
+                    const newUser = res.user
                     firebase.firestore().collection("users").doc(newUser.uid).set({
+                        uid: newUser.uid,
                         displayName: `${values.firstName} ${values.lastName}`,
                         email: values.email,
                         age: values.age,
