@@ -24,11 +24,11 @@ export const Footer = (props: any) => {
             <AppBar position="static" elevation={0} component="footer" color="default">
                 <Grid container sx={{ minHeight: "212px", justifyContent: 'center' }}>
                     <Grid container item md={10} sx={{ justifyContent: 'space-between' }}>
-                        <Grid item md={4} xs={12} sx={{display:'flex', alignItems: 'center'}}>
+                        <Grid item md={4} xs={12} sx={{ minHeight: 100, display: 'flex', alignItems: 'center' }}>
                             <Logo sx={{ width: 60, height: 60, ml: 'auto', mr: 'auto' }} />
                         </Grid>
                         <Grid item md={4} xs={12}>
-                            <List sx={{mt:4}} dense={true}>
+                            <List sx={{ mt: 4 }} dense={true}>
                                 <ListItem>
                                     <ListItemButton onClick={() => navigate("/")}>
                                         <ListItemText
@@ -57,6 +57,14 @@ export const Footer = (props: any) => {
                                     <ListItemButton onClick={() => navigate("/privacy")}>
                                         <ListItemText
                                             primary="Privacy Policy"
+                                            color="text.secondary"
+                                        />
+                                    </ListItemButton>
+                                </ListItem>
+                                <ListItem>
+                                    <ListItemButton onClick={() => navigate("/contact")}>
+                                        <ListItemText
+                                            primary="Contact us"
                                             color="text.secondary"
                                         />
                                     </ListItemButton>

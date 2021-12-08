@@ -19,8 +19,9 @@ export const RatingTab = () => {
     const [comment, setComment] = useState<string>('')
     const [chips, setChips] = useState<string[]>([])
 
-    const [noPhotos, setNoPhotos] = useState(true)
+    const [noPhotos, setNoPhotos] = useState(false)
     const [photosLoaded, setPhotosLoaded] = useState(false)
+    const [loadingSubmit, setLoadingSubmit] = useState(false)
 
     const [showTags, setShowTags] = useState(false)
     const user = useSelector((state: any) => state.user.value)
@@ -34,13 +35,17 @@ export const RatingTab = () => {
         }
         if (photosLoaded && !noPhotos)
             return
-        console.log('getPhotos')
+        // console.log('getPhotos')
         const getPhotos = functions.httpsCallable('getPhotos')
         getPhotos({ userId: user.uid }).then((result: any) => {
 
-            setPhotos(result.data)
-            setCurrentPhotoIndex(0)
+            setPhotos(result.data) 
             setPhotosLoaded(true)
+            if (result.data && result.data.length > 0) {
+                setCurrentPhotoIndex(0)
+            } else {
+                setNoPhotos(false)
+            }
 
         }).catch((error: any) => {
             console.log(error);
@@ -62,10 +67,12 @@ export const RatingTab = () => {
             setNoPhotos(true)
             setCurrentPhotoIndex(-1)
             return
-        } else if (!noPhotos) {
+        } else if (noPhotos) {
             setNoPhotos(false)
+            return
         }
         setCurrentPhotoIndex(currentPhotoIndex + 1)
+        window.scrollTo(0, 0)
     }
 
     const onRatingChange = (event: any, newValue: any) => {
@@ -97,17 +104,18 @@ export const RatingTab = () => {
             chips,
             ratedAt: firebase.firestore.FieldValue.serverTimestamp(),
         }
-        firebase.firestore().collection(`users/${photo.userId}/photos/${id}/votes`).add(voteObj);
-        updateCurrentPhoto()
+        firebase.firestore().collection(`users/${photo.userId}/photos/${id}/votes`).add(voteObj).then((res) => {
+            updateCurrentPhoto()
+        });
     }
 
     const displayPhoto = (photo?: any) => {
-        const id = photo.id
+        const id = photo?.id
         return <Container maxWidth="lg">
             <Grid container>
                 <Grid item md={4}>
                     <Paper elevation={3} >
-                        <img style={{ width: '100%', marginBottom: -4 }} src={photo.imageUrl} />
+                        <img style={{ width: '100%', marginBottom: -4 }} src={photo?.imageUrl} />
                     </Paper>
                 </Grid>
 
@@ -194,7 +202,7 @@ export const RatingTab = () => {
             }}
         >
             <Container maxWidth="lg">
-                
+
                 {photosLoaded && displayPhotos()}
                 {!photosLoaded && <CircularProgress />}
             </Container>

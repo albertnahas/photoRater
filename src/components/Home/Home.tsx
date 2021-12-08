@@ -8,6 +8,7 @@ import { About } from '../ControlPages/About/About'
 import { Terms } from '../ControlPages/Terms/Terms'
 import { ControlPage } from '../ControlPages/ControlPage'
 import { Privacy } from '../ControlPages/Privacy/Privacy'
+import { Contact } from '../ControlPages/Contact/Contact'
 
 export const Home = () => {
 
@@ -20,6 +21,7 @@ export const Home = () => {
                 <Route path="/about" element={<ControlPage><About /></ControlPage>} />
                 <Route path="/terms" element={<ControlPage><Terms /></ControlPage>} />
                 <Route path="/privacy" element={<ControlPage><Privacy /></ControlPage>} />
+                <Route path="/contact" element={<ControlPage><Contact /></ControlPage>} />
             </Routes>
             <Footer />
         </div >

@@ -32,7 +32,7 @@ export const MyPhotos = () => {
             return
         }
 
-        const photosUnsubscribe = firebase.firestore().collection(`users/${user.uid}/photos`)
+        const photosUnsubscribe = firebase.firestore().collection(`users/${user.uid}/photos`).orderBy('uploadedAt', 'desc')
             .onSnapshot(function (querySnapshot: any) {
                 const userPhotos: any[] = []
                 querySnapshot.forEach((doc: any) => {

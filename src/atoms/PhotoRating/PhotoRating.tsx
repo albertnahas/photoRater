@@ -28,8 +28,8 @@ export default function PhotoRating(props: any) {
         value={props.value || 0}
         getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
         precision={0.5}
-        icon={<FavoriteIcon fontSize="inherit" />}
-        emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+        icon={<FavoriteIcon fontSize="large" />}
+        emptyIcon={<FavoriteBorderIcon fontSize="large" />}
         onChange={props.onRatingChange}
       />
       {/* <Typography component="legend">10 stars</Typography>
