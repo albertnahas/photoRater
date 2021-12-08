@@ -39,7 +39,7 @@ export const PhotoDetails = (props: any) => {
     }, [votes])
 
     const comments = useMemo(() => {
-        const cmnts = votes.flatMap((v) => {
+        const cmnts = votes.filter(v => v.comment && v.comment != '').flatMap((v) => {
             return {
                 comment: v.comment,
                 date: v.ratedAt
