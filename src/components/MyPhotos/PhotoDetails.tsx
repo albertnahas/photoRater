@@ -122,7 +122,7 @@ export const PhotoDetails = (props: any) => {
                                             variant="body2"
                                             color="text.secondary"
                                         >
-                                            {c.date?.toDate().toLocaleString()}
+                                            {c && c.date && c.date?.toDate().toLocaleString()}
                                         </Typography>}
                                         color={theme.palette.text.secondary}
                                     />
