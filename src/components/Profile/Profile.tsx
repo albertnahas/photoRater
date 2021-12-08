@@ -31,7 +31,7 @@ export const Profile = () => {
     const [editMode, setEditMode] = useState(false)
 
     return (<Container maxWidth="lg">
-        <Grid sx={{ mt: 2 }} spacing={2} container>
+        <Grid sx={{ mt: 2, mb: 4 }} spacing={2} container>
             <Grid xs={12} item>
                 <Box>
                     <Box sx={{ position: 'relative', margin: 'auto', boxSizing: 'border-box' }}>

@@ -1,9 +1,11 @@
-import { Chip, Divider, Grid, Paper, Typography } from '@mui/material'
+import { Chip, Divider, Grid, List, ListItem, ListItemIcon, ListItemText, Paper, Typography } from '@mui/material'
 import { Box, useTheme } from '@mui/system'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import RateProgressBar from '../../atoms/RateProgressBar/RateProgressBar'
 import firebase from "../../config"
+import NotesIcon from '@mui/icons-material/Notes';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 
 export const PhotoDetails = (props: any) => {
 
@@ -37,9 +39,13 @@ export const PhotoDetails = (props: any) => {
     }, [votes])
 
     const comments = useMemo(() => {
-        const cmnts = votes.flatMap((v) => v.comment)
-        const uniqueComments = [...new Set(cmnts)];
-        return uniqueComments
+        const cmnts = votes.flatMap((v) => {
+            return {
+                comment: v.comment,
+                date: v.ratedAt
+            }
+        })
+        return cmnts
     }, [votes])
 
     useEffect(() => {
@@ -80,14 +86,16 @@ export const PhotoDetails = (props: any) => {
                 </Paper>
                 <Grid container>
                     <Grid xs={12} item>
-                        <RateProgressBar value={photo?.rate * 20} />
+                        <RateProgressBar value={(photo?.rate || 0) * 20} />
                     </Grid>
                 </Grid>
             </Grid>
             <Grid md={8} sx={{ pl: 2 }} item>
-                <Typography sx={{ mb: 1 }} variant="h6" color={theme.palette.primary.main}>{`Score: ${photo?.rate * 2}/10`} </Typography>
+                {photo?.rate ? <Typography sx={{ mb: 1 }} variant="h6" color={theme.palette.primary.main}>{`Score: ${(photo?.rate || 0) * 2}/10`} </Typography>
+                    : <Typography sx={{ mb: 1 }} variant="h6" color={theme.palette.primary.main}>{`No votes yet`} </Typography>}
 
-                {chips.length &&
+
+                {chips.length > 0 &&
                     <>
                         <Typography variant="body2" color={theme.palette.primary.main}>Impressions: </Typography>
                         <Box sx={{ mt: 1, mb: 1 }}>
@@ -97,14 +105,31 @@ export const PhotoDetails = (props: any) => {
                     </>
                 }
 
-                {comments.length &&
+                {comments.length > 0 &&
                     <Box>
                         <Typography variant="body2" color={theme.palette.primary.main}>Comments: </Typography>
-                        <Box sx={{ mt: 1 }}>
+                        <List dense={true}>
                             {comments.map(c => {
-                                return <Typography variant="body2" color={theme.palette.text.secondary} key={c}> {c} </Typography>
+                                return <><ListItem key={c.comment}>
+                                    <ListItemIcon>
+                                        <ChatBubbleOutlineIcon />
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        primary={c.comment}
+                                        secondary={<Typography
+                                            sx={{ fontSize: 11 }}
+                                            component="span"
+                                            variant="body2"
+                                            color="text.secondary"
+                                        >
+                                            {c.date?.toDate().toLocaleString()}
+                                        </Typography>}
+                                        color={theme.palette.text.secondary}
+                                    />
+                                </ListItem>
+                                    <Divider variant="inset" component="li" /></>
                             })}
-                        </Box>
+                        </List>
                     </Box>
                 }
 

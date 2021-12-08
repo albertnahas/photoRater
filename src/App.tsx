@@ -102,7 +102,7 @@ const App = ({
     })
   }
 
-  return intro ? (<Box sx={{ textAlign: 'center', mt: 6 }}>
+  return (intro || loading) ? (<Box sx={{ textAlign: 'center', mt: 6 }}>
     <Logo sx={{ width: 120, height: 120, m: 8, ml: 'auto', mr: 'auto' }} />
     <Typography variant="h3" color="primary" >Photo Rater</Typography>
     <CircularProgress sx={{ display: 'block', m: 'auto', mt: 6 }} />
