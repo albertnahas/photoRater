@@ -110,7 +110,7 @@ export const PhotoDetails = (props: any) => {
                         <Typography variant="body2" color={theme.palette.primary.main}>Comments: </Typography>
                         <List dense={true}>
                             {comments.map(c => {
-                                return <><ListItem key={c.comment}>
+                                return <React.Fragment key={c.comment}><ListItem>
                                     <ListItemIcon>
                                         <ChatBubbleOutlineIcon />
                                     </ListItemIcon>
@@ -127,7 +127,8 @@ export const PhotoDetails = (props: any) => {
                                         color={theme.palette.text.secondary}
                                     />
                                 </ListItem>
-                                    <Divider variant="inset" component="li" /></>
+                                    <Divider variant="inset" component="li" />
+                                </React.Fragment>
                             })}
                         </List>
                     </Box>

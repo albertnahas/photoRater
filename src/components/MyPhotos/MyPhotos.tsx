@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import firebase from "../../config"
-import { Container, Box, Stack, Typography, CardContent, Card, CardActionArea, CardMedia, CardActions, Grid, Button, IconButton, Tooltip, Divider, CircularProgress } from '@mui/material'
+import { Container, Box, Stack, Typography, CardContent, Card, CardActionArea, CardMedia, CardActions, Grid, Button, IconButton, Tooltip, Divider, CircularProgress, Alert } from '@mui/material'
 import { useSelector } from 'react-redux'
 import { UploadForm } from '../UploadForm/UploadForm'
 import SwitchToggle from '../../atoms/SwitchToggle/SwitchToggle'
@@ -16,6 +16,7 @@ export const MyPhotos = () => {
 
     const [photos, setPhotos] = useState<any[]>([])
     const [photosLoaded, setPhotosLoaded] = useState(false)
+    const [view, setView] = useState('classic')
 
     const [selectedPhoto, setSelectedPhoto] = useState<any>()
     const [openPhotoDialog, setOpenPhotoDialog] = useState(false)
@@ -66,27 +67,27 @@ export const MyPhotos = () => {
 
     const displayPhoto = (photo?: any, id?: any) => {
         return <Card sx={{ maxWidth: 345 }}>
-            <CardActionArea onClick={() => setSelectedPhoto(id)}>
+            <CardActionArea onClick={() => photo ? setSelectedPhoto(id) : setShowForm(sf => !sf)}>
                 <CardMedia
                     component="img"
-                    height="300"
+                    height={view !== 'two-col' ? 300 : 200}
                     image={photo ? photo.imageUrl : placeholderPhoto}
                     alt={photo ? photo.imageName : 'add'}
                 />
                 {photo && <CardContent>
 
                     <Grid container>
-                        <Grid xs={9} item>
+                        <Grid xs={view !== 'two-col' ? 9 : 8} item>
                             <RateProgressBar value={photo.rate * 20} />
                         </Grid>
-                        <Grid xs={3} item>
+                        <Grid xs={view !== 'two-col' ? 3 : 4} item>
                             <Box sx={{
                                 background: theme.palette.primary.main,
                                 fontSize: 11,
                                 borderRadius: 1,
                                 color: 'white',
                                 width: 35,
-                                ml: 2,
+                                ml: view !== 'two-col' ? 2 : 0.5,
                                 p: 0.2,
                             }}>
                                 {photo.rate ? `${photo.rate * 2}/10` : '?'}
@@ -94,7 +95,7 @@ export const MyPhotos = () => {
                         </Grid>
                     </Grid>
                     <Typography variant="body2" sx={{ mt: 1.5 }} color="text.secondary">
-                        {photo.votesCount ? `score based on ${photo.votesCount} votes`
+                        {photo.votesCount ? `based on ${photo.votesCount} ${photo.votesCount === 1 ? 'vote' : 'votes'}`
                             : `no votes yet on this photo`}
                     </Typography>
                 </CardContent>}
@@ -135,7 +136,7 @@ export const MyPhotos = () => {
     const displayPhotos = () => {
         return photos.map((p: any) => {
             const photo = p.data()
-            return <Grid key={p.id} item sx={{ p: 1 }} xs={12} md={3}>
+            return <Grid key={p.id} item sx={{ p: 1 }} xs={view !== 'two-col' ? 12 : 6} md={3}>
                 {displayPhoto(photo, p.id)}
             </Grid >
         })
@@ -153,6 +154,12 @@ export const MyPhotos = () => {
             setSelectedPhoto(null)
         }
     }, [openPhotoDialog])
+
+    const containerStyle = {
+        pl: { xs: 2, md: 0 },
+        pr: { xs: 2, md: 0 },
+        mb: 1,
+    }
 
     return (
         <Box
@@ -176,15 +183,20 @@ export const MyPhotos = () => {
                     </Typography>
                     <UploadForm onCancel={() => setShowForm(false)} />
                 </>}
-                {!showForm && <Grid sx={{
-                    pl: { xs: 2 },
-                    pr: { xs: 2 },
-                }} container>
-                    {displayPhotos()}
-                    <Grid item sx={{ p: 1 }} xs={12} md={3}>
-                        {displayPhoto()}
-                    </Grid >
-                </Grid>}
+                {!showForm && <>
+                    <Box sx={containerStyle}>
+                        {photosLoaded && photos.filter(p => p.data().active).length === 0 &&
+                            <Alert severity="info">
+                                {photos.length === 0 ? 'Start uploading your photos here':'Activate your photo using the switch button to start receiving votes'}
+                            </Alert>}
+                    </Box >
+                    <Grid sx={containerStyle} container>
+                        {displayPhotos()}
+                        <Grid item sx={{ p: 1 }} xs={12} md={3}>
+                            {displayPhoto()}
+                        </Grid >
+                    </Grid>
+                </>}
             </Container>
             {!photosLoaded && <CircularProgress />}
             <ModalDialog open={openPhotoDialog} setOpen={setOpenPhotoDialog}>

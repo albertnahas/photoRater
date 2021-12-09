@@ -102,7 +102,7 @@ const App = ({
     })
   }
 
-  return (intro || loading) ? (<Box sx={{ textAlign: 'center', mt: 6 }}>
+  return (intro) ? (<Box sx={{ textAlign: 'center', mt: 6 }}>
     <Logo sx={{ width: 120, height: 120, m: 8, ml: 'auto', mr: 'auto' }} />
     <Typography variant="h3" color="primary" >Photo Rater</Typography>
     <CircularProgress sx={{ display: 'block', m: 'auto', mt: 6 }} />
@@ -130,9 +130,10 @@ const App = ({
           onSubmit={createUserWithEmailAndPassword}
           login={() => setAuthPage('login')} />}
 
-      {currentUser && !currentUser.onBoarding && <ModalDialog customStyle={{ maxWidth: 420 }} open={onBoarding} setOpen={setOnBoarding}>
-        <OnBoarding done={finishOnBoarding} />
-      </ModalDialog>}
+      {currentUser && currentUser.complete && !currentUser.onBoarding
+        && <ModalDialog customStyle={{ maxWidth: 420 }} open={onBoarding} setOpen={setOnBoarding}>
+          <OnBoarding done={finishOnBoarding} />
+        </ModalDialog>}
     </div>
   )
 }
