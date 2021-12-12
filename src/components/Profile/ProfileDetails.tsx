@@ -29,9 +29,12 @@ import firebase from '../../config';
 import { showGenderLabel } from '../../utils/utils';
 import { SelectGender } from '../../atoms/SelectGender/SelectGender';
 import { User } from '../../types/user';
+import { useUser } from '../../hooks/useUser';
 
 export var AccountProfileDetails: FC<Props> = function (props) {
     const [sucess, setSucess] = useState(false);
+
+    const { updateUser } = useUser();
 
     const theme = useTheme();
 
@@ -47,22 +50,15 @@ export var AccountProfileDetails: FC<Props> = function (props) {
             showGender: Yup.string().required('Show gender is required')
         }),
         onSubmit: (values, { resetForm, setErrors, setSubmitting }) => {
-            firebase
-                .firestore()
-                .collection('users')
-                .doc(props.user?.uid)
-                .update({
-                    age: values.age,
-                    gender: values.gender,
-                    showGender: values.showGender
-                })
-                .then(() => {
-                    setSucess(true);
-                    props.setEditMode(false);
-                })
-                .catch((e: any) => {
-                    console.log(e);
-                });
+            updateUser({
+                uid: props.user?.uid,
+                age: values.age,
+                gender: values.gender,
+                showGender: values.showGender
+            }).then(() => {
+                setSucess(true);
+                props.setEditMode(false);
+            });
         }
     });
 

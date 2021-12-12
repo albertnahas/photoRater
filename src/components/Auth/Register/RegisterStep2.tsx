@@ -15,11 +15,14 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import firebase from '../../../config';
 import { SelectGender } from '../../../atoms/SelectGender/SelectGender';
+import { useUser } from '../../../hooks/useUser';
 
 export var RegisterStep2: FC<Props> = function (props) {
+    const { updateUser } = useUser();
+
     const formik = useFormik({
         initialValues: {
-            age: '',
+            age: 25,
             gender: 'male',
             showGender: 'both'
         },
@@ -29,19 +32,13 @@ export var RegisterStep2: FC<Props> = function (props) {
             showGender: Yup.string().required('Show gender is required')
         }),
         onSubmit: (values, { resetForm, setErrors, setSubmitting }) => {
-            firebase
-                .firestore()
-                .collection('users')
-                .doc(props.uid)
-                .update({
-                    age: values.age,
-                    gender: values.gender,
-                    showGender: values.showGender,
-                    complete: true
-                })
-                .catch((e: any) => {
-                    console.log(e);
-                });
+            updateUser({
+                uid: props.uid,
+                age: values.age,
+                gender: values.gender,
+                showGender: values.showGender,
+                complete: true
+            });
         }
     });
 

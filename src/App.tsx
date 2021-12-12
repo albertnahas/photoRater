@@ -7,10 +7,10 @@ import firebase from './config';
 import { TopBar } from './components/TopBar/TopBar';
 import { User } from './types/user';
 import { State } from './types/state';
-import { useUser } from './hooks/useUser';
 import { SplashScreen } from './molecules/SplashScreen/SplashScreen';
 import { Footer } from './components/Footer/Footer';
 import { Nav } from './components/Nav/Nav';
+import { useCurrentUser } from './hooks/useCurrentUser';
 
 const firebaseAppAuth = firebase.auth();
 
@@ -43,7 +43,7 @@ const App = function ({
     loading
 }: Props) {
     const currentUser = useSelector((state: State) => state.user.value);
-    const { setCurrentUser, signOutUser } = useUser();
+    const { setCurrentUser, signOutUser } = useCurrentUser();
 
     useEffect(() => {
         if (user && user.uid) {
@@ -70,7 +70,7 @@ const App = function ({
                 signInWithEmailAndPassword={signInWithEmailAndPassword}
                 signInWithGoogle={signInWithGoogle}
                 signInWithFacebook={signInWithFacebook}
-                signOut={signOut}
+                signOut={signOutFromApp}
             />
             <Footer />
         </div>
