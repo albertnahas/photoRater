@@ -21,14 +21,18 @@ export var Landing: FC<Props> = function (props) {
             }}
         >
             <Typography
-                sx={{ fontWeight: 'lighter' }}
-                variant="h3"
+                sx={{ fontWeight: 'lighter', fontSize: '3em' }}
+                variant="h1"
                 color="white"
                 aria-label="use your best photos"
             >
                 Always use your best photos!
             </Typography>
-            <Typography sx={{ m: 1 }} variant="body1" color="white">
+            <Typography
+                sx={{ m: 2, fontSize: '18px' }}
+                variant="h3"
+                color="white"
+            >
                 Get the opinion of people from all over the world to rate your
                 photos
             </Typography>

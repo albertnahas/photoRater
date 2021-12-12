@@ -23,7 +23,7 @@ import { Logo } from '../../icons/logo';
 import { UserCircle as UserCircleIcon } from '../../icons/user-circle';
 import { Bell as BellIcon } from '../../icons/bell';
 import { State } from '../../types/state';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const StyledMenu = styled((props: any) => (
     <Menu
@@ -165,10 +165,9 @@ export var TopBar: FC<Props> = function (props) {
                         <Typography color="primary" sx={{ mr: 1 }}>
                             Photo Rater
                         </Typography>
-                        <Logo
-                            onClick={() => navigate('/')}
-                            sx={{ width: 32, height: 32 }}
-                        />
+                        <Link to="/">
+                            <Logo sx={{ width: 32, height: 32 }} />
+                        </Link>
                     </>
                 )}
             </Toolbar>
