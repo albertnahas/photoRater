@@ -1,11 +1,9 @@
-import { Container } from '@mui/material'
-import { Box } from '@mui/system'
-import React from 'react'
+import React, { FC } from 'react';
+import { Container } from '@mui/material';
 
-export const ControlPage = (props: any) => {
-    return (
-        <Container sx={{p:6, flexGrow: 1}}>
-            {props.children}
-        </Container>
-    )
+export var ControlPage: FC<Props> = function ({ children }) {
+    return <Container sx={{ p: 6, flexGrow: 1 }}>{children}</Container>;
+};
+interface Props {
+    children: JSX.Element;
 }

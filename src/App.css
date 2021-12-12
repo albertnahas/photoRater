@@ -1,109 +1,109 @@
 .App {
-	text-align: center;
+    text-align: center;
 }
 
 .App-logo {
-	height: 40vmin;
-	pointer-events: none;
+    height: 40vmin;
+    pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-	.App-logo {
-		animation: App-logo-spin infinite 20s linear;
-	}
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
 }
 
 .App-header {
-	background-color: #282c34;
-	min-height: 100vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	font-size: calc(10px + 2vmin);
-	color: white;
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
 }
 
 .App-link {
-	color: #61dafb;
+    color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 button {
-	font-size: calc(10px + 2vmin);
+    font-size: calc(10px + 2vmin);
 }
 
 .intro-1 {
-	fill: #effafe;
+    fill: #effafe;
 }
 .intro-2 {
-	fill: #fd0;
+    fill: #fd0;
 }
 .intro-3 {
-	fill: #efc803;
+    fill: #efc803;
 }
 .intro-4 {
-	fill: #e4ebed;
+    fill: #e4ebed;
 }
 .intro-5 {
-	fill: #40bdff;
+    fill: #40bdff;
 }
 .intro-6 {
-	fill: #2197f7;
+    fill: #2197f7;
 }
 .intro-7 {
-	fill: #263238;
+    fill: #263238;
 }
 
 .step-1-1 {
-	fill: none;
-	stroke: #2196f3;
-	stroke-linecap: round;
-	stroke-linejoin: round;
-	stroke-width: 10px;
+    fill: none;
+    stroke: #2196f3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 10px;
 }
 
 .step-2-1,
 .step-2-3 {
-	fill: none;
-	stroke-linecap: round;
-	stroke-linejoin: round;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 .step-2-1 {
-	stroke: #2196f3;
-	stroke-width: 10px;
+    stroke: #2196f3;
+    stroke-width: 10px;
 }
 .step-2-2 {
-	fill: #2196f3;
+    fill: #2196f3;
 }
 .step-2-3 {
-	stroke: #fff;
-	stroke-width: 14.93px;
+    stroke: #fff;
+    stroke-width: 14.93px;
 }
 
 .step-3-1 {
-	fill: #2196f3;
+    fill: #2196f3;
 }
 .step-3-2 {
-	fill: none;
-	stroke: #2196f3;
-	stroke-linecap: round;
-	stroke-linejoin: round;
-	stroke-width: 10px;
+    fill: none;
+    stroke: #2196f3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 10px;
 }
 
 .step-4-1 {
-	fill: none;
-	stroke: #2196f3;
-	stroke-linecap: round;
-	stroke-linejoin: round;
-	stroke-width: 10px;
+    fill: none;
+    stroke: #2196f3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 10px;
 }

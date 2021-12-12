@@ -1,11 +1,12 @@
-import { CircularProgress, Typography } from '@mui/material'
-import { Box } from '@mui/system'
-import React from 'react'
+import { CircularProgress, Typography } from '@mui/material';
+import { Box } from '@mui/system';
+import React, { FC } from 'react';
 
-export const ProgressRing = (props: any) => {
-
+export var ProgressRing: FC<Props> = function (props) {
     const style = {
-        position: 'relative', display: 'inline-flex', '& svg': { 'strokeLinecap': 'round' }
+        position: 'relative',
+        display: 'inline-flex',
+        '& svg': { strokeLinecap: 'round' }
     } as const;
 
     return (
@@ -20,15 +21,24 @@ export const ProgressRing = (props: any) => {
                     position: 'absolute',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center',
+                    justifyContent: 'center'
                 }}
             >
-                {props.label &&
-                    <Typography variant="h6" component="div" color="text.secondary">
-                        {`${Math.floor(props.value / 10)}/10`}
+                {props.label && (
+                    <Typography
+                        variant="h6"
+                        component="div"
+                        color="text.secondary"
+                    >
+                        {`${Math.floor((props.value || 0) / 10)}/10`}
                     </Typography>
-                }
+                )}
             </Box>
         </Box>
-    )
+    );
+};
+
+interface Props {
+    value?: number;
+    label?: string;
 }

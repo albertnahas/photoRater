@@ -1,154 +1,134 @@
-import { Avatar, Box, Card, CardContent, Grid, Typography, useTheme } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import firebase from "../../config"
+import {
+    Avatar,
+    Box,
+    Card,
+    CardContent,
+    Grid,
+    Typography,
+    useTheme
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
+import firebase from '../../config';
+import { State } from '../../types/state';
 
-export const ProfileInfo = (props: any) => {
+export var ProfileInfo = function () {
+    const [votes, setVotes] = useState<any[]>([]);
 
-    const [votes, setVotes] = useState<any[]>([])
-
-    const user = useSelector((state: any) => state.user.value)
-    const theme = useTheme()
+    const user = useSelector((state: State) => state.user.value);
+    const theme = useTheme();
 
     useEffect(() => {
-        const photosUnsubscribe = firebase.firestore().collection(`users/${user.uid}/votes`)
-            .onSnapshot(function (querySnapshot: any) {
-                const userVotes: any[] = []
+        const photosUnsubscribe = firebase
+            .firestore()
+            .collection(`users/${user?.uid}/votes`)
+            .onSnapshot((querySnapshot: any) => {
+                const userVotes: any[] = [];
                 querySnapshot.forEach((doc: any) => {
-                    userVotes.push(doc)
+                    userVotes.push(doc);
                 });
-                setVotes(userVotes)
+                setVotes(userVotes);
             });
         return () => {
-            photosUnsubscribe()
-        }
-    }, [user])
+            photosUnsubscribe();
+        };
+    }, [user]);
     return (
-        <>
-            <Grid
-                container
-                spacing={2}
-            >
-                <Grid
-                    item
-                    xs={6}
-                >
-                    <Card
-                        sx={{ height: '100%' }}
-                        {...props}
-                    >
-                        <CardContent>
-                            <Grid
-                                container
-                                spacing={3}
-                                sx={{ justifyContent: 'space-between' }}
-                            >
-                                <Grid item>
-                                    <Typography
-                                        color="textSecondary"
-                                        gutterBottom
-                                        variant="overline"
-                                    >
-                                        TOKENS
-                                    </Typography>
-                                    <Typography
-                                        color="textPrimary"
-                                        variant="h4"
-                                    >
-                                        {Math.floor(user.points / 10)}
-                                    </Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Avatar
-                                        sx={{
-                                            backgroundColor: 'error.main',
-                                            height: 56,
-                                            width: 56
-                                        }}
-                                    >
-                                        <FavoriteBorderIcon />
-                                    </Avatar>
-                                </Grid>
-                            </Grid>
-                            <Box
-                                sx={{
-                                    pt: 2,
-                                    display: 'flex',
-                                    alignItems: 'center'
-                                }}
-                            >
+        <Grid container spacing={2}>
+            <Grid item xs={6}>
+                <Card sx={{ height: '100%' }}>
+                    <CardContent>
+                        <Grid
+                            container
+                            spacing={3}
+                            sx={{ justifyContent: 'space-between' }}
+                        >
+                            <Grid item>
                                 <Typography
                                     color="textSecondary"
-                                    variant="caption"
+                                    gutterBottom
+                                    variant="overline"
                                 >
-                                    How many votes you can still recieve
+                                    TOKENS
                                 </Typography>
-                            </Box>
-                        </CardContent>
-                    </Card>
-                </Grid>
-                <Grid
-                    item
-                    xs={6}
-                >
-                    <Card
-                        sx={{ height: '100%' }}
-                        {...props}
-                    >
-                        <CardContent>
-                            <Grid
-                                container
-                                spacing={3}
-                                sx={{ justifyContent: 'space-between' }}
-                            >
-                                <Grid item>
-                                    <Typography
-                                        color="textSecondary"
-                                        gutterBottom
-                                        variant="overline"
-                                    >
-                                        Rated
-                                    </Typography>
-                                    <Typography
-                                        color="textPrimary"
-                                        variant="h4"
-                                    >
-                                        {votes.length}
-                                    </Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Avatar
-                                        sx={{
-                                            backgroundColor: 'success.main',
-                                            height: 56,
-                                            width: 56
-                                        }}
-                                    >
-                                        <HowToRegIcon />
-                                    </Avatar>
-                                </Grid>
+                                <Typography color="textPrimary" variant="h4">
+                                    {Math.floor((user?.points || 0) / 10)}
+                                </Typography>
                             </Grid>
-                            <Box
-                                sx={{
-                                    pt: 2,
-                                    display: 'flex',
-                                    alignItems: 'center'
-                                }}
-                            >
-                                <Typography
-                                    color="textSecondary"
-                                    variant="caption"
+                            <Grid item>
+                                <Avatar
+                                    sx={{
+                                        backgroundColor: 'error.main',
+                                        height: 56,
+                                        width: 56
+                                    }}
                                 >
-                                    Photos rated
-                                </Typography>
-                            </Box>
-                        </CardContent>
-                    </Card>
-                </Grid>
+                                    <FavoriteBorderIcon />
+                                </Avatar>
+                            </Grid>
+                        </Grid>
+                        <Box
+                            sx={{
+                                pt: 2,
+                                display: 'flex',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <Typography color="textSecondary" variant="caption">
+                                How many votes you can still recieve
+                            </Typography>
+                        </Box>
+                    </CardContent>
+                </Card>
             </Grid>
-        </>
-
-    )
-}
+            <Grid item xs={6}>
+                <Card sx={{ height: '100%' }}>
+                    <CardContent>
+                        <Grid
+                            container
+                            spacing={3}
+                            sx={{ justifyContent: 'space-between' }}
+                        >
+                            <Grid item>
+                                <Typography
+                                    color="textSecondary"
+                                    gutterBottom
+                                    variant="overline"
+                                >
+                                    Rated
+                                </Typography>
+                                <Typography color="textPrimary" variant="h4">
+                                    {votes.length}
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Avatar
+                                    sx={{
+                                        backgroundColor: 'success.main',
+                                        height: 56,
+                                        width: 56
+                                    }}
+                                >
+                                    <HowToRegIcon />
+                                </Avatar>
+                            </Grid>
+                        </Grid>
+                        <Box
+                            sx={{
+                                pt: 2,
+                                display: 'flex',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <Typography color="textSecondary" variant="caption">
+                                Photos rated
+                            </Typography>
+                        </Box>
+                    </CardContent>
+                </Card>
+            </Grid>
+        </Grid>
+    );
+};

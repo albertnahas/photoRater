@@ -21,9 +21,9 @@ const style: any = {
         lg: 800,
         md: 600,
         sm: 380,
-        xs: '70%',
+        xs: '70%'
     }
-}
+};
 
 export default function ModalDialog(props: any) {
     const handleOpen = () => props.setOpen(true);
@@ -38,11 +38,17 @@ export default function ModalDialog(props: any) {
                 closeAfterTransition
                 BackdropComponent={Backdrop}
                 BackdropProps={{
-                    timeout: 500,
+                    timeout: 500
                 }}
             >
                 <Fade in={props.open}>
-                    <Box sx={props.customStyle ? { ...style, ...props.customStyle } : style}>
+                    <Box
+                        sx={
+                            props.customStyle
+                                ? { ...style, ...props.customStyle }
+                                : style
+                        }
+                    >
                         {props.children}
                     </Box>
                 </Fade>

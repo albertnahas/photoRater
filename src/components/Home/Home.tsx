@@ -1,30 +1,50 @@
-import React, { useState } from 'react'
-import './Home.css'
-import { Header } from '../Header/Header'
-import { Footer } from '../Footer/Footer'
-import { Main } from '../Main/Main'
-import { Route, Routes } from 'react-router-dom'
-import { About } from '../ControlPages/About/About'
-import { Terms } from '../ControlPages/Terms/Terms'
-import { ControlPage } from '../ControlPages/ControlPage'
-import { Privacy } from '../ControlPages/Privacy/Privacy'
-import { Contact } from '../ControlPages/Contact/Contact'
+import React, { FC, useState } from 'react';
+import { Tabs } from '../Tabs/Tabs';
+import { useSelector } from 'react-redux';
+import { State } from '../../types/state';
+import { RegisterStep2 } from '../Auth/Register/RegisterStep2';
+import ModalDialog from '../../molecules/ModalDialog/ModalDialog';
+import { Landing } from '../Landing/Landing';
+import { OnBoarding } from '../OnBoarding/OnBoarding';
+import { useUser } from '../../hooks/useUser';
+import { useNavigate } from 'react-router-dom';
 
-export const Home = () => {
+export const Home: FC<Props> = function () {
+    const [onBoarding, setOnBoarding] = useState(true);
+    const [tabId, setTabId] = useState<number>(0);
 
-    const [tabId, setTabId] = useState<number>(0)
+    const user = useSelector((state: State) => state.user.value);
+    const { updateUser } = useUser();
+    const navigate = useNavigate();
 
-    return (
-        <div className="HomeWrapper">
-            <Routes>
-                <Route path="/" element={<Main setTabId={setTabId} tabId={tabId} />} />
-                <Route path="/about" element={<ControlPage><About /></ControlPage>} />
-                <Route path="/terms" element={<ControlPage><Terms /></ControlPage>} />
-                <Route path="/privacy" element={<ControlPage><Privacy /></ControlPage>} />
-                <Route path="/contact" element={<ControlPage><Contact /></ControlPage>} />
-            </Routes>
-            <Footer />
-        </div >
+    const finishOnBoarding = () => {
+        updateUser({ uid: user?.uid, onBoarding: true }).then((res) => {
+            setOnBoarding(false);
+        });
+    };
 
-    )
-}
+    const showOnBoarding = () => (
+        <ModalDialog
+            customStyle={{ maxWidth: 420 }}
+            open={onBoarding}
+            setOpen={setOnBoarding}
+        >
+            <OnBoarding done={finishOnBoarding} />
+        </ModalDialog>
+    );
+
+    return user !== null ? (
+        user?.complete ? (
+            <>
+                <Tabs setTabId={setTabId} tabId={tabId} />
+                {!user?.onBoarding && showOnBoarding()}
+            </>
+        ) : (
+            <RegisterStep2 uid={user?.uid} />
+        )
+    ) : (
+        <Landing login={() => navigate('/login')} />
+    );
+};
+
+interface Props {}
