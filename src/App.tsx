@@ -11,6 +11,7 @@ import { SplashScreen } from './molecules/SplashScreen/SplashScreen';
 import { Footer } from './components/Footer/Footer';
 import { Nav } from './components/Nav/Nav';
 import { useCurrentUser } from './hooks/useCurrentUser';
+import { setServerUser } from './store/userSlice';
 
 const firebaseAppAuth = firebase.auth();
 
@@ -43,11 +44,12 @@ const App = function ({
     loading
 }: Props) {
     const currentUser = useSelector((state: State) => state.user.value);
-    const { setCurrentUser, signOutUser } = useCurrentUser();
+    const { signOutUser } = useCurrentUser();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (user && user.uid) {
-            setCurrentUser(user);
+            dispatch(setServerUser(user));
         } else if (user === null) {
             signOutUser();
         }

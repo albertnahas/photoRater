@@ -6,4 +6,5 @@ export interface State {
 
 export interface UserState {
     value?: User | null
+    serverValue?: any | null
 }
