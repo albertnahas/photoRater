@@ -12,6 +12,7 @@ import { PhotoDetails } from './PhotoDetails';
 import { UploadFormContainer } from '../Profile/UploadForm/UploadFormContainer';
 import useUserPhotos from '../../hooks/useUserPhotos';
 import { PhotoCard } from './PhotoCard';
+import { SortBySelect } from './SortBySelect';
 
 export var MyPhotos = function () {
     const [view, setView] = useState('classic');
@@ -20,7 +21,8 @@ export var MyPhotos = function () {
     const [openPhotoDialog, setOpenPhotoDialog] = useState(false);
     const [showForm, setShowForm] = useState<boolean>(false);
 
-    const { photos, photosLoaded, photoUtils } = useUserPhotos();
+    const { photos, photosLoaded, photoUtils, sortBy, setSortBy } =
+        useUserPhotos();
 
     const displayPhotos = () =>
         photos.map((p: any) => {
@@ -109,6 +111,18 @@ export var MyPhotos = function () {
                                             : 'Activate your photo using the switch button to start receiving votes'}
                                     </Alert>
                                 )}
+                        </Box>
+                        <Box sx={containerStyle}>
+                            {photosLoaded && (
+                                <SortBySelect
+                                    label="Sort By"
+                                    value={sortBy}
+                                    onChange={(e: any, v: any) => {
+                                        setSortBy(v);
+                                    }}
+                                    name="sortBy"
+                                />
+                            )}
                         </Box>
                         <Grid sx={containerStyle} container>
                             {displayPhotos()}

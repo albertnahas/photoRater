@@ -12,7 +12,9 @@ import {
 } from '@mui/material';
 import { Box, useTheme } from '@mui/system';
 import React, { FC } from 'react';
-import RateProgressBar from '../../atoms/RateProgressBar/RateProgressBar';
+import RateProgressBar, {
+    getRatingColor
+} from '../../atoms/RateProgressBar/RateProgressBar';
 import SwitchToggle from '../../atoms/SwitchToggle/SwitchToggle';
 import { userPlaceholderPhoto } from '../../utils/constants';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -28,7 +30,7 @@ export const PhotoCard: FC<Props> = ({
     onClickShowForm
 }) => {
     const theme = useTheme();
-
+    const photoRatePercentage = photo?.rate ? photo?.rate * 20 : undefined;
     return (
         <Card sx={{ maxWidth: 345 }}>
             <CardActionArea onClick={onClickPhoto}>
@@ -49,7 +51,10 @@ export const PhotoCard: FC<Props> = ({
                             <Grid xs={view !== 'two-col' ? 3 : 4} item>
                                 <Box
                                     sx={{
-                                        background: theme.palette.primary.main,
+                                        background: getRatingColor(
+                                            theme,
+                                            photoRatePercentage
+                                        ),
                                         fontSize: 11,
                                         borderRadius: 1,
                                         color: 'white',

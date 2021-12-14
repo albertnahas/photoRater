@@ -5,10 +5,13 @@ import firebase from '../config';
 import { Photo } from '../types/photo';
 import { useConfirm } from 'material-ui-confirm';
 
+type sort = 'uploadedAt' | 'rate' | 'votesCount';
+
 const useUserPhotos = () => {
     const user = useSelector((state: State) => state.user.value);
     const [photosLoaded, setPhotosLoaded] = useState(false);
     const [photos, setPhotos] = useState<PhotoState[]>([]);
+    const [sortBy, setSortBy] = useState<sort>('uploadedAt');
 
     const confirm = useConfirm();
 
@@ -19,7 +22,7 @@ const useUserPhotos = () => {
         const photosUnsubscribe = firebase
             .firestore()
             .collection(`users/${user.uid}/photos`)
-            .orderBy('uploadedAt', 'desc')
+            .orderBy(sortBy, 'desc')
             .onSnapshot((querySnapshot: any) => {
                 const userPhotos: PhotoState[] = [];
                 querySnapshot.forEach((doc: PhotoState) => {
@@ -34,7 +37,7 @@ const useUserPhotos = () => {
         return () => {
             photosUnsubscribe();
         };
-    }, [user]);
+    }, [user, sortBy]);
 
     const changePhotoStatus = (checked: boolean, id: string) => {
         return firebase
@@ -67,7 +70,9 @@ const useUserPhotos = () => {
         photoUtils: {
             changePhotoStatus,
             deletePhoto
-        }
+        },
+        sortBy,
+        setSortBy
     };
 };
 

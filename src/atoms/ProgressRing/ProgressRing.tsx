@@ -2,11 +2,17 @@ import { CircularProgress, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { FC } from 'react';
 
+const getColor = (val: number) => {
+    if (val <= 10) return 'error.main';
+    if (val <= 20) return 'warning.main';
+    return 'primary.main';
+};
+
 export var ProgressRing: FC<Props> = function (props) {
     const style = {
         position: 'relative',
         display: 'inline-flex',
-        '& svg': { strokeLinecap: 'round' }
+        '& svg': { strokeLinecap: 'round', color: getColor(props.value || 0) }
     } as const;
 
     return (
