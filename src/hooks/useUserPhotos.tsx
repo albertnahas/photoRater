@@ -5,7 +5,7 @@ import firebase from '../config';
 import { Photo } from '../types/photo';
 import { useConfirm } from 'material-ui-confirm';
 
-type sort = 'uploadedAt' | 'rate' | 'votesCount';
+export type sort = 'uploadedAt' | 'rate' | 'votesCount';
 
 const useUserPhotos = () => {
     const user = useSelector((state: State) => state.user.value);
