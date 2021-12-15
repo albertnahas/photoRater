@@ -104,6 +104,7 @@ export var PhotoDetails: FC<Props> = function (props) {
                     <img
                         style={{ width: '100%', marginBottom: -4 }}
                         src={photo?.imageUrl}
+                        alt={photo?.imageName}
                     />
                 </Paper>
                 <Grid container>

@@ -94,6 +94,7 @@ export var Profile = function () {
                                     top: 15
                                 }}
                                 src={user?.photoURL}
+                                alt="profile photo"
                             >
                                 <UserCircleIcon fontSize="large" />
                             </Avatar>

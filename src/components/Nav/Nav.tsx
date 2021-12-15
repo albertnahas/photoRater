@@ -19,7 +19,7 @@ const Wrapper = styled('div')`
     flex-grow: 1;
 `;
 
-export var Nav: FC<Props> = function ({
+const Nav: FC<Props> = function ({
     signInWithGoogle,
     signInWithFacebook,
     signInWithEmailAndPassword,
@@ -91,6 +91,8 @@ export var Nav: FC<Props> = function ({
         </Wrapper>
     );
 };
+
+export default Nav;
 
 interface Props {
     signInWithEmailAndPassword?: (

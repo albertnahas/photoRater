@@ -93,7 +93,7 @@ export var Footer = function () {
                             <ListItem>
                                 <div
                                     className="fb-like"
-                                    data-href="https://developers.facebook.com/docs/plugins/"
+                                    data-href="https://www.facebook.com/photoraterapp/"
                                     data-width=""
                                     data-layout="standard"
                                     data-action="like"

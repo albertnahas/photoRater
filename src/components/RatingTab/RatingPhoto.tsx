@@ -38,6 +38,7 @@ export const RatingPhoto: FC<Props> = ({
                         <img
                             style={{ width: '100%', marginBottom: -4 }}
                             src={photo?.imageUrl}
+                            alt={photo?.imageName}
                         />
                     </Paper>
                 </Grid>
