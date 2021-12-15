@@ -128,6 +128,7 @@ export var TopBar: FC<Props> = function (props) {
                                 ml: 1
                             }}
                             src={user.photoURL}
+                            alt="profile photo"
                         >
                             <UserCircleIcon fontSize="small" />
                         </Avatar>

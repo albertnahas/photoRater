@@ -1,5 +1,5 @@
 /* eslint-disable no-debugger */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense, lazy } from 'react';
 import './App.css';
 import withFirebaseAuth from 'react-with-firebase-auth';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,7 +9,6 @@ import { User } from './types/user';
 import { State } from './types/state';
 import { SplashScreen } from './molecules/SplashScreen/SplashScreen';
 import { Footer } from './components/Footer/Footer';
-import { Nav } from './components/Nav/Nav';
 import { useCurrentUser } from './hooks/useCurrentUser';
 import { setServerUser } from './store/userSlice';
 
@@ -60,20 +59,27 @@ const App = function ({
         signOutUser();
     };
 
+    const Nav: any = lazy(() => import('./components/Nav/Nav'));
+
     return currentUser === undefined ? (
         <SplashScreen />
     ) : (
         <div>
             <TopBar signOut={signOutFromApp} />
-            <Nav
-                createUserWithEmailAndPassword={createUserWithEmailAndPassword}
-                error={error}
-                loading={loading}
-                signInWithEmailAndPassword={signInWithEmailAndPassword}
-                signInWithGoogle={signInWithGoogle}
-                signInWithFacebook={signInWithFacebook}
-                signOut={signOutFromApp}
-            />
+            <Suspense fallback={<SplashScreen />}>
+                <Nav
+                    createUserWithEmailAndPassword={
+                        createUserWithEmailAndPassword
+                    }
+                    error={error}
+                    loading={loading}
+                    signInWithEmailAndPassword={signInWithEmailAndPassword}
+                    signInWithGoogle={signInWithGoogle}
+                    signInWithFacebook={signInWithFacebook}
+                    signOut={signOutFromApp}
+                />
+            </Suspense>
+
             <Footer />
         </div>
     );

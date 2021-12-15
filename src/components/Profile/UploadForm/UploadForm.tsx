@@ -78,7 +78,7 @@ export var UploadForm: FC<Props> = function ({
                                     marginBottom: -4
                                 }}
                                 src={imageAsUrl.imgUrl}
-                                alt="image tag"
+                                alt="new image"
                             />
                         </Paper>
                     </Grid>
