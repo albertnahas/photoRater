@@ -94,3 +94,16 @@ export const getResizedName = (fileName: string, dimensions = '600x600') => {
     const ext = fileName.substring(extIndex);
     return `${fileName.substring(0, extIndex)}_${dimensions}${ext}`;
 };
+
+
+const getPWADisplayMode = () => {
+    const isStandalone = window.matchMedia(
+        '(display-mode: standalone)'
+    ).matches;
+    if (document.referrer.startsWith('android-app://')) {
+        return 'twa';
+    } else if ((navigator as any).standalone || isStandalone) {
+        return 'standalone';
+    }
+    return 'browser';
+};

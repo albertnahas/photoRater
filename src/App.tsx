@@ -1,5 +1,5 @@
 /* eslint-disable no-debugger */
-import React, { useEffect, useState, Suspense, lazy } from 'react';
+import React, { useEffect, useState, Suspense, lazy, useRef } from 'react';
 import './App.css';
 import withFirebaseAuth from 'react-with-firebase-auth';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import { SplashScreen } from './molecules/SplashScreen/SplashScreen';
 import { Footer } from './components/Footer/Footer';
 import { useCurrentUser } from './hooks/useCurrentUser';
 import { setServerUser } from './store/userSlice';
+import Logo from './icons/logo.png';
 
 const firebaseAppAuth = firebase.auth();
 
@@ -45,6 +46,39 @@ const App = function ({
     const currentUser = useSelector((state: State) => state.user.value);
     const { signOutUser } = useCurrentUser();
     const dispatch = useDispatch();
+    const [deferredPrompt, setDeferredPrompt] = useState<any>();
+
+    const handleInstallClick = async () => {
+        if (deferredPrompt !== null) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                setDeferredPrompt(null);
+            }
+        }
+    };
+
+    useEffect(() => {
+        const handleBeforeInstallFn = (e: any) => {
+            setDeferredPrompt(e);
+        };
+
+        const handleAppInstalled = (e: any) => {
+            setDeferredPrompt(null);
+        };
+
+        window.addEventListener('beforeinstallprompt', handleBeforeInstallFn);
+
+        window.addEventListener('appinstalled', handleAppInstalled);
+
+        return () => {
+            window.removeEventListener(
+                'beforeinstallprompt',
+                handleBeforeInstallFn
+            );
+            window.removeEventListener('appinstalled', handleAppInstalled);
+        };
+    }, []);
 
     useEffect(() => {
         if (user && user.uid) {
@@ -65,7 +99,11 @@ const App = function ({
         <SplashScreen />
     ) : (
         <div>
-            <TopBar signOut={signOutFromApp} />
+            <TopBar
+                handleInstallClick={handleInstallClick}
+                signOut={signOutFromApp}
+                deferredPrompt={deferredPrompt}
+            />
             <Suspense fallback={<SplashScreen />}>
                 <Nav
                     createUserWithEmailAndPassword={
