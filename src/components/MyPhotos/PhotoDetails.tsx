@@ -99,7 +99,12 @@ export var PhotoDetails: FC<Props> = function (props) {
             <Grid md={4} sx={{ p: 2 }} item>
                 <Paper
                     elevation={0}
-                    sx={{ borderRadius: 2, overflow: 'hidden', mb: 2 }}
+                    sx={{
+                        borderRadius: 2,
+                        overflow: 'hidden',
+                        mb: 2,
+                        minHeight: '200px'
+                    }}
                 >
                     <img
                         style={{ width: '100%', marginBottom: -4 }}

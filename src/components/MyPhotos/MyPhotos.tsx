@@ -135,7 +135,11 @@ export var MyPhotos = function () {
                 )}
             </Container>
             {!photosLoaded && <CircularProgress />}
-            <ModalDialog open={openPhotoDialog} setOpen={setOpenPhotoDialog}>
+            <ModalDialog
+                closeButton={true}
+                open={openPhotoDialog}
+                setOpen={setOpenPhotoDialog}
+            >
                 <PhotoDetails photoId={selectedPhoto} />
             </ModalDialog>
         </Box>

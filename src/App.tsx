@@ -12,6 +12,7 @@ import { Footer } from './components/Footer/Footer';
 import { useCurrentUser } from './hooks/useCurrentUser';
 import { setServerUser } from './store/userSlice';
 import Logo from './icons/logo.png';
+import Nav from './components/Nav/Nav';
 
 const firebaseAppAuth = firebase.auth();
 
@@ -97,7 +98,7 @@ const App = function ({
         signOutUser();
     };
 
-    const Nav: any = lazy(() => import('./components/Nav/Nav'));
+    // const Nav: any = lazy(() => import('./components/Nav/Nav'));
 
     return currentUser === undefined ? (
         <SplashScreen />
@@ -108,19 +109,15 @@ const App = function ({
                 signOut={signOutFromApp}
                 deferredPrompt={deferredPrompt}
             />
-            <Suspense fallback={<SplashScreen />}>
-                <Nav
-                    createUserWithEmailAndPassword={
-                        createUserWithEmailAndPassword
-                    }
-                    error={error}
-                    loading={loading}
-                    signInWithEmailAndPassword={signInWithEmailAndPassword}
-                    signInWithGoogle={signInWithGoogle}
-                    signInWithFacebook={signInWithFacebook}
-                    signOut={signOutFromApp}
-                />
-            </Suspense>
+            <Nav
+                createUserWithEmailAndPassword={createUserWithEmailAndPassword}
+                error={error}
+                loading={loading}
+                signInWithEmailAndPassword={signInWithEmailAndPassword}
+                signInWithGoogle={signInWithGoogle}
+                signInWithFacebook={signInWithFacebook}
+                signOut={signOutFromApp}
+            />
 
             <Footer />
         </div>

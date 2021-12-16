@@ -24,11 +24,7 @@ export const Home: FC<Props> = function () {
     };
 
     const showOnBoarding = () => (
-        <ModalDialog
-            customStyle={{ maxWidth: 420 }}
-            open={onBoarding}
-            setOpen={setOnBoarding}
-        >
+        <ModalDialog maxWidth="sm" open={onBoarding} setOpen={setOnBoarding}>
             <OnBoarding done={finishOnBoarding} />
         </ModalDialog>
     );
