@@ -5,6 +5,7 @@ import {
     Avatar,
     Badge,
     Box,
+    Button,
     IconButton,
     Menu,
     MenuItem,
@@ -13,7 +14,6 @@ import {
     Tooltip,
     Typography
 } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
 import { alpha, useTheme } from '@mui/system';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useSelector } from 'react-redux';
@@ -24,6 +24,7 @@ import { UserCircle as UserCircleIcon } from '../../icons/user-circle';
 import { Bell as BellIcon } from '../../icons/bell';
 import { State } from '../../types/state';
 import { useNavigate, Link } from 'react-router-dom';
+import DownloadIcon from '@mui/icons-material/Download';
 
 const StyledMenu = styled((props: any) => (
     <Menu
@@ -107,6 +108,18 @@ export var TopBar: FC<Props> = function (props) {
                             </IconButton>
                         </Tooltip>
                         <Box sx={{ flexGrow: 1 }} />
+                        {props.deferredPrompt && (
+                            <Tooltip title="Install the app">
+                                <Button
+                                    variant="outlined"
+                                    startIcon={<DownloadIcon />}
+                                    onClick={props.handleInstallClick}
+                                    sx={{ ml: 1 }}
+                                >
+                                    Install
+                                </Button>
+                            </Tooltip>
+                        )}
                         <Tooltip title="Notifications">
                             <IconButton
                                 sx={{ ml: 1 }}
@@ -178,4 +191,6 @@ export var TopBar: FC<Props> = function (props) {
 
 interface Props {
     signOut: () => void;
+    handleInstallClick: () => void;
+    deferredPrompt: any;
 }
