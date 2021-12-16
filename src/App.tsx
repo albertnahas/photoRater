@@ -60,10 +60,13 @@ const App = function ({
 
     useEffect(() => {
         const handleBeforeInstallFn = (e: any) => {
+            console.log('handleBeforeInstallFn', e);
+
             setDeferredPrompt(e);
         };
 
         const handleAppInstalled = (e: any) => {
+            console.log('already isntalled');
             setDeferredPrompt(null);
         };
 
@@ -72,6 +75,7 @@ const App = function ({
         window.addEventListener('appinstalled', handleAppInstalled);
 
         return () => {
+            console.log('cleanup');
             window.removeEventListener(
                 'beforeinstallprompt',
                 handleBeforeInstallFn
