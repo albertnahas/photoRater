@@ -84,12 +84,13 @@ export var TopBar: FC<Props> = function (props) {
     const open = Boolean(anchorEl);
 
     const handleNotificationsClick = (event: MouseEvent) => {
-        if ((user?.newVotes || 0) > 0) {
+        if ((user?.newVotes || 0) > 0 || props.notification?.body) {
             setAnchorEl(event.currentTarget);
         }
     };
     const handleNotificationsClose = () => {
         setAnchorEl(null);
+        props.setNotification({});
     };
     return (
         <DashboardNavbarRoot sx={{}} theme={theme} position="sticky">
@@ -126,7 +127,10 @@ export var TopBar: FC<Props> = function (props) {
                                 onClick={handleNotificationsClick}
                             >
                                 <Badge
-                                    badgeContent={user.newVotes || 0}
+                                    badgeContent={
+                                        user.newVotes ||
+                                        (props.notification?.body ? 1 : 0)
+                                    }
                                     color="primary"
                                     variant="dot"
                                 >
@@ -154,15 +158,28 @@ export var TopBar: FC<Props> = function (props) {
                             open={open}
                             onClose={handleNotificationsClose}
                         >
-                            <MenuItem onClick={handleNotificationsClose}>
-                                <FavoriteBorderIcon
-                                    style={{
-                                        fill: theme.palette.error.main
-                                    }}
-                                    color="error"
-                                />
-                                You have {user.newVotes} new votes
-                            </MenuItem>
+                            {(user.newVotes || 0) > 0 && (
+                                <MenuItem onClick={handleNotificationsClose}>
+                                    <FavoriteBorderIcon
+                                        style={{
+                                            fill: theme.palette.error.main
+                                        }}
+                                        color="error"
+                                    />
+                                    You have {user.newVotes} new votes
+                                </MenuItem>
+                            )}
+                            {props.notification?.body && (
+                                <MenuItem onClick={handleNotificationsClose}>
+                                    <FavoriteBorderIcon
+                                        style={{
+                                            fill: theme.palette.error.main
+                                        }}
+                                        color="error"
+                                    />
+                                    {props.notification?.body}
+                                </MenuItem>
+                            )}
                         </StyledMenu>
                     </>
                 ) : (
@@ -193,4 +210,6 @@ interface Props {
     signOut: () => void;
     handleInstallClick: () => void;
     deferredPrompt: any;
+    notification: { title: string; body: string };
+    setNotification: any;
 }

@@ -27,8 +27,11 @@ export const useCurrentUser = () => {
                     firebase.firestore().collection('users').doc(user.uid).set({
                         displayName: user.displayName,
                         photoURL: user.photoURL,
-                        uid: user.uid
+                        uid: user.uid,
+                        messagingToken: user.messagingToken
                     });
+                } else if (!doc.data().token) {
+                    doc.ref.update({ messagingToken: user.messagingToken });
                 }
             })
             .catch((error: any) => {

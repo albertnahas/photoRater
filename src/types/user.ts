@@ -13,4 +13,5 @@ export interface User {
     points?: number
     showGender?: string
     uid?: string
+    messagingToken?: string
 }

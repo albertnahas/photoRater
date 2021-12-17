@@ -3,7 +3,7 @@ import React, { useEffect, useState, Suspense, lazy, useRef } from 'react';
 import './App.css';
 import withFirebaseAuth from 'react-with-firebase-auth';
 import { useDispatch, useSelector } from 'react-redux';
-import firebase from './config';
+import firebase, { getToken, onMessageListener } from './config';
 import { TopBar } from './components/TopBar/TopBar';
 import { User } from './types/user';
 import { State } from './types/state';
@@ -47,7 +47,21 @@ const App = function ({
     const currentUser = useSelector((state: State) => state.user.value);
     const { signOutUser } = useCurrentUser();
     const dispatch = useDispatch();
+
     const [deferredPrompt, setDeferredPrompt] = useState<any>();
+
+    const [notification, setNotification] = useState({ title: '', body: '' });
+
+    const initNotificationListener = () => {
+        onMessageListener()
+            .then((payload: any) => {
+                setNotification({
+                    title: payload.notification.title,
+                    body: payload.notification.body
+                });
+            })
+            .catch((err) => console.log('failed: ', err));
+    };
 
     const handleInstallClick = async () => {
         if (deferredPrompt !== null) {
@@ -86,11 +100,17 @@ const App = function ({
     }, []);
 
     useEffect(() => {
-        if (user && user.uid) {
-            dispatch(setServerUser(user));
-        } else if (user === null) {
-            signOutUser();
+        async function initUser() {
+            if (user && user.uid) {
+                const messagingToken = await getToken();
+                user.messagingToken = messagingToken || undefined;
+                dispatch(setServerUser(user));
+                initNotificationListener();
+            } else if (user === null) {
+                signOutUser();
+            }
         }
+        initUser();
     }, [user]);
 
     const signOutFromApp = () => {
@@ -108,6 +128,8 @@ const App = function ({
                 handleInstallClick={handleInstallClick}
                 signOut={signOutFromApp}
                 deferredPrompt={deferredPrompt}
+                notification={notification}
+                setNotification={setNotification}
             />
             <Nav
                 createUserWithEmailAndPassword={createUserWithEmailAndPassword}
