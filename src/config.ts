@@ -35,7 +35,7 @@ try {
 
 export const getToken = () => {
     if (!messaging) return
-    return messaging.getToken({ vapidKey: 'BB-ZtExWjS9k8CCdK1gMs-adp2YAzKC7jAK53xD4BgiFP--4AvHUt3ZPI0oKeg1ALVz7VY85mEVNkAF_Dm45B2I' }).then((currentToken) => {
+    return messaging.getToken({ vapidKey: 'BB-ZtExWjS9k8CCdK1gMs-adp2YAzKC7jAK53xD4BgiFP--4AvHUt3ZPI0oKeg1ALVz7VY85mEVNkAF_Dm45B2I' }).then((currentToken: any) => {
         if (currentToken) {
             return currentToken;
             // Track the token -> client mapping, by sending to backend server
