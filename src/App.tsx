@@ -11,7 +11,6 @@ import { SplashScreen } from './molecules/SplashScreen/SplashScreen';
 import { Footer } from './components/Footer/Footer';
 import { useCurrentUser } from './hooks/useCurrentUser';
 import { setServerUser } from './store/userSlice';
-import Logo from './icons/logo.png';
 import Nav from './components/Nav/Nav';
 
 const firebaseAppAuth = firebase.auth();
