@@ -61,7 +61,7 @@ export var PhotoDetails: FC<Props> = function (props) {
                 count: chips.filter((c) => c === chip).length
             });
         }
-        return weightedChips.sort((a, b) => (a.count > b.count ? 1 : -1));
+        return weightedChips.sort((a, b) => (a.count < b.count ? 1 : -1));
     }, [votes]);
 
     const comments = useMemo(() => {
@@ -121,7 +121,7 @@ export var PhotoDetails: FC<Props> = function (props) {
                         } or ${c[0] * 2}`}
                     >
                         <ListItem>
-                            <ListItemIcon>
+                            <ListItemIcon sx={{ mr: 1 }}>
                                 {`${c[0] * 2 - 1}-${c[0] * 2} (${c[1]})`}
                             </ListItemIcon>
                             <ListItemText
