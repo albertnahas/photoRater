@@ -30,7 +30,7 @@ export const useCurrentUser = () => {
                         uid: user.uid,
                         messagingToken: user.messagingToken
                     });
-                } else if (!doc.data().token) {
+                } else if (!doc.data().messagingToken && user.messagingToken) {
                     doc.ref.update({ messagingToken: user.messagingToken });
                 }
             })

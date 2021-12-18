@@ -5,23 +5,44 @@ import {
     DialogContent,
     Breakpoint,
     IconButton,
-    Box
+    Box,
+    Typography,
+    DialogActions
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import Zoom from '@mui/material/Zoom';
+import { TransitionProps } from '@mui/material/transitions';
+
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & {
+        children: React.ReactElement<any, any>;
+    },
+    ref: React.Ref<unknown>
+) {
+    return <Zoom in={true} ref={ref} {...props} />;
+});
 
 export default function ModalDialog(props: Props) {
     const handleClose = () => props.setOpen(false);
+
     return (
         <div>
             <Dialog
                 open={props.open}
                 onClose={handleClose}
                 fullWidth={true}
+                TransitionComponent={props.zoom ? Transition : undefined}
                 maxWidth={props.maxWidth || 'md'}
+                scroll={'body'}
             >
-                {props.closeButton && (
+                {/* {props.closeButton && (
                     <DialogTitle>
                         <Box display="flex" alignItems="center">
+                            {props.title && (
+                                <Typography variant="h6" color="primary">
+                                    {props.title}
+                                </Typography>
+                            )}
                             <Box flexGrow={1}></Box>
                             <Box>
                                 <IconButton onClick={handleClose}>
@@ -30,8 +51,12 @@ export default function ModalDialog(props: Props) {
                             </Box>
                         </Box>
                     </DialogTitle>
+                )} */}
+
+                <DialogContent dividers={true}>{props.children}</DialogContent>
+                {props.actions && (
+                    <DialogActions>{props.actions}</DialogActions>
                 )}
-                <DialogContent>{props.children}</DialogContent>
             </Dialog>
         </div>
     );
@@ -43,4 +68,7 @@ interface Props {
     maxWidth?: Breakpoint;
     closeButton?: boolean;
     children: JSX.Element;
+    actions?: JSX.Element;
+    zoom?: boolean;
+    title?: string;
 }

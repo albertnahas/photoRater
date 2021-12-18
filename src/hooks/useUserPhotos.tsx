@@ -76,7 +76,7 @@ const useUserPhotos = () => {
     };
 };
 
-interface PhotoState {
+export interface PhotoState {
     id?: string;
     data: () => Photo;
 }

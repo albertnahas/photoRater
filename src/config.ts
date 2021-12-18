@@ -28,9 +28,9 @@ const storage = firebase.storage();
 let messaging: any;
 
 try {
-    firebase.messaging();
+    messaging = firebase.messaging();
 } catch (error) {
-
+    console.log(error)
 }
 
 export const getToken = () => {
@@ -52,7 +52,7 @@ export const getToken = () => {
 
 export const onMessageListener = () =>
     new Promise((resolve) => {
-        messaging.onMessage((payload: any) => {
+        messaging && messaging.onMessage((payload: any) => {
             resolve(payload);
         });
     });

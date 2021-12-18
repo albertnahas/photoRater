@@ -5,19 +5,22 @@ import {
     Typography,
     Grid,
     CircularProgress,
-    Alert
+    Alert,
+    Zoom
 } from '@mui/material';
 import ModalDialog from '../../molecules/ModalDialog/ModalDialog';
 import { PhotoDetails } from './PhotoDetails';
 import { UploadFormContainer } from '../Profile/UploadForm/UploadFormContainer';
-import useUserPhotos, { sort } from '../../hooks/useUserPhotos';
+import useUserPhotos, { PhotoState, sort } from '../../hooks/useUserPhotos';
 import { PhotoCard } from './PhotoCard';
 import { SortByControl } from '../../atoms/SortByControl/SortByControl';
+import { Photo } from '../../types/photo';
+import { PhotoActions } from './PhotoActions';
 
 export var MyPhotos = function () {
     const [view, setView] = useState('classic');
 
-    const [selectedPhoto, setSelectedPhoto] = useState<string | null>();
+    const [selectedPhoto, setSelectedPhoto] = useState<PhotoState | null>();
     const [openPhotoDialog, setOpenPhotoDialog] = useState(false);
     const [showForm, setShowForm] = useState<boolean>(false);
 
@@ -32,25 +35,30 @@ export var MyPhotos = function () {
                     <PhotoCard
                         view={view}
                         photo={photo}
+                        photoId={p.id}
                         onClickPhoto={() =>
                             photo
-                                ? setSelectedPhoto(p.id)
+                                ? setSelectedPhoto(p)
                                 : setShowForm((sf) => !sf)
                         }
-                        handleToggleChange={(checked: boolean) => {
-                            photoUtils.changePhotoStatus(checked, p.id || '');
-                        }}
-                        onDeletePhoto={() => {
-                            photoUtils.deletePhoto(p.id);
-                        }}
                     />
                 </Grid>
             );
         });
 
     useEffect(() => {
+        // syc selectedPhoto
+        if (selectedPhoto) {
+            const updatedPhoto = photos.find((p) => selectedPhoto?.id === p.id);
+            setSelectedPhoto(updatedPhoto || null);
+        }
+    }, [photos]);
+
+    useEffect(() => {
         if (selectedPhoto) {
             setOpenPhotoDialog(true);
+        } else {
+            setOpenPhotoDialog(false);
         }
     }, [selectedPhoto]);
 
@@ -139,8 +147,15 @@ export var MyPhotos = function () {
                 closeButton={true}
                 open={openPhotoDialog}
                 setOpen={setOpenPhotoDialog}
+                actions={
+                    <PhotoActions
+                        photoId={selectedPhoto?.id}
+                        active={selectedPhoto?.data().active}
+                        condensed={true}
+                    />
+                }
             >
-                <PhotoDetails photoId={selectedPhoto} />
+                <PhotoDetails photoId={selectedPhoto?.id} />
             </ModalDialog>
         </Box>
     );

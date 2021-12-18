@@ -7,7 +7,9 @@ import {
     Stack,
     Chip,
     Button,
-    Divider
+    Divider,
+    Grow,
+    Fade
 } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { FC } from 'react';
@@ -34,13 +36,19 @@ export const RatingPhoto: FC<Props> = ({
         <Container maxWidth="lg">
             <Grid container>
                 <Grid item md={4}>
-                    <Paper elevation={3}>
-                        <img
-                            style={{ width: '100%', marginBottom: -4 }}
-                            src={photo?.imageUrl}
-                            alt={photo?.imageName}
-                        />
-                    </Paper>
+                    <Fade in={true}>
+                        <Paper elevation={3}>
+                            <img
+                                style={{
+                                    width: '100%',
+                                    marginBottom: -4,
+                                    minHeight: '400px'
+                                }}
+                                src={photo?.imageUrl}
+                                alt={photo?.imageName}
+                            />
+                        </Paper>
+                    </Fade>
                 </Grid>
 
                 <Grid item md={8}>
