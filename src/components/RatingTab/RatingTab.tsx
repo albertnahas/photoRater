@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Container, Box, CircularProgress } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useTheme } from '@mui/system';
@@ -20,6 +20,8 @@ export var RatingTab = function () {
 
     const [showTags, setShowTags] = useState(false);
     const user = useSelector((state: State) => state.user.value);
+
+    const commentRef = useRef<Element>(null);
 
     const { photosLoaded, getPhotos } = usePhotos();
     const { submitPhotoRating } = useRating();
@@ -62,12 +64,18 @@ export var RatingTab = function () {
             return;
         }
         setCurrentPhotoIndex(currentPhotoIndex + 1);
-        window.scrollTo(0, 0);
+        window.document.body.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth'
+        });
     };
 
     const onRatingChange = (event: any, newValue: number | null) => {
         if (newValue === null) return;
         setCurrentPhotoRating(newValue);
+        debugger;
+        commentRef.current && commentRef.current?.scrollIntoView();
     };
 
     const handleCommentChange = (
@@ -112,6 +120,7 @@ export var RatingTab = function () {
                 showTags={showTags}
                 submitRating={submitRating}
                 updateCurrentPhoto={updateCurrentPhoto}
+                commentRef={commentRef}
             />
         );
     };

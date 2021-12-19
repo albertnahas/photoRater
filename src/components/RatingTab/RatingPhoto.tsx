@@ -30,7 +30,8 @@ export const RatingPhoto: FC<Props> = ({
     comment,
     handleCommentChange,
     currentPhotoRating,
-    onRatingChange
+    onRatingChange,
+    commentRef
 }) => {
     return (
         <Container maxWidth="lg">
@@ -41,8 +42,7 @@ export const RatingPhoto: FC<Props> = ({
                             <img
                                 style={{
                                     width: '100%',
-                                    marginBottom: -4,
-                                    minHeight: '400px'
+                                    marginBottom: -4
                                 }}
                                 src={photo?.imageUrl}
                                 alt={photo?.imageName}
@@ -63,6 +63,7 @@ export const RatingPhoto: FC<Props> = ({
                             sx={{ m: 2 }}
                             variant="h6"
                             color="text.secondary"
+                            ref={commentRef}
                         >
                             How attractive you think the person is in this
                             photo?
@@ -186,4 +187,5 @@ interface Props {
     handleCommentChange: (e: any) => void;
     currentPhotoRating: number;
     onRatingChange: (e: any, newValue: number | null) => void;
+    commentRef: any;
 }
