@@ -24,12 +24,16 @@ export const useCurrentUser = () => {
             .get()
             .then((doc: any) => {
                 if (!doc.exists) {
-                    firebase.firestore().collection('users').doc(user.uid).set({
-                        displayName: user.displayName,
-                        photoURL: user.photoURL,
-                        uid: user.uid,
-                        messagingToken: user.messagingToken
-                    });
+                    firebase
+                        .firestore()
+                        .collection('users')
+                        .doc(user.uid)
+                        .set({
+                            displayName: user.displayName,
+                            photoURL: user.photoURL,
+                            uid: user.uid,
+                            messagingToken: user.messagingToken || null
+                        });
                 } else if (!doc.data().messagingToken && user.messagingToken) {
                     doc.ref.update({ messagingToken: user.messagingToken });
                 }
