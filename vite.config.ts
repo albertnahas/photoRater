@@ -26,7 +26,8 @@ export default defineConfig({
             "theme_color": "#2196f3",
             "background_color": "#ffffff",
             "display": "standalone"
-        }
+        },
+        registerType: 'autoUpdate'
     })],
     resolve: {
         alias: [
