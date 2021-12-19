@@ -99,9 +99,11 @@ const App = function ({
         async function initUser() {
             if (user && user.uid) {
                 const messagingToken = await getToken();
-                if (messagingToken) {
-                    user.messagingToken = messagingToken;
-                }
+                // if (messagingToken) {
+                //     user.messagingToken = messagingToken;
+                // }
+                console.log('setting user');
+
                 dispatch(setServerUser(user));
                 initNotificationListener();
             } else if (user === null) {
