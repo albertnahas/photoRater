@@ -12,6 +12,7 @@ import { Footer } from './components/Footer/Footer';
 import { useCurrentUser } from './hooks/useCurrentUser';
 import { setServerUser } from './store/userSlice';
 import Nav from './components/Nav/Nav';
+import { useAnalytics } from './hooks/useAnalytics';
 
 const firebaseAppAuth = firebase.auth();
 
@@ -46,16 +47,19 @@ const App = function ({
     const currentUser = useSelector((state: State) => state.user.value);
     const { signOutUser } = useCurrentUser();
     const dispatch = useDispatch();
+    const analytics = useAnalytics();
 
     const [deferredPrompt, setDeferredPrompt] = useState<any>();
 
     const [notification, setNotification] = useState({ title: '', body: '' });
 
     const signInWithGoogle = () => {
+        analytics.submitRecord('login with google attempt');
         firebase.auth().signInWithRedirect(googleProvider);
     };
 
     const signInWithFacebook = () => {
+        analytics.submitRecord('login with facebook attempt');
         firebase.auth().signInWithRedirect(facebookProvider);
     };
 
@@ -76,6 +80,8 @@ const App = function ({
         })
         .catch((error) => {
             // Handle Errors here.
+            analytics.submitRecord(error.code, error.message);
+
             var errorCode = error.code;
             var errorMessage = error.message;
             // The email of the user's account used.
@@ -120,7 +126,6 @@ const App = function ({
         window.addEventListener('appinstalled', handleAppInstalled);
 
         return () => {
-            console.log('cleanup');
             window.removeEventListener(
                 'beforeinstallprompt',
                 handleBeforeInstallFn

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 
@@ -16,9 +16,11 @@ import { Google as GoogleIcon } from '../../../icons/google';
 import { useSelector } from 'react-redux';
 import { State } from '../../../types/state';
 import { Navigate } from 'react-router';
+import { useAnalytics } from '../../../hooks/useAnalytics';
 
 export var Login: FC<Props> = function (props) {
     const user = useSelector((state: State) => state.user.value);
+    const analytics = useAnalytics();
 
     const formik = useFormik({
         initialValues: {

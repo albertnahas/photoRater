@@ -5,11 +5,13 @@ import firebase from '../config';
 import { removeUser, setUser, setServerUser } from '../store/userSlice';
 import { State } from '../types/state';
 import { User } from '../types/user';
+import { useAnalytics } from './useAnalytics';
 
 export const useCurrentUser = () => {
     const dispatch = useDispatch();
 
     const serverUser = useSelector((state: State) => state.user.serverValue);
+    const analytics = useAnalytics();
 
     useEffect(() => {
         if (!serverUser) {
@@ -40,6 +42,7 @@ export const useCurrentUser = () => {
             })
             .catch((error: any) => {
                 console.log('Error getting document:', error);
+                analytics.submitRecord(error);
             });
 
         const subscribe = firebase

@@ -28,7 +28,7 @@ export var Contact = function () {
                 .collection('contact')
                 .add({
                     message: values.message,
-                    uid: user?.uid
+                    uid: user?.uid || null
                 })
                 .then((res) => {
                     navigate('/');
