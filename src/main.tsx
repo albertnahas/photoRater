@@ -5,9 +5,17 @@ import App from './App';
 import { Providers } from './components/Providers/Providers';
 import { registerSW } from 'virtual:pwa-register';
 
+const intervalMS = 15 * 60 * 1000;
+
 const updateSW = registerSW({
     onNeedRefresh() {},
-    onOfflineReady() {}
+    onOfflineReady() {},
+    onRegistered(r) {
+        r &&
+            setInterval(() => {
+                r.update();
+            }, intervalMS);
+    }
 });
 
 ReactDOM.render(

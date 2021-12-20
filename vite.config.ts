@@ -27,7 +27,10 @@ export default defineConfig({
             "background_color": "#ffffff",
             "display": "standalone"
         },
-        registerType: 'autoUpdate'
+        registerType: 'autoUpdate',
+        workbox: {
+            sourcemap: true
+        }
     })],
     resolve: {
         alias: [
