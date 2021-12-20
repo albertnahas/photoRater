@@ -20,7 +20,7 @@
     "@reduxjs/toolkit": "^1.6.2",
     "babel-jest": "^27.4.4",
     "esbuild": "^0.14.2",
-    "firebase": "8.10.0",
+    "firebase": "^8.10.0",
     "formik": "^2.2.9",
     "lodash": "^4.17.21",
     "material-ui-confirm": "^3.0.2",

@@ -18,9 +18,11 @@ const firebaseAppAuth = firebase.auth();
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 googleProvider.addScope('https://www.googleapis.com/auth/user.birthday.read');
 
+const facebookProvider = new firebase.auth.FacebookAuthProvider();
+
 const providers = {
     googleProvider,
-    facebookProvider: new firebase.auth.FacebookAuthProvider()
+    facebookProvider
 };
 
 const createComponentWithAuth = withFirebaseAuth({
@@ -32,8 +34,6 @@ const App = function ({
     /** These props are provided by withFirebaseAuth HOC */
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
-    signInWithGoogle,
-    signInWithFacebook,
     // signInWithGithub,
     // signInWithTwitter,
     // signInAnonymously,
@@ -50,6 +50,40 @@ const App = function ({
     const [deferredPrompt, setDeferredPrompt] = useState<any>();
 
     const [notification, setNotification] = useState({ title: '', body: '' });
+
+    const signInWithGoogle = () => {
+        firebase.auth().signInWithRedirect(googleProvider);
+    };
+
+    const signInWithFacebook = () => {
+        firebase.auth().signInWithRedirect(facebookProvider);
+    };
+
+    firebase
+        .auth()
+        .getRedirectResult()
+        .then((result: any) => {
+            if (result.credential) {
+                /** @type {firebase.auth.OAuthCredential} */
+                var credential = result.credential;
+
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                var token = credential.accessToken;
+                // ...
+            }
+            // The signed-in user info.
+            var user = result.user;
+        })
+        .catch((error) => {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+            // ...
+        });
 
     const initNotificationListener = () => {
         onMessageListener()
