@@ -103,8 +103,8 @@ interface Props {
         email: string,
         password: string
     ) => Promise<any>;
-    signInWithGoogle?: () => Promise<any>;
-    signInWithFacebook?: () => Promise<any>;
+    signInWithGoogle?: () => void;
+    signInWithFacebook?: () => void;
     signOut?: () => void;
     error?: string;
     loading?: boolean;

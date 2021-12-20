@@ -189,8 +189,8 @@ export var Login: FC<Props> = function (props) {
 interface Props {
     onSubmit?: (email: string, password: string) => Promise<any>;
     signUp: () => void;
-    signInWithGoogle?: () => Promise<any>;
-    signInWithFacebook?: () => Promise<any>;
+    signInWithGoogle?: () => void;
+    signInWithFacebook?: () => void;
     error?: string;
     loading?: boolean;
 }
