@@ -8,14 +8,14 @@ export const useAnalytics = () => {
     const user = useSelector((state: State) => state.user.value);
 
     const submitRecord = (type?: string, description?: string) => {
-        return firebase
-            .firestore()
-            .collection('analytics')
-            .add({
-                type: type || '',
-                description: description || '',
-                user: user?.uid || null
-            });
+        // return firebase
+        //     .firestore()
+        //     .collection('analytics')
+        //     .add({
+        //         type: type || '',
+        //         description: description || '',
+        //         user: user?.uid || null
+        //     });
     };
 
     return { submitRecord };

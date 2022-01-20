@@ -13,5 +13,10 @@ export const useUser = () => {
             });
     };
 
-    return { updateUser };
+    const deleteAccount = () => {
+        const user = firebase.auth().currentUser;
+        return user?.delete();
+    };
+
+    return { updateUser, deleteAccount };
 };

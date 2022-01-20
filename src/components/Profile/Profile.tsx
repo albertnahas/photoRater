@@ -26,6 +26,8 @@ import { AccountProfileDetails } from './ProfileDetails';
 import { ProfileInfo } from './ProfileInfo';
 import { UserCircle as UserCircleIcon } from '../../icons/user-circle';
 import { State } from '../../types/state';
+import ModalDialog from '../../molecules/ModalDialog/ModalDialog';
+import { DeleteAccountForm } from './DeleteAccountForm';
 
 const ProfilePhoto = styled('div')(({ theme }) => ({
     position: 'absolute',
@@ -48,6 +50,8 @@ export var Profile = function () {
     const user = useSelector((state: State) => state.user.value);
 
     const [editMode, setEditMode] = useState(false);
+    const [openDeleteAccount, setOpenDeleteAccount] = useState(false);
+
     const PayPalButton = (window as any).paypal?.Buttons.driver('react', {
         React,
         ReactDOM
@@ -127,12 +131,29 @@ export var Profile = function () {
                 <Grid md={4} xs={12} item>
                     <ProfileInfo />
                 </Grid>
+                <Grid md={12} item>
+                    <Button
+                        onClick={() => setOpenDeleteAccount(true)}
+                        color="info"
+                        size="medium"
+                        variant="text"
+                    >
+                        Delete Account
+                    </Button>
+                </Grid>
                 {/* <PayPalButtons
                 createOrder={(data: any, actions: any) => createOrder(data, actions)}
                 onApprove={(data: any, actions: any) => onApprove(data, actions)}
                 style={{ layout: "horizontal" }}
             /> */}
             </Grid>
+            <ModalDialog
+                closeButton={true}
+                open={openDeleteAccount}
+                setOpen={setOpenDeleteAccount}
+            >
+                <DeleteAccountForm />
+            </ModalDialog>
         </Container>
     );
 };

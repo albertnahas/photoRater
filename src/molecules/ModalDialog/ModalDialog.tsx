@@ -53,7 +53,11 @@ export default function ModalDialog(props: Props) {
                     </DialogTitle>
                 )} */}
 
-                <DialogContent dividers={true}>{props.children}</DialogContent>
+                <DialogContent dividers={true}>
+                    {React.cloneElement(props.children, {
+                        setOpen: props.setOpen
+                    })}
+                </DialogContent>
                 {props.actions && (
                     <DialogActions>{props.actions}</DialogActions>
                 )}

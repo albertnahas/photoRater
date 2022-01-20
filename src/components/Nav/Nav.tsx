@@ -87,6 +87,14 @@ const Nav: FC<Props> = function ({
                         </ControlPage>
                     }
                 />
+                <Route
+                    path="/admin"
+                    element={
+                        <ControlPage>
+                            <Contact />
+                        </ControlPage>
+                    }
+                />
             </Routes>
         </Wrapper>
     );
