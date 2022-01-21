@@ -93,7 +93,7 @@ export var DeleteAccountForm: FC<Props> = function (props) {
                             type="submit"
                             variant="contained"
                         >
-                            Dlete account
+                            Delete account
                         </Button>
                     </Box>
                 </form>
