@@ -51,22 +51,17 @@ const App = function ({
     const dispatch = useDispatch();
     const analytics = useAnalytics();
 
-    var ua = navigator.userAgent || navigator.vendor;
-    var isInstagram = ua.indexOf('Instagram') > -1 ? true : false;
-
-    if (navigator.userAgent.includes('Instagram')) {
-        window.location.href = 'https://photoraterapp.com';
-    }
-
     const [deferredPrompt, setDeferredPrompt] = useState<any>();
 
     const [notification, setNotification] = useState({ title: '', body: '' });
 
     const signInWithGoogle = () => {
-        if (isInstagram) {
+        if (navigator.userAgent.includes('Instagram')) {
+            window.location.href = 'https://photoraterapp.com';
             alert(
-                'Sign in with google may not work from instagram browser, please consider opening the link in your browser'
+                'Sign in with Google may not work from instagram browser, please consider opening the link in your browser or use the sign up button'
             );
+            return;
         }
         analytics.submitRecord('login with google attempt');
         firebase.auth().signInWithPopup(googleProvider);
@@ -74,10 +69,12 @@ const App = function ({
 
     const signInWithFacebook = () => {
         analytics.submitRecord('login with facebook attempt');
-        if (isInstagram) {
+        if (navigator.userAgent.includes('Instagram')) {
+            window.location.href = 'https://photoraterapp.com';
             alert(
-                'Sign in with facebook may not work from instagram browser, please consider opening the link in your browser'
+                'Sign in with Facebook may not work from instagram browser, please consider opening the link in your browser or use the sign up button'
             );
+            return;
         }
         firebase.auth().signInWithPopup(facebookProvider);
     };
