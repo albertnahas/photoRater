@@ -51,17 +51,34 @@ const App = function ({
     const dispatch = useDispatch();
     const analytics = useAnalytics();
 
+    var ua = navigator.userAgent || navigator.vendor;
+    var isInstagram = ua.indexOf('Instagram') > -1 ? true : false;
+
+    if (navigator.userAgent.includes('Instagram')) {
+        window.location.href = 'https://photoraterapp.com';
+    }
+
     const [deferredPrompt, setDeferredPrompt] = useState<any>();
 
     const [notification, setNotification] = useState({ title: '', body: '' });
 
     const signInWithGoogle = () => {
+        if (isInstagram) {
+            alert(
+                'Sign in with google may not work from instagram browser, please consider opening the link in your browser'
+            );
+        }
         analytics.submitRecord('login with google attempt');
         firebase.auth().signInWithPopup(googleProvider);
     };
 
     const signInWithFacebook = () => {
         analytics.submitRecord('login with facebook attempt');
+        if (isInstagram) {
+            alert(
+                'Sign in with facebook may not work from instagram browser, please consider opening the link in your browser'
+            );
+        }
         firebase.auth().signInWithPopup(facebookProvider);
     };
 
