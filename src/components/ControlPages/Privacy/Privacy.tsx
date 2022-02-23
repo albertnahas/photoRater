@@ -16,20 +16,20 @@ export var Privacy = function () {
                     photos, as appropriate, we collect information from you in
                     order to provide and improve upon our service. It&apos;s
                     apparent, first of all, that you can post images to
-                    Photofeeler.
+                    Photorater.
                 </p>
 
                 <p>We also may collect your:</p>
 
                 <p>
                     First name Email address Birth date or birth year Gender
-                    Additionally, if you register using Facebook or LinkedIn,
-                    you may be asked for further information specific to your
-                    Facebook or LinkedIn account. (Typically this will include
+                    Additionally, if you register using Facebook or Google, you
+                    may be asked for further information specific to your
+                    Facebook or Google account. (Typically this will include
                     your public profile information.) It is Facebook and
-                    LinkedIn&apos;s responsibility that a list of this
-                    information be shown to you, so that you can accept or deny
-                    those requests at the time of registration.
+                    Google&apos;s responsibility that a list of this information
+                    be shown to you, so that you can accept or deny those
+                    requests at the time of registration.
                 </p>
 
                 <p>
@@ -42,7 +42,7 @@ export var Privacy = function () {
 
                 <p>
                     We collect your email address in order to send periodic
-                    emails, to contact you in regards to your Photofeeler
+                    emails, to contact you in regards to your Photorater
                     account, and to identify your account. Do note that you may
                     unsubcribe from our periodic emails at any time, using the
                     link at the bottom of any email you&apos;ve received from
@@ -59,12 +59,12 @@ export var Privacy = function () {
                 <p>
                     If you optionally choose to label a Business photo of
                     yourself with a description of what you do for work,
-                    Photofeeler provides this context to targeted users so that
+                    Photorater provides this context to targeted users so that
                     they may rate photos more accurately.
                 </p>
 
                 <p>
-                    Any actions performed on Photofeeler are collected and
+                    Any actions performed on Photorater are collected and
                     retained as a core function of providing and maintaining our
                     service and may be used without identifying information in
                     scientific research.
@@ -126,11 +126,6 @@ export var Privacy = function () {
                     payment gateway providers database only to be accessible by
                     those authorized with special access rights to such systems,
                     and are required to keep the information confidential.
-                </p>
-
-                <p>
-                    After a transaction, sensitive information (such as credit
-                    card numbers) are never stored on our servers.
                 </p>
             </Box>
         </>

@@ -39,6 +39,8 @@ const App = function ({
     // signInWithTwitter,
     // signInAnonymously,
     signOut,
+    // signInWithGoogle,
+    // signInWithFacebook,
     // setError,
     user,
     error,
@@ -55,12 +57,12 @@ const App = function ({
 
     const signInWithGoogle = () => {
         analytics.submitRecord('login with google attempt');
-        firebase.auth().signInWithRedirect(googleProvider);
+        firebase.auth().signInWithPopup(googleProvider);
     };
 
     const signInWithFacebook = () => {
         analytics.submitRecord('login with facebook attempt');
-        firebase.auth().signInWithRedirect(facebookProvider);
+        firebase.auth().signInWithPopup(facebookProvider);
     };
 
     firebase
