@@ -61,6 +61,16 @@ export const tags: string[] = [
     'unhappy'
 ];
 
+export const reportReasons = [
+    "Fake profile/Spam",
+    "Inappropriate photo",
+    "Restricted content",
+    "Sexually explicit",
+    "Underage user",
+    "Illegal content",
+    "Off-topic",
+]
+
 export const showGenderLabel = (gender?: string) => {
     if (gender === 'male') return 'males';
     if (gender === 'female') return 'females';

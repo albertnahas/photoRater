@@ -29,8 +29,27 @@ const useRating = () => {
             .add(voteObj);
     };
 
+    const flagPhotoAsInappropriate = (
+        photo?: Photo | undefined,
+        reason?: string | undefined
+    ) => {
+        if (!reason) {
+            return;
+        }
+        const reportObj = {
+            userId: user?.uid,
+            reason,
+            reporteddAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+        return firebase
+            .firestore()
+            .collection(`users/${photo?.userId}/photos/${photo?.id}/reports`)
+            .add(reportObj);
+    };
+
     return {
-        submitPhotoRating
+        submitPhotoRating,
+        flagPhotoAsInappropriate
     };
 };
 

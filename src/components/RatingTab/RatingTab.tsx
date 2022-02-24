@@ -24,7 +24,7 @@ export var RatingTab = function () {
     const commentRef = useRef<Element>(null);
 
     const { photosLoaded, getPhotos } = usePhotos();
-    const { submitPhotoRating } = useRating();
+    const { submitPhotoRating, flagPhotoAsInappropriate } = useRating();
 
     useEffect(() => {
         if (!user) {
@@ -68,6 +68,12 @@ export var RatingTab = function () {
             top: 0,
             left: 0,
             behavior: 'smooth'
+        });
+    };
+
+    const flagAsInappropriate = (photo?: Photo, reason?: string) => {
+        flagPhotoAsInappropriate(photo, reason)?.then(() => {
+            updateCurrentPhoto();
         });
     };
 
@@ -120,6 +126,7 @@ export var RatingTab = function () {
                 showTags={showTags}
                 submitRating={submitRating}
                 updateCurrentPhoto={updateCurrentPhoto}
+                flagAsInappropriate={flagAsInappropriate}
                 commentRef={commentRef}
             />
         );

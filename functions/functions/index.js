@@ -152,6 +152,31 @@ exports.updatePhotoRating = functions.firestore.document("/users/{userId}/photos
     return true;
   });
 
+// Listens for reports changes to deactivate photo
+exports.updatePhotoRating = functions.firestore.document("/users/{userId}/photos/{photoId}/reports/{documentId}")
+  .onWrite(async (change, context) => {
+    // Grab the current value of what was written to Firestore.
+    // const snap = change.after.exists ? change.after : null;
+
+    // functions.logger.log("change", change);
+    // functions.logger.log("snap", snap);
+
+    const userId = context.params.userId;
+    const photoId = context.params.photoId;
+
+
+    const photoSnap = await admin.firestore()
+      .collection("users").doc(userId)
+      .collection("photos").doc(photoId).get();
+    photoSnap.ref.set(
+      {
+        active: false,
+        updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      }, { merge: true });
+    return true;
+  });
+
+
 // Listens for photos removal to cleanup
 exports.photoRemoved = functions.firestore.document("/users/{userId}/photos/{photoId}")
   .onDelete(async (snap, context) => {

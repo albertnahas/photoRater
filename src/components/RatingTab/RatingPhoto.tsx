@@ -9,16 +9,24 @@ import {
     Button,
     Divider,
     Grow,
-    Fade
+    Fade,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    IconButton
 } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import PhotoRating from '../../atoms/PhotoRating/PhotoRating';
 import { Photo } from '../../types/photo';
-import { tags } from '../../utils/utils';
+import { reportReasons, tags } from '../../utils/utils';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
-
+import FlagIcon from '@mui/icons-material/Flag';
+import ModalDialog from '../../molecules/ModalDialog/ModalDialog';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 export const RatingPhoto: FC<Props> = ({
     photo,
     updateCurrentPhoto,
@@ -31,8 +39,10 @@ export const RatingPhoto: FC<Props> = ({
     handleCommentChange,
     currentPhotoRating,
     onRatingChange,
+    flagAsInappropriate,
     commentRef
 }) => {
+    const [openReport, setOpenReport] = useState(false);
     return (
         <Container maxWidth="lg">
             <Grid container>
@@ -168,9 +178,79 @@ export const RatingPhoto: FC<Props> = ({
                         >
                             Skip
                         </Button>
+                        <Button
+                            variant="text"
+                            color="error"
+                            size="small"
+                            endIcon={<FlagIcon />}
+                            component="span"
+                            onClick={() => {
+                                setOpenReport(true);
+                            }}
+                        >
+                            Flag as inappropriate
+                        </Button>
                     </Box>
                 </Grid>
             </Grid>
+            <ModalDialog
+                closeButton={true}
+                open={openReport}
+                setOpen={setOpenReport}
+                actions={
+                    <Box sx={{ flexGrow: 1, textAlign: 'center' }}>
+                        <Button
+                            variant="text"
+                            color="secondary"
+                            size="large"
+                            component="span"
+                            onClick={() => setOpenReport(false)}
+                        >
+                            Cancel
+                        </Button>
+                    </Box>
+                }
+            >
+                <Box>
+                    <Typography
+                        color="error.main"
+                        sx={{ textAlign: 'center', my: 2 }}
+                        variant="h5"
+                    >
+                        Flag as inappropriate
+                    </Typography>
+                    <Divider />
+                    <List>
+                        {reportReasons.map((r) => (
+                            <ListItem
+                                key={r}
+                                secondaryAction={
+                                    <IconButton
+                                        edge="end"
+                                        aria-label="report"
+                                        onClick={() => {
+                                            flagAsInappropriate(photo, r);
+                                            setOpenReport(false);
+                                        }}
+                                    >
+                                        <ChevronRightIcon />
+                                    </IconButton>
+                                }
+                                disablePadding
+                            >
+                                <ListItemButton
+                                    onClick={() => {
+                                        flagAsInappropriate(photo, r);
+                                        setOpenReport(false);
+                                    }}
+                                >
+                                    <ListItemText primary={r} />
+                                </ListItemButton>
+                            </ListItem>
+                        ))}
+                    </List>
+                </Box>
+            </ModalDialog>
         </Container>
     );
 };
@@ -179,6 +259,7 @@ interface Props {
     photo?: Photo;
     updateCurrentPhoto: () => void;
     submitRating: (photo?: Photo) => void;
+    flagAsInappropriate: (photo?: Photo, reason?: string) => void;
     showTags: boolean;
     setShowTags: (showTags: any) => void;
     handleChipClicked: (tag: string) => void;
