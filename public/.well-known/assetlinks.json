@@ -1,0 +1,15 @@
+[
+      {
+            "relation": [
+                  "delegate_permission/common.handle_all_urls"
+            ],
+            "target": {
+                  "namespace": "android_app",
+                  "package_name": "app.netlify.photorater.twa",
+                  "sha256_cert_fingerprints": [
+                        "6B:DF:19:2C:CF:F6:F7:28:39:CB:BE:2E:D7:FB:01:56:E5:9B:6B:B4:2F:F6:82:91:4C:56:41:F6:22:3B:22:8A",
+                        "70:D6:1D:94:AD:7A:1D:A8:FE:FA:D0:CE:D8:DB:6D:77:C4:B9:8E:86:A6:B3:D6:AC:80:6D:BE:BE:C2:4F:51:76"
+                  ]
+            }
+      }
+]
