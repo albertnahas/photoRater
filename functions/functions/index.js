@@ -27,15 +27,18 @@ exports.getPhotos = functions.https.onRequest(async (req, res) => {
     if (userId) {
       requestUser = (await admin.firestore().collection("users").doc(userId).get()).data();
     }
+    const blockedUsers = [];
     const showTo = ["both"];
     if (requestUser) {
       showTo.push(requestUser.gender);
+      blockedUsers.concat(requestUser.blocks)
     }
     // Push the new message into Firestore using the Firebase Admin SDK.
     let photos = [];
     const photosSnap = await admin.firestore().collectionGroup("photos")
       .where("active", "==", true)
       .where("showTo", "in", showTo)
+      .where("userId", "not-in", blockedUsers)
       .get();
 
     photosSnap.forEach((photo) => {
@@ -153,13 +156,20 @@ exports.updatePhotoRating = functions.firestore.document("/users/{userId}/photos
   });
 
 // Listens for reports changes to deactivate photo
-exports.updatePhotoRating = functions.firestore.document("/users/{userId}/photos/{photoId}/reports/{documentId}")
+exports.onReport = functions.firestore.document("/users/{userId}/photos/{photoId}/reports/{documentId}")
   .onWrite(async (change, context) => {
     // Grab the current value of what was written to Firestore.
     // const snap = change.after.exists ? change.after : null;
 
+    const snap = change.after.exists ? change.after : null;
+
     // functions.logger.log("change", change);
     // functions.logger.log("snap", snap);
+
+    let reporterId = undefined;
+    if (snap) {
+      reporterId = snap.data().userId;
+    }
 
     const userId = context.params.userId;
     const photoId = context.params.photoId;
@@ -173,6 +183,18 @@ exports.updatePhotoRating = functions.firestore.document("/users/{userId}/photos
         active: false,
         updatedAt: admin.firestore.FieldValue.serverTimestamp(),
       }, { merge: true });
+
+    if (reporterId) {
+      const reporterSnap = await admin.firestore()
+        .collection("users").doc(reporterId).get();
+      if (reporterId.exists) {
+        // add blocked user to blocks
+        const originalBlocks = reporterSnap.data().blockedUsers;
+        const blocks = originalBlocks ? [...originalBlocks, userId] : [userId]
+        reporterSnap.ref.set({ blocks }, { merge: true });
+      }
+    }
+
     return true;
   });
 
