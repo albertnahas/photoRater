@@ -27,18 +27,18 @@ exports.getPhotos = functions.https.onRequest(async (req, res) => {
     if (userId) {
       requestUser = (await admin.firestore().collection("users").doc(userId).get()).data();
     }
-    const blockedUsers = [];
+    // const blockedUsers = [];
     const showTo = ["both"];
     if (requestUser) {
       showTo.push(requestUser.gender);
-      blockedUsers.concat(requestUser.blocks)
+      // blockedUsers.concat(requestUser.blocks)
     }
     // Push the new message into Firestore using the Firebase Admin SDK.
     let photos = [];
     const photosSnap = await admin.firestore().collectionGroup("photos")
       .where("active", "==", true)
       .where("showTo", "in", showTo)
-      .where("userId", "not-in", blockedUsers)
+      // .where("userId", "not-in", blockedUsers)
       .get();
 
     photosSnap.forEach((photo) => {
