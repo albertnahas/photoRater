@@ -27,18 +27,28 @@ exports.getPhotos = functions.https.onRequest(async (req, res) => {
     if (userId) {
       requestUser = (await admin.firestore().collection("users").doc(userId).get()).data();
     }
-    // const blockedUsers = [];
+    let blockedUsers = [];
     const showTo = ["both"];
     if (requestUser) {
       showTo.push(requestUser.gender);
-      // blockedUsers.concat(requestUser.blocks)
+      blockedUsers = blockedUsers.concat(requestUser.blocks)
     }
+    functions.logger.log("blockedUsers", blockedUsers);
+
     // Push the new message into Firestore using the Firebase Admin SDK.
     let photos = [];
-    const photosSnap = await admin.firestore().collectionGroup("photos")
+    let photosQuery = admin.firestore().collectionGroup("photos")
       .where("active", "==", true)
       .where("showTo", "in", showTo)
-      // .where("userId", "not-in", blockedUsers)
+
+    if (userId) {
+      photosQuery = photosQuery.where("userId", "!=", userId)
+    }
+    // if (blockedUsers && blockedUsers.length) {
+    //   photosQuery = photosQuery.where("userId", "not-in", blockedUsers)
+    // }
+
+    const photosSnap = await photosQuery
       .get();
 
     photosSnap.forEach((photo) => {
@@ -57,7 +67,7 @@ exports.getPhotos = functions.https.onRequest(async (req, res) => {
       }
       const user = await admin.firestore().collection("users").doc(photo.userId).get();
 
-      if (userId && userId === photo.userId) {
+      if (blockedUsers.length && blockedUsers.includes(photo.userId)) {
         return;
       }
 
@@ -164,7 +174,6 @@ exports.onReport = functions.firestore.document("/users/{userId}/photos/{photoId
     const snap = change.after.exists ? change.after : null;
 
     // functions.logger.log("change", change);
-    // functions.logger.log("snap", snap);
 
     let reporterId = undefined;
     if (snap) {
@@ -187,10 +196,13 @@ exports.onReport = functions.firestore.document("/users/{userId}/photos/{photoId
     if (reporterId) {
       const reporterSnap = await admin.firestore()
         .collection("users").doc(reporterId).get();
-      if (reporterId.exists) {
+      functions.logger.log("reporterSnap", reporterSnap);
+
+      if (reporterSnap.exists) {
         // add blocked user to blocks
         const originalBlocks = reporterSnap.data().blockedUsers;
         const blocks = originalBlocks ? [...originalBlocks, userId] : [userId]
+        functions.logger.log("blocks", blocks);
         reporterSnap.ref.set({ blocks }, { merge: true });
       }
     }

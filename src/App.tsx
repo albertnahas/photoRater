@@ -57,7 +57,7 @@ const App = function ({
 
     const signInWithGoogle = () => {
         if (navigator.userAgent.includes('Instagram')) {
-            window.location.href = 'https://photoraterapp.com';
+            window.location.href = 'https://netlify.photoraterapp.com';
             alert(
                 'Sign in with Google may not work from instagram browser, please consider opening the link in your browser or use the sign up button'
             );
@@ -70,7 +70,7 @@ const App = function ({
     const signInWithFacebook = () => {
         analytics.submitRecord('login with facebook attempt');
         if (navigator.userAgent.includes('Instagram')) {
-            window.location.href = 'https://photoraterapp.com';
+            window.location.href = 'https://netlify.photoraterapp.com';
             alert(
                 'Sign in with Facebook may not work from instagram browser, please consider opening the link in your browser or use the sign up button'
             );
