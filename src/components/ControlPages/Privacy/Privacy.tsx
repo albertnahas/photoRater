@@ -1,6 +1,7 @@
 import React from 'react';
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
+import { Link } from 'react-router-dom';
 
 export var Privacy = function () {
     return (
@@ -73,9 +74,23 @@ export var Privacy = function () {
                 <p>3. Deletion of personal data</p>
 
                 <p>
-                    Account deletion is as laid out in our Terms of Use. To have
-                    an account registration deleted, use this form to contact
-                    customer service.
+                    Account deletion is as laid out in our
+                    <Link to="/terms"> Terms and Conditions</Link>, paragraph
+                    <strong> Termination</strong>. To have an account
+                    registration and data associated with it deleted, use the{' '}
+                    <strong>Delete </strong>
+                    option from your
+                    <Link to="/profile"> profile</Link> page or contact our
+                    customer service via this{' '}
+                    <Link to="/contact">contact form</Link> indicating
+                    <i> Please delete my account</i> as a request text.
+                </p>
+
+                <p>
+                    Some information associated with deleted accounts is
+                    retained in order to maintain the service for other users,
+                    for statistical and historical purposes, and for use in
+                    scientific research.
                 </p>
 
                 <p>

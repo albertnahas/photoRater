@@ -1,6 +1,7 @@
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export var Terms = function () {
     return (
@@ -79,6 +80,77 @@ export var Terms = function () {
                     You acknowledge that you are solely responsible for, and
                     bear all liability in relation to, any content that you
                     bring to the Photoraterapp site.
+                </p>
+
+                <p>
+                    Without limiting any other remedies, we may suspend,
+                    terminate, delete, limit, or modify Accounts or access to
+                    the Service or any portions thereof, hold, delay, or remove
+                    hosted content, take legal and technical steps to prevent
+                    access to the Service, or take other action consistent with
+                    these Terms, with or without notice to you, if we suspect or
+                    determine, in our sole discretion, that you have failed to
+                    comply with any of these Terms or have otherwise engaged in
+                    illegal activity or improper use of our Service. This may
+                    result in the loss or termination of your Account,
+                    information, persona, rankings, benefits, in-game purchases,
+                    or other losses. We are not and will not be held responsible
+                    for loss of any Account, information, persona, rankings,
+                    benefits, in-game purchases, or other losses incurred, and
+                    are under no obligation to compensate you therefor.
+                </p>
+                <p>
+                    We reserve the right to stop offering and/or supporting our
+                    Service or any portion thereof at any time for any reason.
+                    If this does occur, your access to use the applicable
+                    Service will automatically terminate and you may lose access
+                    to any content that you may have submitted or were in the
+                    process of submitting. We reserve the right to terminate any
+                    Account that has been inactive for 180 days or more. We are
+                    not required to notify you in advance of these actions, or
+                    to provide you any refunds, compensation, or any material or
+                    non-material benefit for discontinued or terminated Service
+                    or losses resulting therefrom.
+                </p>
+
+                <p>Termination</p>
+
+                <p>
+                    You may choose to close your Account for any reason and at
+                    any time. If you choose to exercise this right, please
+                    inform Lingwars that you wish to close your Account by
+                    submitting a deletion request in your{' '}
+                    <Link to="/profile">profile</Link> page by clicking
+                    <strong> Delete</strong> button. You understand that if you
+                    close your Account, you may no longer have access to
+                    information previously associated with your Account
+                    (including, without limitation, your game progress).
+                </p>
+                <p>
+                    If you believe your account has been terminated in error,
+                    contact our customer service via{' '}
+                    <Link to="/contact">this contact form</Link>.
+                </p>
+                <p>
+                    When you request to delete content or your account, the
+                    deletion process will automatically begin no more than 30
+                    days after your request. It may take up to 90 days to delete
+                    your data after the deletion process begins. While the
+                    deletion process for such data is being undertaken, the data
+                    remains subject to these Terms and Conditions and our
+                    Privacy Policy. After the data is deleted, it may take us up
+                    to another 90 days to remove it from backups and disaster
+                    recovery systems.
+                </p>
+                <p>
+                    We may terminate or suspend Your access immediately, without
+                    prior notice or liability, for any reason whatsoever,
+                    including without limitation if You breach these Terms and
+                    Conditions.
+                </p>
+                <p>
+                    Upon termination, Your right to use the Service will cease
+                    immediately.
                 </p>
             </Box>
         </>
