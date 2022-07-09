@@ -30,7 +30,7 @@ export const Providers: FC = ({ children }) => {
             <ThemeProvider theme={theme}>
                 <ConfirmProvider>
                     <PayPalScriptProvider
-                        options={{ 'client-id': paypalClientId.sandbox }}
+                        options={{ 'client-id': paypalClientId.live }}
                     >
                         <Provider store={store}>{children}</Provider>
                     </PayPalScriptProvider>

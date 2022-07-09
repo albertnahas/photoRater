@@ -28,6 +28,7 @@ import { UserCircle as UserCircleIcon } from '../../icons/user-circle';
 import { State } from '../../types/state';
 import ModalDialog from '../../molecules/ModalDialog/ModalDialog';
 import { DeleteAccountForm } from './DeleteAccountForm';
+import { useUser } from '../../hooks/useUser';
 
 const ProfilePhoto = styled('div')(({ theme }) => ({
     position: 'absolute',
@@ -51,6 +52,7 @@ export var Profile = function () {
 
     const [editMode, setEditMode] = useState(false);
     const [openDeleteAccount, setOpenDeleteAccount] = useState(false);
+    const { updateUser } = useUser();
 
     const PayPalButton = (window as any).paypal?.Buttons.driver('react', {
         React,
@@ -62,7 +64,7 @@ export var Profile = function () {
             purchase_units: [
                 {
                     amount: {
-                        value: '0.01'
+                        value: '1.99'
                     }
                 }
             ]
@@ -72,12 +74,19 @@ export var Profile = function () {
         // data.orderID
         const capture = actions.order.capture();
         console.log(capture);
+        updateUser({
+            points: (user?.points || 0) + 100
+        });
         return capture;
     };
 
     return (
         <Container maxWidth="lg">
-            <Grid sx={{ mt: 2, mb: 4 }} spacing={2} container>
+            <Grid
+                sx={{ mt: 2, mb: 4, justifyContent: 'center' }}
+                spacing={2}
+                container
+            >
                 <Grid xs={12} item>
                     <Box>
                         <Box
@@ -117,6 +126,14 @@ export var Profile = function () {
                                     )} rating tokens`}
                                 </Typography>
                             </Tooltip>
+                            <Typography
+                                variant="caption"
+                                component="div"
+                                color="text.secondary"
+                            >
+                                You will get 1 extra token for each 5 votes you
+                                give
+                            </Typography>
                         </Box>
                     </Box>
                     <Divider sx={{ mt: 2, mb: 2 }} variant="middle" />
@@ -132,21 +149,44 @@ export var Profile = function () {
                     <ProfileInfo />
                 </Grid>
                 <Grid md={12} item>
+                    <Typography
+                        variant="body2"
+                        component="p"
+                        color="text.secondary"
+                        sx={{ textAlign: 'center', fontWeight: 'bold', mb: 1 }}
+                    >
+                        Get 10 tokens for $1.99
+                    </Typography>
+                    <Box
+                        sx={{
+                            margin: 'auto',
+                            width: 200
+                        }}
+                    >
+                        <PayPalButtons
+                            createOrder={(data: any, actions: any) =>
+                                createOrder(data, actions)
+                            }
+                            onApprove={(data: any, actions: any) =>
+                                onApprove(data, actions)
+                            }
+                            style={{ layout: 'horizontal' }}
+                        />
+                    </Box>
+                </Grid>
+
+                <Grid md={12} item>
                     <Button
                         onClick={() => setOpenDeleteAccount(true)}
-                        color="info"
+                        color="error"
                         size="medium"
                         variant="text"
                     >
                         Delete Account
                     </Button>
                 </Grid>
-                {/* <PayPalButtons
-                createOrder={(data: any, actions: any) => createOrder(data, actions)}
-                onApprove={(data: any, actions: any) => onApprove(data, actions)}
-                style={{ layout: "horizontal" }}
-            /> */}
             </Grid>
+
             <ModalDialog
                 closeButton={true}
                 open={openDeleteAccount}
