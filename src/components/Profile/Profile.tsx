@@ -75,6 +75,7 @@ export var Profile = function () {
         const capture = actions.order.capture();
         console.log(capture);
         updateUser({
+            ...user,
             points: (user?.points || 0) + 100
         });
         return capture;
