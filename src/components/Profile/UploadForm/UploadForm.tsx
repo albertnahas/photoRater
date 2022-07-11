@@ -10,7 +10,8 @@ import {
     Radio,
     Slider,
     Paper,
-    CircularProgress
+    CircularProgress,
+    Typography
 } from '@mui/material';
 import CollectionsIcon from '@mui/icons-material/Collections';
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
@@ -19,6 +20,7 @@ import firebase from '../../../config';
 
 export var UploadForm: FC<Props> = function ({
     onCancel,
+    error,
     uploading,
     handlePhotoSubmit,
     imageAsUrl,
@@ -81,6 +83,16 @@ export var UploadForm: FC<Props> = function ({
                                 alt="new image"
                             />
                         </Paper>
+                        {error && (
+                            <Typography
+                                variant="body1"
+                                color={theme.palette.error.main}
+                                sx={{ mt: 1, textAlign: 'center' }}
+                            >
+                                {error}, please consider trying with another
+                                photo
+                            </Typography>
+                        )}
                     </Grid>
                     <Grid xs={12} md={8} item>
                         <Box sx={{ mb: 2 }}>
@@ -146,6 +158,7 @@ export var UploadForm: FC<Props> = function ({
                     startIcon={<CloudUploadOutlinedIcon />}
                     type="submit"
                     variant="outlined"
+                    disabled={!!error}
                 >
                     Upload
                 </Button>
@@ -165,6 +178,7 @@ export var UploadForm: FC<Props> = function ({
 interface Props {
     onCancel: () => void;
     uploading: boolean;
+    error?: string;
     handlePhotoSubmit: (e: any) => void;
     imageAsUrl: any;
     handleImageAsFile: (e: any) => void;

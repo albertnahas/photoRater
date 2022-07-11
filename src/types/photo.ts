@@ -1,3 +1,4 @@
+import { predictionType } from '../components/Profile/UploadForm/nsfwjs';
 import firebase from '../config';
 
 export interface Photo {
@@ -13,4 +14,9 @@ export interface Photo {
     userId?: string
     votesCount?: number
     id: string
+    predictions?: Array<predictionType>
+    expressions?: Array<{
+        expression: string;
+        probability: number;
+    }>
 }

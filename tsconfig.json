@@ -4,7 +4,7 @@
         "useDefineForClassFields": true,
         "lib": ["DOM", "DOM.Iterable", "ESNext"],
         "allowJs": false,
-        "skipLibCheck": false,
+        "skipLibCheck": true,
         "esModuleInterop": false,
         "allowSyntheticDefaultImports": true,
         "strict": true,
@@ -18,5 +18,9 @@
         "types": ["jest"],
         "typeRoots": ["./types", "./node_modules/@types"]
     },
-    "include": ["./src", "jest/mocks/cssMocks.js","node_modules/vite-plugin-pwa/client.d.ts"]
+    "include": [
+        "./src",
+        "jest/mocks/cssMocks.js",
+        "node_modules/vite-plugin-pwa/client.d.ts"
+    ]
 }

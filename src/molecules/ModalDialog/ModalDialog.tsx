@@ -30,7 +30,6 @@ export default function ModalDialog(props: Props) {
             <Dialog
                 open={props.open}
                 onClose={handleClose}
-                fullWidth={true}
                 TransitionComponent={props.zoom ? Transition : undefined}
                 maxWidth={props.maxWidth || 'md'}
                 scroll={'body'}

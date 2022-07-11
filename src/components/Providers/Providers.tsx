@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import store from '../../store/store';
 
-export const Providers: FC = ({ children }) => {
+export const Providers: FC<Props> = ({ children }) => {
     const theme = createTheme({
         palette: {
             primary: {
@@ -39,3 +39,7 @@ export const Providers: FC = ({ children }) => {
         </BrowserRouter>
     );
 };
+
+interface Props {
+    children: JSX.Element;
+}
