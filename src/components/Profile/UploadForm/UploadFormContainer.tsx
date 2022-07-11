@@ -60,7 +60,7 @@ export var UploadFormContainer: FC<Props> = function (props) {
                     setError('The photo looks inappropriate');
                 }
             });
-        detectFace(img.src);
+        // detectFace(img.src);
     };
 
     async function detectFace(url: string) {

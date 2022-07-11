@@ -21,6 +21,9 @@ const getResizedName = (fileName, dimensions = "600x600") => {
 
 exports.getPhotos = functions.https.onRequest(async (req, res) => {
   cors(req, res, async () => {
+    res.set("Access-Control-Allow-Origin", "*");
+    res.set("Access-Control-Allow-Methods", "GET");
+    res.set("Access-Control-Allow-Headers", "*");
     const userId = req.query.userId || req.body.data.userId;
     let requestUser = null;
 
@@ -285,26 +288,24 @@ exports.scheduledFunction = functions.pubsub.schedule("every 2 hours").onRun(() 
   date.setDate(pastDate);
   const photosSnap = admin.firestore().collectionGroup("photos")
     .where("active", "==", true)
-    .where("uploadedAt", "<", admin.firestore.Timestamp.fromDate(date));
+    .where("uploadedAt", ">", admin.firestore.Timestamp.fromDate(date));
 
   photosSnap.get().then((snapshot) => {
+    functions.logger.log("photos found", snapshot.size);
     const batch = admin.firestore().batch();
     snapshot.docs.forEach((doc) => {
       const photoObj = doc.data();
       const predictions = photoObj.predictions
-      if (!predictions) return
+      if (!predictions || !predictions.length) return
       const expressions = photoObj.expressions
-      if (!expressions) return
+      if (!expressions || !expressions.length) return
 
-      const sexyPrediction = predictions.find((p) => {
-        p.className === "Sexy";
-      }).probability || 0
-
-      const happy = expressions.find((p) => {
-        p.expression === "happy";
-      }).probability || 0
+      const sexyPrediction = predictions.find((p) => p.className === "Sexy").probability || 0
+      const happy = expressions.find((p) => p.expression === "happy").probability || 0
 
       const rating = Math.min(Math.round(sexyPrediction * 5 + (Math.random() * 3) + happy * 2 + 2) / 2, 5)
+      functions.logger.log("rating", rating);
+
       const voteObj = {
         userId: "bot",
         rate: rating,

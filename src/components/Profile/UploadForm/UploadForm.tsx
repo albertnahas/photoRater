@@ -85,7 +85,18 @@ export var UploadForm: FC<Props> = function ({
                                 alt="new image"
                             />
                         </Paper>
-                        {loading && <LinearProgress />}
+                        {loading && (
+                            <>
+                                <LinearProgress />
+                                <Typography
+                                    variant="body1"
+                                    color={theme.palette.primary.main}
+                                    sx={{ textAlign: 'center', mt: 0.5 }}
+                                >
+                                    detecting faces, please wait...
+                                </Typography>
+                            </>
+                        )}
                         {error && (
                             <Typography
                                 variant="body1"
