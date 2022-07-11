@@ -247,7 +247,7 @@ exports.userCreated = functions.firestore.document("/users/{userId}")
     } else {
       snap.ref.set({ complete: true }, { merge: true });
     }
-    snap.ref.set({ points: 20, showGender, onBoarding: false }, { merge: true });
+    snap.ref.set({ points: 50, showGender, onBoarding: false }, { merge: true });
     return true;
   });
 
@@ -274,5 +274,54 @@ exports.scheduledFunctionCrontab = functions.pubsub.schedule("0 00 * * *")
 
     return null;
   });
+
+
+exports.scheduledFunction = functions.pubsub.schedule("every 2 hours").onRun(() => {
+  console.log("This will be run every 2 hours!");
+
+  const date = new Date();
+  // Change it so that it is 7 days in the past.
+  const pastDate = date.getDate() - 7;
+  date.setDate(pastDate);
+  const photosSnap = admin.firestore().collectionGroup("photos")
+    .where("active", "==", true)
+    .where("uploadedAt", "<", admin.firestore.Timestamp.fromDate(date));
+
+  photosSnap.get().then((snapshot) => {
+    const batch = admin.firestore().batch();
+    snapshot.docs.forEach((doc) => {
+      const photoObj = doc.data();
+      const predictions = photoObj.predictions
+      if (!predictions) return
+      const expressions = photoObj.expressions
+      if (!expressions) return
+
+      const sexyPrediction = predictions.find((p) => {
+        p.className === "Sexy";
+      }).probability || 0
+
+      const happy = expressions.find((p) => {
+        p.expression === "happy";
+      }).probability || 0
+
+      const rating = Math.min(Math.round(sexyPrediction * 5 + (Math.random() * 3) + happy * 2 + 2) / 2, 5)
+      const voteObj = {
+        userId: "bot",
+        rate: rating,
+        ratedAt: admin.firestore.FieldValue.serverTimestamp()
+      };
+
+      const newVoteRef = admin
+        .firestore()
+        .collection(`users/${photoObj.userId}/photos/${doc.id}/votes`)
+        .doc();
+      batch.set(newVoteRef, voteObj);
+    });
+    return batch.commit();
+  });
+
+
+  return null;
+});
 
 // exports.generateThumbnail = generateThumbnail.generateThumbnail;

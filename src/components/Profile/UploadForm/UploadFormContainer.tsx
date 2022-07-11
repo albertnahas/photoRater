@@ -5,6 +5,12 @@ import firebase from '../../../config';
 import { getResizedName } from '../../../utils/utils';
 import { State } from '../../../types/state';
 import { UploadForm } from './UploadForm';
+import * as nsfwjs from './nsfwjs';
+// import nodejs bindings to native tensorflow,
+// not required, but will speed up things drastically (python required)
+import '@tensorflow/tfjs';
+import * as faceapi from 'face-api.js';
+import { FaceExpressions } from 'face-api.js';
 
 const storage = firebase.storage();
 
@@ -12,14 +18,58 @@ export var UploadFormContainer: FC<Props> = function (props) {
     const [imageAsFile, setImageAsFile] = useState<any>();
     const [imageAsUrl, setImageAsUrl] = useState<any>('');
     const [showToGender, setShowToGender] = useState('both');
+    const [predictions, setPredictions] =
+        useState<Array<nsfwjs.predictionType>>();
+    const [expressions, setExpressions] = useState<
+        {
+            expression: string;
+            probability: number;
+        }[]
+    >();
     const [ageRange, setAgeRange] = useState([18, 37]);
     const [uploading, setUploading] = useState<any>(false);
+    const [error, setError] = useState<string>();
     const user = useSelector((state: State) => state.user.value);
 
-    const handleImageAsFile = (e: any) => {
+    const handleImageAsFile = async (e: any) => {
         const image = e.target.files[0];
         setImageAsFile((imageFile: any) => image);
         setImageAsUrl({ imgUrl: URL.createObjectURL(image) });
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(image);
+        console.log('classify');
+
+        nsfwjs
+            .load()
+            .then(function (model: any) {
+                // Classify the image
+                return model.classify(img);
+            })
+            .then(function (predictions: Array<nsfwjs.predictionType>) {
+                setPredictions(predictions);
+                console.log('Predictions: ', predictions);
+                if (
+                    (predictions &&
+                        predictions.find((p: nsfwjs.predictionType) => {
+                            p.className === 'Porn';
+                        })?.probability) ||
+                    0 > 0.8
+                ) {
+                    setError('The photo looks inappropriate');
+                }
+            });
+
+        await faceapi.loadSsdMobilenetv1Model('/models');
+        const detection = await faceapi
+            .detectSingleFace(img)
+            .withFaceExpressions();
+        if (!detection) {
+            setError('No face detected');
+        } else {
+            console.log('detection: ', detection.expressions.asSortedArray());
+
+            setExpressions(detection.expressions.asSortedArray());
+        }
     };
 
     const handlePhotoSubmit = (e: any) => {
@@ -66,11 +116,22 @@ export var UploadFormContainer: FC<Props> = function (props) {
                                     userId: user?.uid,
                                     showTo: showToGender,
                                     ageRange,
+                                    expressions,
+                                    predictions,
+                                    active: true,
                                     uploadedAt:
                                         firebase.firestore.FieldValue.serverTimestamp()
+                                })
+                                .catch((err: any) => {
+                                    console.log(err);
+                                    setError('Error while uploading photo');
                                 });
                             setUploading(false);
                             props.onCancel();
+                        })
+                        .catch((err: any) => {
+                            console.log(err);
+                            setError(err.message || err);
                         });
                 }
             );
@@ -115,6 +176,7 @@ export var UploadFormContainer: FC<Props> = function (props) {
             imageAsUrl={imageAsUrl}
             uploading={uploading}
             onCancel={props.onCancel}
+            error={error}
         />
     );
 };
