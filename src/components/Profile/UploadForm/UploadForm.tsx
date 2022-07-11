@@ -11,7 +11,8 @@ import {
     Slider,
     Paper,
     CircularProgress,
-    Typography
+    Typography,
+    LinearProgress
 } from '@mui/material';
 import CollectionsIcon from '@mui/icons-material/Collections';
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
@@ -22,6 +23,7 @@ export var UploadForm: FC<Props> = function ({
     onCancel,
     error,
     uploading,
+    loading,
     handlePhotoSubmit,
     imageAsUrl,
     handleImageAsFile,
@@ -83,6 +85,7 @@ export var UploadForm: FC<Props> = function ({
                                 alt="new image"
                             />
                         </Paper>
+                        {loading && <LinearProgress />}
                         {error && (
                             <Typography
                                 variant="body1"
@@ -178,6 +181,7 @@ export var UploadForm: FC<Props> = function ({
 interface Props {
     onCancel: () => void;
     uploading: boolean;
+    loading: boolean;
     error?: string;
     handlePhotoSubmit: (e: any) => void;
     imageAsUrl: any;

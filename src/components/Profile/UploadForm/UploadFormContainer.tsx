@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import firebase from '../../../config';
@@ -13,6 +13,8 @@ import * as faceapi from 'face-api.js';
 import { FaceExpressions } from 'face-api.js';
 
 const storage = firebase.storage();
+faceapi.loadSsdMobilenetv1Model('/models');
+faceapi.loadFaceExpressionModel('/models');
 
 export var UploadFormContainer: FC<Props> = function (props) {
     const [imageAsFile, setImageAsFile] = useState<any>();
@@ -27,6 +29,7 @@ export var UploadFormContainer: FC<Props> = function (props) {
         }[]
     >();
     const [ageRange, setAgeRange] = useState([18, 37]);
+    const [loading, setLoading] = useState<any>(false);
     const [uploading, setUploading] = useState<any>(false);
     const [error, setError] = useState<string>();
     const user = useSelector((state: State) => state.user.value);
@@ -37,7 +40,6 @@ export var UploadFormContainer: FC<Props> = function (props) {
         setImageAsUrl({ imgUrl: URL.createObjectURL(image) });
         const img = document.createElement('img');
         img.src = URL.createObjectURL(image);
-        console.log('classify');
 
         nsfwjs
             .load()
@@ -58,11 +60,23 @@ export var UploadFormContainer: FC<Props> = function (props) {
                     setError('The photo looks inappropriate');
                 }
             });
+        detectFace(img.src);
+    };
 
-        await faceapi.loadSsdMobilenetv1Model('/models');
+    async function detectFace(url: string) {
+        setLoading(true);
+        const image = await faceapi.fetchImage(url);
+        console.log(image instanceof HTMLImageElement); // true
+        // displaying the fetched image content
+        const myImg = document.createElement('img');
+        myImg.src = image.src;
         const detection = await faceapi
-            .detectSingleFace(img)
+            .detectSingleFace(
+                image,
+                await new faceapi.SsdMobilenetv1Options({ minConfidence: 0.6 })
+            )
             .withFaceExpressions();
+        console.log(detection);
         if (!detection) {
             setError('No face detected');
         } else {
@@ -70,7 +84,8 @@ export var UploadFormContainer: FC<Props> = function (props) {
 
             setExpressions(detection.expressions.asSortedArray());
         }
-    };
+        setLoading(false);
+    }
 
     const handlePhotoSubmit = (e: any) => {
         e.preventDefault();
@@ -175,6 +190,7 @@ export var UploadFormContainer: FC<Props> = function (props) {
             handlePhotoSubmit={handlePhotoSubmit}
             imageAsUrl={imageAsUrl}
             uploading={uploading}
+            loading={loading}
             onCancel={props.onCancel}
             error={error}
         />
