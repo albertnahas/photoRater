@@ -116,8 +116,8 @@ export var UploadFormContainer: FC<Props> = function (props) {
                                     userId: user?.uid,
                                     showTo: showToGender,
                                     ageRange,
-                                    expressions,
-                                    predictions,
+                                    expressions: expressions || [],
+                                    predictions: predictions || [],
                                     active: true,
                                     uploadedAt:
                                         firebase.firestore.FieldValue.serverTimestamp()
