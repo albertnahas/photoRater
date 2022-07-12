@@ -4,6 +4,7 @@ import { State } from '../types/state';
 import firebase from '../config';
 import { Photo } from '../types/photo';
 import { UserVote } from '../types/user';
+import _ from 'lodash';
 
 const usePhotos = () => {
     const functions = firebase.functions();
@@ -32,18 +33,11 @@ const usePhotos = () => {
                     .firestore()
                     .collectionGroup(`photos`)
                     .where('active', '==', true)
-                    .orderBy('id')
+                    .orderBy('id', 'desc')
                     .orderBy('gender');
 
             if (!refresh && lastId.current) {
                 query = query.startAfter(lastId.current);
-            }
-            if (votes.length) {
-                query = query.where(
-                    'id',
-                    'not-in',
-                    votes.map((v) => v.id)
-                );
             }
             if (user.showGender !== 'both') {
                 query = query.where('gender', '==', user.showGender);
@@ -57,9 +51,11 @@ const usePhotos = () => {
                     querySnapshot?.forEach((doc: any) => {
                         if (
                             doc.data().userId !== user.uid &&
-                            (!user.blocks ||
-                                user.blocks.indexOf(doc.data().userId) ===
+                            (!votes ||
+                                votes.map((v) => v.id).indexOf(doc.id) ===
                                     -1) &&
+                            (!user.blocks ||
+                                user.blocks.indexOf(doc.id) === -1) &&
                             (doc.data().showTo === 'both' ||
                                 doc.data().showTo === user.gender)
                         ) {
@@ -77,6 +73,7 @@ const usePhotos = () => {
                         setPhotos((prevPhotos) => [
                             ...prevPhotos,
                             ...fetchedPhotos
+                            // ..._.shuffle(fetchedPhotos)
                         ]);
                     }
                     setPhotosLoaded(true);

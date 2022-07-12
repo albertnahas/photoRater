@@ -297,7 +297,7 @@ exports.scheduledFunctionExpiredPhotos = functions.pubsub.schedule("0 00 * * *")
   });
 
 
-exports.storeId = functions.pubsub.schedule("every 30 days").onRun(() => {
+exports.scheduledUpdatePhotos = functions.pubsub.schedule("every 30 days").onRun(() => {
   const photosSnap = admin.firestore().collectionGroup("photos")
   photosSnap.get().then((snapshot) => {
     const batch = admin.firestore().batch();
@@ -324,9 +324,7 @@ exports.storeId = functions.pubsub.schedule("every 30 days").onRun(() => {
   return true
 })
 
-exports.scheduledFunction = functions.pubsub.schedule("every 2 hours").onRun(() => {
-  console.log("This will be run every 2 hours!");
-
+exports.scheduledFunctionRate = functions.pubsub.schedule("every 20 hours").onRun(() => {
   const date = new Date();
   // Change it so that it is 7 days in the past.
   const pastDate = date.getDate() - 7;
