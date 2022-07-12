@@ -16,9 +16,12 @@ import { PhotoCard } from './PhotoCard';
 import { SortByControl } from '../../atoms/SortByControl/SortByControl';
 import { Photo } from '../../types/photo';
 import { PhotoActions } from './PhotoActions';
+import { useSelector } from 'react-redux';
+import { State } from '../../types/state';
 
 export var MyPhotos = function () {
     const [view, setView] = useState('classic');
+    const user = useSelector((state: State) => state.user.value);
 
     const [selectedPhoto, setSelectedPhoto] = useState<PhotoState | null>();
     const [openPhotoDialog, setOpenPhotoDialog] = useState(false);
@@ -85,7 +88,7 @@ export var MyPhotos = function () {
         <Box
             sx={{
                 bgcolor: 'background.paper',
-                pt: 4,
+                pt: 2,
                 pb: 6,
                 pl: { xs: 2, md: 0 },
                 pr: { xs: 2, md: 0 }
@@ -109,16 +112,24 @@ export var MyPhotos = function () {
                 )}
                 {!showForm && (
                     <>
-                        <Box sx={containerStyle}>
+                        <Box sx={{ ...containerStyle, textAlign: 'left' }}>
                             {photosLoaded &&
                                 photos.filter((p) => p.data().active).length ===
-                                    0 && (
+                                    0 &&
+                                !!user?.points && (
                                     <Alert severity="info">
                                         {photos.length === 0
                                             ? 'Start uploading your photos here'
                                             : 'Activate your photo using the switch button to start receiving votes'}
                                     </Alert>
                                 )}
+                            {photosLoaded && !user?.points && (
+                                <Alert sx={{ my: 1 }} severity="error">
+                                    You can&apos;t activate your photos because
+                                    you ran out of tokens, please rate other
+                                    photos, or buy some from your profile page
+                                </Alert>
+                            )}
                         </Box>
                         {photosLoaded && (
                             <Box sx={controlsContainerStyle}>

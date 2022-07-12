@@ -144,10 +144,20 @@ exports.updatePhotoRating = functions.firestore.document("/users/{userId}/photos
 
     const userSnap = await admin.firestore()
       .collection("users").doc(userId).get();
-    const points = userSnap.data().points || 0;
-    const newVotes = userSnap.data().newVotes || 0;
-    if (points > 0) {
-      userSnap.ref.set({ points: points - pointsToVote, newVotes: newVotes + 1 }, { merge: true });
+    const prevPoints = userSnap.data().points || 0;
+    const newVotes = (userSnap.data().newVotes || 0) + 1;
+    const points = Math.max(prevPoints - pointsToVote, 0)
+    userSnap.ref.set({ points, newVotes }, { merge: true });
+    if (points <= 0) {
+      const photosSnap = admin.firestore().collection(`users/${userId}/photos`)
+        .where("active", "==", true)
+      photosSnap.get().then((snapshot) => {
+        const batch = admin.firestore().batch();
+        snapshot.docs.forEach((doc) => {
+          batch.update(doc.ref, "active", false);
+        });
+        return batch.commit();
+      });
     }
 
     if (voterId) {
@@ -239,6 +249,14 @@ exports.photoRemoved = functions.firestore.document("/users/{userId}/photos/{pho
     return true;
   });
 
+// Listens for photos creation to add id
+exports.photoCreated = functions.firestore.document("/users/{userId}/photos/{photoId}")
+  .onCreate(async (snap, context) => {
+    const photoId = context.params.photoId;
+    snap.ref.set({ id: photoId }, { merge: true });
+    return true;
+  });
+
 
 // Listens for user creation
 exports.userCreated = functions.firestore.document("/users/{userId}")
@@ -255,12 +273,12 @@ exports.userCreated = functions.firestore.document("/users/{userId}")
   });
 
 
-exports.scheduledFunctionCrontab = functions.pubsub.schedule("0 00 * * *")
+exports.scheduledFunctionExpiredPhotos = functions.pubsub.schedule("0 00 * * *")
   .timeZone("America/New_York") // Users can choose timezone - default is America/Los_Angeles
   .onRun(() => {
     const date = new Date();
-    // Change it so that it is 7 days in the past.
-    const pastDate = date.getDate() - 7;
+    // Change it so that it is 14 days in the past.
+    const pastDate = date.getDate() - 14;
     date.setDate(pastDate);
 
     const photosSnap = admin.firestore().collectionGroup("photos")
@@ -278,6 +296,33 @@ exports.scheduledFunctionCrontab = functions.pubsub.schedule("0 00 * * *")
     return null;
   });
 
+
+exports.storeId = functions.pubsub.schedule("every 30 days").onRun(() => {
+  const photosSnap = admin.firestore().collectionGroup("photos")
+  photosSnap.get().then((snapshot) => {
+    const batch = admin.firestore().batch();
+    snapshot.docs.forEach((doc) => {
+      batch.update(doc.ref, "active", true);
+    });
+    return batch.commit();
+  });
+
+  // photosSnap.get().then(async (snapshot) => {
+  //   let photosDocs = [];
+  //   snapshot.docs.forEach((doc) => {
+  //     photosDocs.push(doc);
+  //   });
+  //   const batch = admin.firestore().batch();
+  //   await Promise.all(photosDocs.map(async (photoDoc) => {
+  //     const userSnap = await admin.firestore()
+  //       .collection("users").doc(photoDoc.data().userId).get();
+  //     const gender = userSnap.data().gender;
+  //     batch.update(photoDoc.ref, "gender", gender);
+  //   }))
+  //   return batch.commit();
+  // });
+  return true
+})
 
 exports.scheduledFunction = functions.pubsub.schedule("every 2 hours").onRun(() => {
   console.log("This will be run every 2 hours!");

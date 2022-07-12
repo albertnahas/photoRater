@@ -41,32 +41,31 @@ export var UploadFormContainer: FC<Props> = function (props) {
         const img = document.createElement('img');
         img.src = URL.createObjectURL(image);
 
-        nsfwjs
-            .load()
-            .then(function (model: any) {
-                // Classify the image
-                return model.classify(img);
-            })
-            .then(function (predictions: Array<nsfwjs.predictionType>) {
-                setPredictions(predictions);
-                console.log('Predictions: ', predictions);
-                if (
-                    (predictions &&
-                        predictions.find((p: nsfwjs.predictionType) => {
-                            p.className === 'Porn';
-                        })?.probability) ||
-                    0 > 0.8
-                ) {
-                    setError('The photo looks inappropriate');
-                }
-            });
+        // nsfwjs
+        //     .load()
+        //     .then(function (model: any) {
+        //         // Classify the image
+        //         return model.classify(img);
+        //     })
+        //     .then(function (predictions: Array<nsfwjs.predictionType>) {
+        //         setPredictions(predictions);
+        //         console.log('Predictions: ', predictions);
+        //         if (
+        //             (predictions &&
+        //                 predictions.find((p: nsfwjs.predictionType) => {
+        //                     p.className === 'Porn';
+        //                 })?.probability) ||
+        //             0 > 0.8
+        //         ) {
+        //             setError('The photo looks inappropriate');
+        //         }
+        //     });
         // detectFace(img.src);
     };
 
     async function detectFace(url: string) {
         setLoading(true);
         const image = await faceapi.fetchImage(url);
-        console.log(image instanceof HTMLImageElement); // true
         // displaying the fetched image content
         const myImg = document.createElement('img');
         myImg.src = image.src;
@@ -130,6 +129,7 @@ export var UploadFormContainer: FC<Props> = function (props) {
                                     imageUrl: fireBaseUrl,
                                     userId: user?.uid,
                                     showTo: showToGender,
+                                    gender: user?.gender,
                                     ageRange,
                                     expressions: expressions || [],
                                     predictions: predictions || [],

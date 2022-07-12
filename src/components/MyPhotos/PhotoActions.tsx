@@ -4,10 +4,12 @@ import SwitchToggle from '../../atoms/SwitchToggle/SwitchToggle';
 import DeleteCircleIcon from '@mui/icons-material/DeleteRounded';
 import { Photo } from '../../types/photo';
 import useUserPhotos from '../../hooks/useUserPhotos';
+import { useSelector } from 'react-redux';
+import { State } from '../../types/state';
 
 export const PhotoActions: FC<Props> = ({ photoId, active, condensed }) => {
     const { photoUtils } = useUserPhotos();
-
+    const user = useSelector((state: State) => state.user.value);
     const handleToggleChange = (checked: boolean) => {
         photoUtils.changePhotoStatus(checked, photoId || '');
     };
@@ -27,6 +29,7 @@ export const PhotoActions: FC<Props> = ({ photoId, active, condensed }) => {
                 <Grid style={{ alignSelf: 'center' }} item>
                     <SwitchToggle
                         active={active || false}
+                        disabled={(user?.points || 0) <= 0}
                         handleToggleChange={handleToggleChange}
                     />
                 </Grid>

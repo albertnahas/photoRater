@@ -2,6 +2,7 @@ import * as React from 'react';
 import clsx from 'clsx';
 import { styled } from '@mui/system';
 import { useSwitch } from '@mui/core';
+import { InputProps } from '@mui/material';
 
 const SwitchRoot = styled('span')`
     display: inline-block;
@@ -52,6 +53,12 @@ const SwitchThumb = styled('span')(
     
     &:before { background-color:${theme.palette.primary.main}; }
   }
+  &.disabled {
+    background-color: #fff;
+    &:before { background-color:${theme.palette.action.disabled}; }
+  }
+
+
 `
 );
 
@@ -68,6 +75,9 @@ const SwitchTrack = styled('span')(
 
   .checked & {
     border-color:${theme.palette.primary.main};
+  }
+  .disabled & {
+    border-color:${theme.palette.action.disabled} !important;
   }
 `
 );
@@ -91,11 +101,15 @@ const MUISwitch = function (props: any) {
     );
 };
 
-export default function SwitchToggle(props: SwitchProps) {
+export default function SwitchToggle({
+    handleToggleChange,
+    active,
+    ...props
+}: SwitchProps & InputProps) {
     const handleChange = (e: any) => {
-        props.handleToggleChange?.(e.target.checked);
+        handleToggleChange?.(e.target.checked);
     };
-    return <MUISwitch checked={props.active} onChange={handleChange} />;
+    return <MUISwitch {...props} checked={active} onChange={handleChange} />;
 }
 
 interface SwitchProps {

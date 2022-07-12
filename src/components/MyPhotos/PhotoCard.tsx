@@ -32,7 +32,7 @@ export const PhotoCard: FC<Props> = ({
     const photoRatePercentage = photo?.rate ? photo?.rate * 20 : undefined;
     return (
         <Fade in={true}>
-            <Card sx={{ maxWidth: 345 }}>
+            <Card variant="outlined" sx={{ maxWidth: 345 }}>
                 <CardActionArea onClick={onClickPhoto}>
                     <CardMedia
                         component="img"

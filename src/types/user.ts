@@ -14,4 +14,13 @@ export interface User {
     showGender?: string
     uid?: string
     messagingToken?: string
+    blocks?: string[]
+}
+
+export interface UserVote {
+    id?: string
+    rate?: number
+    comment?: string
+    chips?: string[]
+    ratedAt?: firebase.firestore.Timestamp
 }

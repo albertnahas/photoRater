@@ -209,7 +209,7 @@ export var PhotoDetails: FC<Props> = function (props) {
                     />
                 </Paper>
                 <Grid container>
-                    <Grid xs={12} item>
+                    <Grid xs={12} sx={{ mb: 1 }} item>
                         <RateProgressBar value={(photo?.rate || 0) * 20} />
                     </Grid>
                 </Grid>

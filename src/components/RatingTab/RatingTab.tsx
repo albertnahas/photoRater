@@ -9,13 +9,13 @@ import { RatingPhoto } from './RatingPhoto';
 import useRating from '../../hooks/useRating';
 
 export var RatingTab = function () {
-    const [photos, setPhotos] = useState<Photo[]>([]);
+    // const [photos, setPhotos] = useState<Photo[]>([]);
+    const { photos, hasMore, photosLoaded, loadPhotos } = usePhotos();
     const [currentPhotoIndex, setCurrentPhotoIndex] = useState<number>(-1);
     const [currentPhotoRating, setCurrentPhotoRating] = useState(0);
     const [comment, setComment] = useState<string>('');
     const [chips, setChips] = useState<string[]>([]);
 
-    const [noPhotos, setNoPhotos] = useState(false);
     const [loadingSubmit, setLoadingSubmit] = useState(false);
 
     const [showTags, setShowTags] = useState(false);
@@ -23,44 +23,39 @@ export var RatingTab = function () {
 
     const commentRef = useRef<Element>(null);
 
-    const { photosLoaded, getPhotos } = usePhotos();
     const { submitPhotoRating, flagPhotoAsInappropriate } = useRating();
-
-    useEffect(() => {
-        if (!user) {
-            return;
-        }
-        if (photosLoaded && !noPhotos) return;
-        getPhotos()
-            .then((result: { data: Photo[] }) => {
-                setPhotos(result.data);
-                if (result.data && result.data.length > 0) {
-                    setCurrentPhotoIndex(0);
-                } else {
-                    setNoPhotos(false);
-                }
-            })
-            .catch((error: any) => {
-                console.log(error);
-            });
-
-        return () => {};
-    }, [user, noPhotos]);
 
     useEffect(() => {
         setComment('');
         setChips([]);
         setCurrentPhotoRating(0);
+        if (photos.length > currentPhotoIndex + 1) {
+            const next = photos[currentPhotoIndex + 1];
+            const img = new Image();
+            img.src = next.imageUrl || '';
+        }
     }, [currentPhotoIndex]);
 
+    useEffect(() => {
+        if (!hasMore || photos.length <= currentPhotoIndex + 1) {
+            setCurrentPhotoIndex(-1);
+        } else if (currentPhotoIndex === -1) {
+            setCurrentPhotoIndex(0);
+        } else {
+            setCurrentPhotoIndex((curr) => curr + 1);
+        }
+    }, [photos]);
+
     const updateCurrentPhoto = () => {
-        if (photos.length <= currentPhotoIndex + 1) {
-            setNoPhotos(true);
+        if (hasMore && photos.length <= currentPhotoIndex + 1) {
+            loadPhotos();
+            return;
+        }
+        if (!hasMore || photos.length <= currentPhotoIndex + 1) {
             setCurrentPhotoIndex(-1);
             return;
         }
-        if (noPhotos) {
-            setNoPhotos(false);
+        if (!hasMore) {
             return;
         }
         setCurrentPhotoIndex(currentPhotoIndex + 1);
@@ -80,7 +75,6 @@ export var RatingTab = function () {
     const onRatingChange = (event: any, newValue: number | null) => {
         if (newValue === null) return;
         setCurrentPhotoRating(newValue);
-        debugger;
         commentRef.current && commentRef.current?.scrollIntoView();
     };
 
@@ -136,13 +130,13 @@ export var RatingTab = function () {
         <Box
             sx={{
                 bgcolor: 'background.paper',
-                pt: 4,
+                pt: 2,
                 pb: 6
             }}
         >
             <Container maxWidth="lg">
                 {photosLoaded && displayPhoto()}
-                {!photosLoaded && <CircularProgress />}
+                {!photosLoaded && <CircularProgress sx={{ my: 4 }} />}
             </Container>
         </Box>
     );

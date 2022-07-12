@@ -1,14 +1,16 @@
-import { ButtonGroup, IconButton, Tooltip } from '@mui/material';
+import { ButtonGroup, IconButton, Tooltip, useTheme } from '@mui/material';
 import React, { FC } from 'react';
 import EventIcon from '@mui/icons-material/Event';
 import GradeIcon from '@mui/icons-material/Grade';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import { sort } from '../../hooks/useUserPhotos';
+import { themeShadows } from '../../utils/utils';
 
 export var SortByControl: FC<Props> = function (props) {
+    const theme = useTheme();
     return (
         <ButtonGroup
-            sx={{ boxShadow: '1px 1px 10px 0px #efefef' }}
+            sx={{ boxShadow: themeShadows[3] }}
             color="secondary"
             variant="outlined"
         >
@@ -16,9 +18,12 @@ export var SortByControl: FC<Props> = function (props) {
                 <IconButton
                     aria-label="add"
                     size="large"
-                    color={
-                        props.value === 'uploadedAt' ? 'primary' : 'secondary'
-                    }
+                    sx={{
+                        color:
+                            props.value === 'uploadedAt'
+                                ? theme.palette.primary.light
+                                : theme.palette.text.disabled
+                    }}
                     onClick={() => {
                         props.onChange('uploadedAt');
                     }}
@@ -30,7 +35,12 @@ export var SortByControl: FC<Props> = function (props) {
                 <IconButton
                     aria-label="add"
                     size="large"
-                    color={props.value === 'rate' ? 'primary' : 'secondary'}
+                    sx={{
+                        color:
+                            props.value === 'rate'
+                                ? theme.palette.primary.light
+                                : theme.palette.text.disabled
+                    }}
                     onClick={() => {
                         props.onChange('rate');
                     }}
@@ -42,9 +52,12 @@ export var SortByControl: FC<Props> = function (props) {
                 <IconButton
                     aria-label="add"
                     size="large"
-                    color={
-                        props.value === 'votesCount' ? 'primary' : 'secondary'
-                    }
+                    sx={{
+                        color:
+                            props.value === 'votesCount'
+                                ? theme.palette.primary.light
+                                : theme.palette.text.disabled
+                    }}
                     onClick={() => {
                         props.onChange('votesCount');
                     }}

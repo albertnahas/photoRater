@@ -73,7 +73,6 @@ export var Profile = function () {
     const onApprove = (data: any, actions: any) => {
         // data.orderID
         const capture = actions.order.capture();
-        console.log(capture);
         updateUser({
             ...user,
             points: (user?.points || 0) + 100
