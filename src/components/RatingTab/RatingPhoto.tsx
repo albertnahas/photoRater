@@ -125,7 +125,7 @@ export const RatingPhoto: FC<Props> = ({
                         }}
                     >
                         <Typography
-                            sx={{ my: 2 }}
+                            sx={{ my: 1.5 }}
                             variant="h6"
                             color="text.secondary"
                             ref={commentRef}
@@ -194,10 +194,10 @@ export const RatingPhoto: FC<Props> = ({
                             </Button>
                         </Stack>
                         <Divider
-                            style={{
+                            sx={{
                                 width: '70%',
                                 alignSelf: 'center',
-                                margin: 16
+                                my: 1
                             }}
                             variant="middle"
                         />
@@ -216,10 +216,10 @@ export const RatingPhoto: FC<Props> = ({
                             Rate
                         </Button>
                         <Divider
-                            style={{
+                            sx={{
                                 width: '70%',
                                 alignSelf: 'center',
-                                margin: 16
+                                my: 1
                             }}
                             variant="middle"
                         />

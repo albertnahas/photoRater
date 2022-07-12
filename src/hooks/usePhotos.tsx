@@ -8,7 +8,7 @@ import _ from 'lodash';
 
 const usePhotos = () => {
     const functions = firebase.functions();
-    const photosLimit = 12;
+    const photosLimit = 15;
     const user = useSelector((state: State) => state.user.value);
     const [hasMore, setHasMore] = useState(true);
     const [photosLoaded, setPhotosLoaded] = useState(false);
@@ -21,7 +21,7 @@ const usePhotos = () => {
 
     const loadPhotos = (refresh?: boolean) => {
         return new Promise((resolve, reject) => {
-            if (!user || !votesLoaded || loading.current) {
+            if (!user || !votesLoaded) {
                 resolve(false);
                 return;
             }
@@ -33,6 +33,7 @@ const usePhotos = () => {
                     .firestore()
                     .collectionGroup(`photos`)
                     .where('active', '==', true)
+                    .where('showTo', 'in', ['both', user.gender])
                     .orderBy('id', 'desc')
                     .orderBy('gender');
 
@@ -48,6 +49,9 @@ const usePhotos = () => {
                 .get()
                 .then((querySnapshot: any) => {
                     const fetchedPhotos: Photo[] = [];
+                    if (!querySnapshot.size) {
+                        setHasMore(false);
+                    }
                     querySnapshot?.forEach((doc: any) => {
                         if (
                             doc.data().userId !== user.uid &&
@@ -55,9 +59,7 @@ const usePhotos = () => {
                                 votes.map((v) => v.id).indexOf(doc.id) ===
                                     -1) &&
                             (!user.blocks ||
-                                user.blocks.indexOf(doc.id) === -1) &&
-                            (doc.data().showTo === 'both' ||
-                                doc.data().showTo === user.gender)
+                                user.blocks.indexOf(doc.data().userId) === -1)
                         ) {
                             fetchedPhotos.push({
                                 id: doc.id,
@@ -67,8 +69,12 @@ const usePhotos = () => {
 
                         lastId.current = doc;
                     });
-                    if (!fetchedPhotos.length) {
-                        setHasMore(false);
+                    if (!fetchedPhotos.length && querySnapshot.size) {
+                        loadPhotos().then((res) => {
+                            console.log('sub resolve', res);
+                            resolve(true);
+                        });
+                        return;
                     } else {
                         setPhotos((prevPhotos) => [
                             ...prevPhotos,
