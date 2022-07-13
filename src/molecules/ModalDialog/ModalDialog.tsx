@@ -23,36 +23,89 @@ const Transition = React.forwardRef(function Transition(
 });
 
 export default function ModalDialog(props: Props) {
-    const handleClose = () => props.setOpen(false);
+    // const locaiton = useLocation();
+
+    const handleClose = () => {
+        props.setOpen?.(false);
+        props.onClose?.();
+        if (window.location.hash !== '') {
+            window.history.back();
+        }
+    };
+
+    React.useEffect(() => {
+        const onHashChange = () => {
+            if (
+                props.open &&
+                !window.location.hash
+                    .split('#')
+                    .includes(encodeURIComponent(props.title || '') || 'modal')
+            ) {
+                props.setOpen?.(false);
+            }
+        };
+        window.addEventListener('hashchange', onHashChange);
+        return () => window.removeEventListener('hashchange', onHashChange);
+    }, [props.title, props.open]);
+
+    React.useEffect(() => {
+        if (props.open) {
+            window.location.hash += `#${
+                encodeURIComponent(props.title || '') || 'modal'
+            }`;
+        }
+    }, [props.open]);
 
     return (
         <div>
             <Dialog
                 open={props.open}
                 onClose={handleClose}
+                fullWidth={true}
                 TransitionComponent={props.zoom ? Transition : undefined}
                 maxWidth={props.maxWidth || 'md'}
                 scroll={'body'}
+                aria-label={props.title}
             >
-                {/* {props.closeButton && (
+                {props.closeButton && (
                     <DialogTitle>
-                        <Box display="flex" alignItems="center">
+                        <Box
+                            sx={{ minHeight: 25 }}
+                            display="flex"
+                            alignItems="center"
+                        >
                             {props.title && (
-                                <Typography variant="h6" color="primary">
+                                <Typography
+                                    variant="h6"
+                                    sx={{
+                                        textAlign: 'center',
+                                        flexGrow: 1,
+                                        textTransform: 'capitalize',
+                                        px: 2
+                                    }}
+                                    color="primary"
+                                >
                                     {props.title}
                                 </Typography>
                             )}
-                            <Box flexGrow={1}></Box>
-                            <Box>
-                                <IconButton onClick={handleClose}>
+                            <Box></Box>
+                            <Box sx={{ position: 'absolute', right: 15 }}>
+                                <IconButton
+                                    aria-label="dialog close"
+                                    onClick={handleClose}
+                                >
                                     <CloseIcon />
                                 </IconButton>
                             </Box>
                         </Box>
                     </DialogTitle>
-                )} */}
+                )}
 
-                <DialogContent dividers={true}>
+                <DialogContent
+                    id="sss"
+                    aria-label={props.title}
+                    dividers={true}
+                >
                     {React.cloneElement(props.children, {
                         setOpen: props.setOpen
                     })}
@@ -66,7 +119,8 @@ export default function ModalDialog(props: Props) {
 }
 
 interface Props {
-    setOpen: (open: boolean) => any;
+    setOpen?: (open: boolean) => any;
+    onClose?: () => any;
     open: boolean;
     maxWidth?: Breakpoint;
     closeButton?: boolean;

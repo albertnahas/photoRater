@@ -4,6 +4,15 @@ const functions = require("firebase-functions");
 const cors = require("cors")({ origin: true });
 // The Firebase Admin SDK to access Firestore.
 const admin = require("firebase-admin");
+
+// implements nodejs wrappers for HTMLCanvasElement, HTMLImageElement, ImageData
+const canvas = require("canvas");
+const faceapi = require("face-api.js");
+var fetch = require("node-fetch");
+
+const { Canvas, Image, ImageData } = canvas;
+faceapi.env.monkeyPatch({ Canvas, Image, ImageData, fetch });
+
 admin.initializeApp();
 
 const pointsForVote = 2;
@@ -240,8 +249,8 @@ exports.photoRemoved = functions.firestore.document("/users/{userId}/photos/{pho
         });
         return batch.commit();
       });
-    admin.storage().bucket().file(`images/${userId}/${photoObj.imageName}`).delete();
     try {
+      admin.storage().bucket().file(`images/${userId}/${photoObj.imageName}`).delete();
       admin.storage().bucket().file(`images/${userId}/resized/${getResizedName(photoObj.imageName)}`).delete();
     } catch (error) {
       functions.logger.log(error);
@@ -254,6 +263,7 @@ exports.photoCreated = functions.firestore.document("/users/{userId}/photos/{pho
   .onCreate(async (snap, context) => {
     const photoId = context.params.photoId;
     snap.ref.set({ id: photoId }, { merge: true });
+    detectPhoto(snap)
     return true;
   });
 
@@ -367,5 +377,41 @@ exports.scheduledFunctionRate = functions.pubsub.schedule("every 20 hours").onRu
 
   return null;
 });
+
+const detectPhoto = async (photoDoc) => {
+  try {
+    functions.logger.log("detecting", photoDoc.id);
+    await faceapi.nets.ssdMobilenetv1.loadFromUri("https://photoraterapp.com/models");
+    await faceapi.nets.faceExpressionNet.loadFromUri("https://photoraterapp.com/models");
+    functions.logger.log("models loaded", photoDoc.id);
+    const img = await canvas.loadImage(photoDoc.data().imageUrl);
+    const detection = await faceapi
+      .detectSingleFace(img)
+      .withFaceExpressions()
+    console.log("detected");
+    if (detection) {
+      const detectionArray = detection.expressions.asSortedArray()
+      const box = detection.detection.box
+      const dims = detection.detection.imageDims
+
+      photoDoc.ref.set(
+        {
+          expressions: detectionArray,
+          box,
+          dims
+        }, { merge: true });
+    } else {
+      photoDoc.ref.set(
+        {
+          error: "No face detected",
+          active: false,
+        }, { merge: true });
+    }
+
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+};
 
 // exports.generateThumbnail = generateThumbnail.generateThumbnail;

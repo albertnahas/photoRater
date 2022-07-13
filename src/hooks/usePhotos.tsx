@@ -33,7 +33,9 @@ const usePhotos = () => {
                     .firestore()
                     .collectionGroup(`photos`)
                     .where('active', '==', true)
+                    .where('userId', '!=', user.uid)
                     .where('showTo', 'in', ['both', user.gender])
+                    .orderBy('userId')
                     .orderBy('id', 'desc')
                     .orderBy('gender');
 
@@ -54,7 +56,6 @@ const usePhotos = () => {
                     }
                     querySnapshot?.forEach((doc: any) => {
                         if (
-                            doc.data().userId !== user.uid &&
                             (!votes ||
                                 votes.map((v) => v.id).indexOf(doc.id) ===
                                     -1) &&

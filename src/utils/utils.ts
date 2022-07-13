@@ -1,4 +1,8 @@
 import _ from "lodash"
+import { Photo } from "../types/photo";
+import firebase from '../config';
+
+const storage = firebase.storage()
 
 export const tags: string[] = [
     'amiable',
@@ -72,6 +76,13 @@ export const reportReasons = [
     "Illegal content",
     "Off-topic",
 ]
+
+export const getResizedImageUrl = async (photo?: Photo) => {
+    return await storage.ref('images/' + photo?.userId + '/resized/' + photo?.resizedImageName).getDownloadURL()
+};
+export const getImageUrl = async (photo?: Photo) => {
+    return await storage.ref('images/' + photo?.userId + '/' + photo?.imageName).getDownloadURL()
+};
 
 export const showGenderLabel = (gender?: string) => {
     if (gender === 'male') return 'males';

@@ -8,7 +8,7 @@ import { UploadForm } from './UploadForm';
 import * as nsfwjs from './nsfwjs';
 // import nodejs bindings to native tensorflow,
 // not required, but will speed up things drastically (python required)
-import '@tensorflow/tfjs';
+import * as tf from '@tensorflow/tfjs';
 import * as faceapi from 'face-api.js';
 import { FaceExpressions } from 'face-api.js';
 
@@ -40,7 +40,6 @@ export var UploadFormContainer: FC<Props> = function (props) {
         setImageAsUrl({ imgUrl: URL.createObjectURL(image) });
         const img = document.createElement('img');
         img.src = URL.createObjectURL(image);
-
         // nsfwjs
         //     .load()
         //     .then(function (model: any) {

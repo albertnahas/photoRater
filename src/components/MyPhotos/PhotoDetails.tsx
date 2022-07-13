@@ -1,5 +1,6 @@
 import {
     Chip,
+    Container,
     Divider,
     Grid,
     List,
@@ -21,6 +22,7 @@ import firebase from '../../config';
 import { State } from '../../types/state';
 import SwitchToggle from '../../atoms/SwitchToggle/SwitchToggle';
 import useUserPhotos from '../../hooks/useUserPhotos';
+import { UserPhoto } from '../RatingTab/UserPhoto';
 
 export var PhotoDetails: FC<Props> = function (props) {
     const [votes, setVotes] = useState<any[]>([]);
@@ -191,114 +193,108 @@ export var PhotoDetails: FC<Props> = function (props) {
         );
 
     return (
-        <Grid sx={{ pt: 2 }} container>
-            <Grid md={4} sx={{ pl: { xs: 0, md: 1 } }} item>
-                <Paper
-                    elevation={0}
-                    sx={{
-                        borderRadius: 2,
-                        overflow: 'hidden',
-                        mb: 2,
-                        minHeight: '200px'
-                    }}
-                >
-                    <img
-                        style={{ width: '100%', marginBottom: -4 }}
-                        src={photo?.imageUrl}
-                        alt={photo?.imageName}
-                    />
-                </Paper>
-                <Grid container>
-                    <Grid xs={12} sx={{ mb: 1 }} item>
+        <Container>
+            <Grid sx={{ pt: 2 }} container>
+                <Grid md={4} xs={12} sx={{ pl: { xs: 0, md: 1 } }} item>
+                    <Box sx={{ width: '100%', minWidth: 100 }}>
+                        <UserPhoto photo={photo} />
+                    </Box>
+                    <Box sx={{ mt: 2 }}>
                         <RateProgressBar value={(photo?.rate || 0) * 20} />
-                    </Grid>
+                    </Box>
                 </Grid>
-            </Grid>
-            <Grid md={8} sx={{ pl: { xs: 0, md: 2 } }} item>
-                {photo?.rate ? (
-                    <Typography
-                        sx={{ mb: 1, mt: { xs: 1, md: 0 } }}
-                        variant="h6"
-                        color={theme.palette.primary.main}
-                    >
-                        {`Score: ${(photo?.rate || 0) * 2}/10`}{' '}
-                    </Typography>
-                ) : (
-                    <Typography
-                        sx={{ mb: 1 }}
-                        variant="h6"
-                        color={theme.palette.primary.main}
-                    >
-                        No votes yet{' '}
-                    </Typography>
-                )}
-
-                {chips.length > 0 && (
-                    <>
+                <Grid md={8} xs={12} sx={{ pl: { xs: 0, md: 2 } }} item>
+                    {photo?.rate ? (
                         <Typography
-                            variant="body2"
+                            sx={{ mb: 1, mt: { xs: 1, md: 0 } }}
+                            variant="h6"
                             color={theme.palette.primary.main}
                         >
-                            Impressions{' '}
+                            {`Score: ${(photo?.rate || 0) * 2}/10`}{' '}
                         </Typography>
-                        <Box sx={{ mt: 1, mb: 1 }}>{displayImpressions()}</Box>
-                        <Divider sx={{ m: 1 }} variant="middle" />
-                    </>
-                )}
-                <Grid container>
-                    {comments.length > 0 && (
-                        <Grid md={7} xs={12} item>
-                            <Box>
-                                <Typography
-                                    variant="body2"
-                                    color={theme.palette.primary.main}
-                                >
-                                    Comments{' '}
-                                </Typography>
-                                {displayComments()}
-                            </Box>
-                        </Grid>
+                    ) : (
+                        <Typography
+                            sx={{ mb: 1 }}
+                            variant="h6"
+                            color={theme.palette.primary.main}
+                        >
+                            No votes yet{' '}
+                        </Typography>
                     )}
 
-                    {votes.length > 1 && Object.entries(overview).length > 1 && (
-                        <Grid md={5} xs={12} item>
-                            <Box>
-                                <Typography
-                                    variant="body2"
-                                    color={theme.palette.primary.main}
-                                >
-                                    Overview ({votes.length}{' '}
-                                    {votes.length === 1 ? 'vote' : 'votes'})
-                                </Typography>
-
-                                {displayOverview()}
+                    {chips.length > 0 && (
+                        <>
+                            <Typography
+                                variant="body2"
+                                color={theme.palette.primary.main}
+                            >
+                                Impressions{' '}
+                            </Typography>
+                            <Box sx={{ mt: 1, mb: 1 }}>
+                                {displayImpressions()}
                             </Box>
-                        </Grid>
+                            <Divider sx={{ m: 1 }} variant="middle" />
+                        </>
+                    )}
+                    <Grid container>
+                        {comments.length > 0 && (
+                            <Grid md={7} xs={12} item>
+                                <Box>
+                                    <Typography
+                                        variant="body2"
+                                        color={theme.palette.primary.main}
+                                    >
+                                        Comments{' '}
+                                    </Typography>
+                                    {displayComments()}
+                                </Box>
+                            </Grid>
+                        )}
+
+                        {votes.length > 1 &&
+                            Object.entries(overview).length > 1 && (
+                                <Grid md={5} xs={12} item>
+                                    <Box>
+                                        <Typography
+                                            variant="body2"
+                                            color={theme.palette.primary.main}
+                                        >
+                                            Overview ({votes.length}{' '}
+                                            {votes.length === 1
+                                                ? 'vote'
+                                                : 'votes'}
+                                            )
+                                        </Typography>
+
+                                        {displayOverview()}
+                                    </Box>
+                                </Grid>
+                            )}
+                    </Grid>
+
+                    {photo?.ageRange && photo?.ageRange.length === 2 && (
+                        <Typography
+                            sx={{ mt: 2, fontSize: 12 }}
+                            variant="body2"
+                            color={theme.palette.text.secondary}
+                        >
+                            Voters age range: {photo?.ageRange[0]} -{' '}
+                            {photo?.ageRange[1]}{' '}
+                        </Typography>
+                    )}
+                    {photo?.updatedAt && (
+                        <Typography
+                            sx={{ mt: 1, fontSize: 12 }}
+                            variant="body2"
+                            color={theme.palette.text.secondary}
+                        >
+                            Last update:{' '}
+                            {photo?.updatedAt.toDate().toLocaleString()}{' '}
+                        </Typography>
                     )}
                 </Grid>
-
-                {photo?.ageRange && photo?.ageRange.length === 2 && (
-                    <Typography
-                        sx={{ mt: 2, fontSize: 12 }}
-                        variant="body2"
-                        color={theme.palette.text.secondary}
-                    >
-                        Voters age range: {photo?.ageRange[0]} -{' '}
-                        {photo?.ageRange[1]}{' '}
-                    </Typography>
-                )}
-                {photo?.updatedAt && (
-                    <Typography
-                        sx={{ mt: 1, fontSize: 12 }}
-                        variant="body2"
-                        color={theme.palette.text.secondary}
-                    >
-                        Last update:{' '}
-                        {photo?.updatedAt.toDate().toLocaleString()}{' '}
-                    </Typography>
-                )}
             </Grid>
-        </Grid>
+        </Container>
     );
 };
 

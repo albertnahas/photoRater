@@ -12,7 +12,7 @@ import {
     Fade
 } from '@mui/material';
 import { Box, useTheme } from '@mui/system';
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import RateProgressBar, {
     getRatingColor
 } from '../../atoms/RateProgressBar/RateProgressBar';
@@ -20,6 +20,7 @@ import { userPlaceholderPhoto } from '../../utils/constants';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Photo } from '../../types/photo';
 import { PhotoActions } from './PhotoActions';
+import { getResizedImageUrl } from '../../utils/utils';
 
 export const PhotoCard: FC<Props> = ({
     photo,
@@ -30,6 +31,22 @@ export const PhotoCard: FC<Props> = ({
 }) => {
     const theme = useTheme();
     const photoRatePercentage = photo?.rate ? photo?.rate * 20 : undefined;
+    const [currentPhotoUrl, setCurrentPhotoUrl] = useState();
+    const [imageLoaded, setImageLoaded] = useState(false);
+    const [imageLoadingError, setImageLoadingError] = useState(false);
+
+    const handleImageLoaded = () => {
+        setImageLoaded(true);
+    };
+    const handleImageError = (error: any) => {
+        setImageLoadingError(true);
+    };
+
+    useEffect(() => {
+        photo &&
+            getResizedImageUrl(photo).then((url) => setCurrentPhotoUrl(url));
+    }, [photo?.imageName]);
+
     return (
         <Fade in={true}>
             <Card variant="outlined" sx={{ maxWidth: 345 }}>
@@ -37,7 +54,13 @@ export const PhotoCard: FC<Props> = ({
                     <CardMedia
                         component="img"
                         height={view !== 'two-col' ? 300 : 200}
-                        image={photo ? photo.imageUrl : userPlaceholderPhoto}
+                        image={photo ? currentPhotoUrl : userPlaceholderPhoto}
+                        sx={{
+                            opacity: imageLoaded ? 1 : 0,
+                            transition: '250ms opacity'
+                        }}
+                        onLoad={handleImageLoaded}
+                        onError={handleImageError}
                         alt={photo ? photo.imageName : 'add'}
                     />
                     {photo && (

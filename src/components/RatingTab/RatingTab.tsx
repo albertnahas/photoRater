@@ -7,6 +7,7 @@ import { Photo } from '../../types/photo';
 import usePhotos from '../../hooks/usePhotos';
 import { RatingPhoto } from './RatingPhoto';
 import useRating from '../../hooks/useRating';
+import { getResizedImageUrl } from '../../utils/utils';
 
 export var RatingTab = function () {
     // const [photos, setPhotos] = useState<Photo[]>([]);
@@ -29,10 +30,11 @@ export var RatingTab = function () {
         setComment('');
         setChips([]);
         setCurrentPhotoRating(0);
+        setLoadingSubmit(false);
         if (photos.length > currentPhotoIndex + 1) {
             const next = photos[currentPhotoIndex + 1];
             const img = new Image();
-            img.src = next.imageUrl || '';
+            getResizedImageUrl(next).then((url) => (img.src = url));
         }
     }, [currentPhotoIndex]);
 
@@ -46,7 +48,8 @@ export var RatingTab = function () {
         }
     }, [photos]);
 
-    const updateCurrentPhoto = () => {
+    const updateCurrentPhoto = (loader?: boolean) => {
+        loader && setLoadingSubmit(true);
         if (hasMore && photos.length <= currentPhotoIndex + 1) {
             loadPhotos();
             return;
@@ -94,6 +97,7 @@ export var RatingTab = function () {
     };
 
     const submitRating = (photo?: Photo) => {
+        setLoadingSubmit(true);
         submitPhotoRating(photo, currentPhotoRating, comment, chips)?.then(
             () => {
                 updateCurrentPhoto();
@@ -122,6 +126,7 @@ export var RatingTab = function () {
                 updateCurrentPhoto={updateCurrentPhoto}
                 flagAsInappropriate={flagAsInappropriate}
                 commentRef={commentRef}
+                loadingSubmit={loadingSubmit}
             />
         );
     };

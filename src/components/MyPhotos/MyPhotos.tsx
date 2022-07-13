@@ -158,6 +158,7 @@ export var MyPhotos = function () {
                 closeButton={true}
                 open={openPhotoDialog}
                 setOpen={setOpenPhotoDialog}
+                maxWidth="md"
                 actions={
                     <PhotoActions
                         photoId={selectedPhoto?.id}
