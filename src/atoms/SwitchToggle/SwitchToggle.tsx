@@ -1,30 +1,30 @@
-import * as React from 'react';
-import clsx from 'clsx';
-import { styled } from '@mui/system';
-import { useSwitch } from '@mui/core';
-import { InputProps } from '@mui/material';
+import * as React from 'react'
+import clsx from 'clsx'
+import { styled } from '@mui/system'
+import { useSwitch } from '@mui/core'
+import { InputProps } from '@mui/material'
 
 const SwitchRoot = styled('span')`
-    display: inline-block;
-    position: relative;
-    width: 34px;
-    height: 16px;
-`;
+  display: inline-block;
+  position: relative;
+  width: 34px;
+  height: 16px;
+`
 
 const SwitchInput = styled('input')`
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    z-index: 1;
-    margin: 0;
-    cursor: pointer;
-`;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: 1;
+  margin: 0;
+  cursor: pointer;
+`
 
 const SwitchThumb = styled('span')(
-    ({ theme }) => `
+  ({ theme }) => `
   position: absolute;
   display: block;
   background-color: ${theme.palette.mode === 'dark' ? '#003892' : '#001e3c'};
@@ -60,10 +60,10 @@ const SwitchThumb = styled('span')(
 
 
 `
-);
+)
 
 const SwitchTrack = styled('span')(
-    ({ theme }) => `
+  ({ theme }) => `
   background-color: ${theme.palette.mode === 'dark' ? '#8796A5' : '#fff'};
   border-color: ${theme.palette.mode === 'dark' ? '#8796A5' : '#666'};
   border-style: solid;
@@ -80,39 +80,39 @@ const SwitchTrack = styled('span')(
     border-color:${theme.palette.action.disabled} !important;
   }
 `
-);
+)
 
 const MUISwitch = function (props: any) {
-    const { getInputProps, checked, disabled, focusVisible } = useSwitch(props);
+  const { getInputProps, checked, disabled, focusVisible } = useSwitch(props)
 
-    const stateClasses = {
-        checked,
-        disabled,
-        focusVisible
-    };
+  const stateClasses = {
+    checked,
+    disabled,
+    focusVisible
+  }
 
-    return (
-        <SwitchRoot className={clsx(stateClasses)}>
-            <SwitchTrack>
-                <SwitchThumb className={clsx(stateClasses)} />
-            </SwitchTrack>
-            <SwitchInput {...getInputProps()} aria-label="Demo switch" />
-        </SwitchRoot>
-    );
-};
+  return (
+    <SwitchRoot className={clsx(stateClasses)}>
+      <SwitchTrack>
+        <SwitchThumb className={clsx(stateClasses)} />
+      </SwitchTrack>
+      <SwitchInput {...getInputProps()} aria-label="Demo switch" />
+    </SwitchRoot>
+  )
+}
 
 export default function SwitchToggle({
-    handleToggleChange,
-    active,
-    ...props
+  handleToggleChange,
+  active,
+  ...props
 }: SwitchProps & InputProps) {
-    const handleChange = (e: any) => {
-        handleToggleChange?.(e.target.checked);
-    };
-    return <MUISwitch {...props} checked={active} onChange={handleChange} />;
+  const handleChange = (e: any) => {
+    handleToggleChange?.(e.target.checked)
+  }
+  return <MUISwitch {...props} checked={active} onChange={handleChange} />
 }
 
 interface SwitchProps {
-    handleToggleChange?: (checked: boolean) => void;
-    active: boolean;
+  handleToggleChange?: (checked: boolean) => void
+  active: boolean
 }

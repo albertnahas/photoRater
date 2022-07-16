@@ -1,22 +1,9 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import firebase from '../config';
-import { State } from '../types/state';
-import { User } from '../types/user';
+import firebase from '../config'
 
 export const useAnalytics = () => {
-    const user = useSelector((state: State) => state.user.value);
+  const logEvent = (eventName: string, data?: any) => {
+    firebase.analytics().logEvent(eventName, data)
+  }
 
-    const submitRecord = (type?: string, description?: string) => {
-        // return firebase
-        //     .firestore()
-        //     .collection('analytics')
-        //     .add({
-        //         type: type || '',
-        //         description: description || '',
-        //         user: user?.uid || null
-        //     });
-    };
-
-    return { submitRecord };
-};
+  return { logEvent }
+}
