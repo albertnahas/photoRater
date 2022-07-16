@@ -1,16 +1,16 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { SnackbarState, State } from "../types/state"
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { SnackbarState, State } from '../types/state'
 
 const initialState: SnackbarState = {
   open: false,
-  message: "",
-  type: "success",
-  duration: 1000,
+  message: '',
+  type: 'success',
+  duration: 1000
 }
 
 export const snackbarSlice = createSlice({
-  name: "snackbar",
+  name: 'snackbar',
   initialState,
   reducers: {
     setSnackbar: (
@@ -22,8 +22,8 @@ export const snackbarSlice = createSlice({
       state.open = action.payload.open
       state.duration = action.payload.duration || initialState.duration
       state.cta = action.payload.cta
-    },
-  },
+    }
+  }
 })
 export const snackbarSelector = (state: State) => state.snackbar
 

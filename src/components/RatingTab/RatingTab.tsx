@@ -1,17 +1,17 @@
-import React, { useEffect, useRef, useState } from "react"
-import { Container, Box, CircularProgress } from "@mui/material"
-import { Photo } from "../../types/photo"
-import usePhotos from "../../hooks/usePhotos"
-import { RatingPhoto } from "./RatingPhoto"
-import useRating from "../../hooks/useRating"
-import { getResizedImageUrl } from "../../utils/utils"
+import React, { useEffect, useRef, useState } from 'react'
+import { Container, Box, CircularProgress } from '@mui/material'
+import { Photo } from '../../types/photo'
+import usePhotos from '../../hooks/usePhotos'
+import { RatingPhoto } from './RatingPhoto'
+import useRating from '../../hooks/useRating'
+import { getResizedImageUrl } from '../../utils/utils'
 
 export var RatingTab = function () {
   // const [photos, setPhotos] = useState<Photo[]>([]);
   const { photos, hasMore, photosLoaded, loadPhotos } = usePhotos()
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState<number>(-1)
   const [currentPhotoRating, setCurrentPhotoRating] = useState(0)
-  const [comment, setComment] = useState<string>("")
+  const [comment, setComment] = useState<string>('')
   const [chips, setChips] = useState<string[]>([])
 
   const [loadingSubmit, setLoadingSubmit] = useState(false)
@@ -23,7 +23,7 @@ export var RatingTab = function () {
   const { submitPhotoRating, flagPhotoAsInappropriate } = useRating()
 
   useEffect(() => {
-    setComment("")
+    setComment('')
     setChips([])
     setCurrentPhotoRating(0)
     setLoadingSubmit(false)
@@ -32,7 +32,6 @@ export var RatingTab = function () {
       const img = new Image()
       getResizedImageUrl(next).then((url) => (img.src = url))
     }
-    
   }, [currentPhotoIndex])
 
   useEffect(() => {
@@ -43,7 +42,6 @@ export var RatingTab = function () {
     } else {
       setCurrentPhotoIndex((curr) => curr + 1)
     }
-    
   }, [photos])
 
   const updateCurrentPhoto = (loader?: boolean) => {
@@ -63,7 +61,7 @@ export var RatingTab = function () {
     window.document.body.scrollTo({
       top: 0,
       left: 0,
-      behavior: "smooth",
+      behavior: 'smooth'
     })
   }
 
@@ -126,9 +124,9 @@ export var RatingTab = function () {
   return (
     <Box
       sx={{
-        bgcolor: "background.paper",
+        bgcolor: 'background.paper',
         pt: 2,
-        pb: 6,
+        pb: 6
       }}
     >
       <Container maxWidth="lg">

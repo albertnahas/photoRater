@@ -1,7 +1,7 @@
-import React, { FC } from "react"
-import { useState } from "react"
-import { useFormik } from "formik"
-import * as Yup from "yup"
+import React, { FC } from 'react'
+import { useState } from 'react'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
 
 import {
   Alert,
@@ -21,15 +21,15 @@ import {
   Stack,
   TextField,
   Tooltip,
-  Typography,
-} from "@mui/material"
-import EditIcon from "@mui/icons-material/Edit"
-import { useTheme } from "@mui/system"
-import firebase from "../../config"
-import { showGenderLabel } from "../../utils/utils"
-import { SelectGender } from "../../atoms/SelectGender/SelectGender"
-import { User } from "../../types/user"
-import { useUser } from "../../hooks/useUser"
+  Typography
+} from '@mui/material'
+import EditIcon from '@mui/icons-material/Edit'
+import { useTheme } from '@mui/system'
+import firebase from '../../config'
+import { showGenderLabel } from '../../utils/utils'
+import { SelectGender } from '../../atoms/SelectGender/SelectGender'
+import { User } from '../../types/user'
+import { useUser } from '../../hooks/useUser'
 
 export var AccountProfileDetails: FC<Props> = function (props) {
   const [sucess, setSucess] = useState(false)
@@ -42,28 +42,28 @@ export var AccountProfileDetails: FC<Props> = function (props) {
     initialValues: {
       age: props.user?.age,
       gender: props.user?.gender,
-      showGender: props.user?.showGender,
+      showGender: props.user?.showGender
     },
     validationSchema: Yup.object({
-      age: Yup.number().max(90).min(16).required("Age is required"),
-      gender: Yup.string().required("Gender is required"),
-      showGender: Yup.string().required("Show gender is required"),
+      age: Yup.number().max(90).min(16).required('Age is required'),
+      gender: Yup.string().required('Gender is required'),
+      showGender: Yup.string().required('Show gender is required')
     }),
     onSubmit: (values, { resetForm, setErrors, setSubmitting }) => {
       updateUser({
         uid: props.user?.uid,
         age: values.age,
         gender: values.gender,
-        showGender: values.showGender,
+        showGender: values.showGender
       }).then(() => {
         setSucess(true)
         props.setEditMode(false)
       })
-    },
+    }
   })
 
   const handleClose = (event: any, reason: string) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return
     }
     setSucess(false)
@@ -126,9 +126,9 @@ export var AccountProfileDetails: FC<Props> = function (props) {
 
         <Box
           sx={{
-            display: "flex",
-            justifyContent: "center",
-            p: 2,
+            display: 'flex',
+            justifyContent: 'center',
+            p: 2
           }}
         >
           <Button color="primary" variant="outlined" type="submit">
@@ -137,7 +137,7 @@ export var AccountProfileDetails: FC<Props> = function (props) {
         </Box>
       </Card>
       <Snackbar open={sucess} autoHideDuration={2000} onClose={handleClose}>
-        <Alert severity="success" sx={{ width: "100%" }}>
+        <Alert severity="success" sx={{ width: '100%' }}>
           Profile has been saved!
         </Alert>
       </Snackbar>
@@ -147,7 +147,7 @@ export var AccountProfileDetails: FC<Props> = function (props) {
       <CardContent>
         <Stack
           direction="row"
-          sx={{ justifyContent: "center", alignItems: "center" }}
+          sx={{ justifyContent: 'center', alignItems: 'center' }}
           spacing={2}
         >
           <Box>

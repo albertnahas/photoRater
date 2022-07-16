@@ -1,14 +1,14 @@
 // import gifFrames, { GifFrameBuffer, GifFrameCanvas } from "@nsfw-filter/gif-frames";
-import * as tf from "@tensorflow/tfjs"
+import * as tf from '@tensorflow/tfjs'
 
 export const NSFW_CLASSES: {
-  [classId: number]: "Drawing" | "Hentai" | "Neutral" | "Porn" | "Sexy"
+  [classId: number]: 'Drawing' | 'Hentai' | 'Neutral' | 'Porn' | 'Sexy'
 } = {
-  0: "Drawing",
-  1: "Hentai",
-  2: "Neutral",
-  3: "Porn",
-  4: "Sexy",
+  0: 'Drawing',
+  1: 'Hentai',
+  2: 'Neutral',
+  3: 'Porn',
+  4: 'Sexy'
 }
 
 export type frameResult = {
@@ -36,7 +36,7 @@ export type predictionType = {
 
 const BASE_PATH =
   // OLD S3 "https://s3.amazonaws.com/ir_public/nsfwjscdn/TFJS_nsfw_mobilenet/tfjs_quant_nsfw_mobilenet/";
-  "https://d1zv2aa70wpiur.cloudfront.net/tfjs_quant_nsfw_mobilenet/"
+  'https://d1zv2aa70wpiur.cloudfront.net/tfjs_quant_nsfw_mobilenet/'
 const IMAGE_SIZE = 224 // default to Mobilenet v2
 
 export async function load(base = BASE_PATH, options = { size: IMAGE_SIZE }) {
@@ -74,11 +74,11 @@ export class NSFWJS {
     this.normalizationOffset = tf.scalar(255)
 
     if (
-      typeof modelPathBaseOrIOHandler === "string" &&
-      !modelPathBaseOrIOHandler.startsWith("indexeddb://") &&
-      !modelPathBaseOrIOHandler.startsWith("localstorage://")
+      typeof modelPathBaseOrIOHandler === 'string' &&
+      !modelPathBaseOrIOHandler.startsWith('indexeddb://') &&
+      !modelPathBaseOrIOHandler.startsWith('localstorage://')
     ) {
-      if (modelPathBaseOrIOHandler.endsWith("model.json")) {
+      if (modelPathBaseOrIOHandler.endsWith('model.json')) {
         this.pathOrIOHandler = modelPathBaseOrIOHandler
       } else {
         this.pathOrIOHandler = `${modelPathBaseOrIOHandler}model.json`
@@ -90,7 +90,7 @@ export class NSFWJS {
 
   async load() {
     const { size, type } = this.options
-    if (type === "graph") {
+    if (type === 'graph') {
       this.model = await tf.loadGraphModel(this.pathOrIOHandler)
     } else {
       // this is a Layers Model
@@ -162,7 +162,7 @@ export class NSFWJS {
         model = this.model
       } else {
         if (
-          this.model?.hasOwnProperty("layers") &&
+          this.model?.hasOwnProperty('layers') &&
           this.intermediateModels[endpoint] == null
         ) {
           // @ts-ignore
@@ -170,7 +170,7 @@ export class NSFWJS {
           this.intermediateModels[endpoint] = tf.model({
             // @ts-ignore
             inputs: this.model.inputs,
-            outputs: layer.output,
+            outputs: layer.output
           })
         }
         model = this.intermediateModels[endpoint]
@@ -293,7 +293,7 @@ async function getTopKClasses(
   for (let i = 0; i < topkIndices.length; i++) {
     topClassesAndProbs.push({
       className: NSFW_CLASSES[topkIndices[i]],
-      probability: topkValues[i],
+      probability: topkValues[i]
     })
   }
   return topClassesAndProbs

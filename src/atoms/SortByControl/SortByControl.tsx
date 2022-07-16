@@ -1,10 +1,10 @@
-import { ButtonGroup, IconButton, Tooltip, useTheme } from "@mui/material"
-import React, { FC } from "react"
-import EventIcon from "@mui/icons-material/Event"
-import GradeIcon from "@mui/icons-material/Grade"
-import GroupAddIcon from "@mui/icons-material/GroupAdd"
-import { sort } from "../../hooks/useUserPhotos"
-import { themeShadows } from "../../utils/utils"
+import { ButtonGroup, IconButton, Tooltip, useTheme } from '@mui/material'
+import React, { FC } from 'react'
+import EventIcon from '@mui/icons-material/Event'
+import GradeIcon from '@mui/icons-material/Grade'
+import GroupAddIcon from '@mui/icons-material/GroupAdd'
+import { sort } from '../../hooks/useUserPhotos'
+import { themeShadows } from '../../utils/utils'
 
 export var SortByControl: FC<Props> = function (props) {
   const theme = useTheme()
@@ -20,12 +20,12 @@ export var SortByControl: FC<Props> = function (props) {
           size="large"
           sx={{
             color:
-              props.value === "uploadedAt"
+              props.value === 'uploadedAt'
                 ? theme.palette.primary.light
-                : theme.palette.text.disabled,
+                : theme.palette.text.disabled
           }}
           onClick={() => {
-            props.onChange("uploadedAt")
+            props.onChange('uploadedAt')
           }}
         >
           <EventIcon />
@@ -37,12 +37,12 @@ export var SortByControl: FC<Props> = function (props) {
           size="large"
           sx={{
             color:
-              props.value === "rate"
+              props.value === 'rate'
                 ? theme.palette.primary.light
-                : theme.palette.text.disabled,
+                : theme.palette.text.disabled
           }}
           onClick={() => {
-            props.onChange("rate")
+            props.onChange('rate')
           }}
         >
           <GradeIcon />
@@ -54,12 +54,12 @@ export var SortByControl: FC<Props> = function (props) {
           size="large"
           sx={{
             color:
-              props.value === "votesCount"
+              props.value === 'votesCount'
                 ? theme.palette.primary.light
-                : theme.palette.text.disabled,
+                : theme.palette.text.disabled
           }}
           onClick={() => {
-            props.onChange("votesCount")
+            props.onChange('votesCount')
           }}
         >
           <GroupAddIcon />

@@ -1,14 +1,14 @@
-import React, { FC, useState } from "react"
-import { Tabs } from "../Tabs/Tabs"
-import { useSelector } from "react-redux"
-import { State } from "../../types/state"
-import { RegisterStep2 } from "../Auth/Register/RegisterStep2"
-import ModalDialog from "../../molecules/ModalDialog/ModalDialog"
-import { Landing } from "../Landing/Landing"
-import { OnBoarding } from "../OnBoarding/OnBoarding"
-import { useUser } from "../../hooks/useUser"
-import { useNavigate } from "react-router-dom"
-import { MyPhotos } from "../MyPhotos/MyPhotos"
+import React, { FC, useState } from 'react'
+import { Tabs } from '../Tabs/Tabs'
+import { useSelector } from 'react-redux'
+import { State } from '../../types/state'
+import { RegisterStep2 } from '../Auth/Register/RegisterStep2'
+import ModalDialog from '../../molecules/ModalDialog/ModalDialog'
+import { Landing } from '../Landing/Landing'
+import { OnBoarding } from '../OnBoarding/OnBoarding'
+import { useUser } from '../../hooks/useUser'
+import { useNavigate } from 'react-router-dom'
+import { MyPhotos } from '../MyPhotos/MyPhotos'
 
 export const Home: FC<Props> = function () {
   const [onBoarding, setOnBoarding] = useState(true)
@@ -40,7 +40,7 @@ export const Home: FC<Props> = function () {
       <RegisterStep2 uid={user?.uid} />
     )
   ) : (
-    <Landing login={() => navigate("/login")} />
+    <Landing login={() => navigate('/login')} />
   )
 }
 

@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
-import { State } from "../types/state"
-import firebase from "../config"
-import { Photo } from "../types/photo"
-import { useConfirm } from "material-ui-confirm"
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { State } from '../types/state'
+import firebase from '../config'
+import { Photo } from '../types/photo'
+import { useConfirm } from 'material-ui-confirm'
 
-export type sort = "uploadedAt" | "rate" | "votesCount"
+export type sort = 'uploadedAt' | 'rate' | 'votesCount'
 
 const useUserPhotos = () => {
   const user = useSelector((state: State) => state.user.value)
   const [photosLoaded, setPhotosLoaded] = useState(false)
   const [photos, setPhotos] = useState<PhotoState[]>([])
-  const [sortBy, setSortBy] = useState<sort>("uploadedAt")
+  const [sortBy, setSortBy] = useState<sort>('uploadedAt')
 
   const confirm = useConfirm()
 
@@ -22,7 +22,7 @@ const useUserPhotos = () => {
     const photosUnsubscribe = firebase
       .firestore()
       .collection(`users/${user.uid}/photos`)
-      .orderBy(sortBy, "desc")
+      .orderBy(sortBy, 'desc')
       .onSnapshot((querySnapshot: any) => {
         const userPhotos: PhotoState[] = []
         querySnapshot.forEach((doc: PhotoState) => {
@@ -30,8 +30,8 @@ const useUserPhotos = () => {
         })
         setPhotos(userPhotos)
         setPhotosLoaded(true)
-        firebase.firestore().collection("users").doc(user.uid).update({
-          newVotes: 0,
+        firebase.firestore().collection('users').doc(user.uid).update({
+          newVotes: 0
         })
       })
     return () => {
@@ -46,12 +46,12 @@ const useUserPhotos = () => {
       .doc(id)
       .update({
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-        active: checked,
+        active: checked
       })
   }
 
   const deletePhoto = (id?: string) => {
-    confirm({ description: "This action is permanent!" })
+    confirm({ description: 'This action is permanent!' })
       .then(() => {
         firebase
           .firestore()
@@ -69,10 +69,10 @@ const useUserPhotos = () => {
     photosLoaded,
     photoUtils: {
       changePhotoStatus,
-      deletePhoto,
+      deletePhoto
     },
     sortBy,
-    setSortBy,
+    setSortBy
   }
 }
 

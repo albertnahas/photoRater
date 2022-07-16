@@ -1,11 +1,11 @@
-import React, { FC } from "react"
+import React, { FC } from 'react'
 import {
   FormControl,
   FormControlLabel,
   FormLabel,
   Radio,
-  RadioGroup,
-} from "@mui/material"
+  RadioGroup
+} from '@mui/material'
 
 export var SelectGender: FC<Props> = function (props) {
   return (

@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC } from 'react'
 import {
   Button,
   Box,
@@ -12,11 +12,11 @@ import {
   Paper,
   CircularProgress,
   Typography,
-  LinearProgress,
-} from "@mui/material"
-import CollectionsIcon from "@mui/icons-material/Collections"
-import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined"
-import { useTheme } from "@mui/system"
+  LinearProgress
+} from '@mui/material'
+import CollectionsIcon from '@mui/icons-material/Collections'
+import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined'
+import { useTheme } from '@mui/system'
 
 export var UploadForm: FC<Props> = function ({
   onCancel,
@@ -29,22 +29,22 @@ export var UploadForm: FC<Props> = function ({
   ageRange,
   handleAgeRangeChange,
   showToGender,
-  handleShowToGenderChange,
+  handleShowToGenderChange
 }) {
   const theme = useTheme()
 
   return (
-    <form style={{ width: "100%" }} onSubmit={handlePhotoSubmit}>
+    <form style={{ width: '100%' }} onSubmit={handlePhotoSubmit}>
       <Box
         sx={{
-          display: imageAsUrl ? "none" : "block",
+          display: imageAsUrl ? 'none' : 'block'
         }}
       >
         <input
           type="file"
           accept="image/*"
           onChange={handleImageAsFile}
-          style={{ display: "none" }}
+          style={{ display: 'none' }}
           id="contained-button-file"
         />
         <label htmlFor="contained-button-file">
@@ -62,11 +62,11 @@ export var UploadForm: FC<Props> = function ({
       {imageAsUrl && (
         <Grid
           sx={{
-            textAlign: "left",
-            [theme.breakpoints.up("md")]: {
-              width: "75%",
-              margin: "auto",
-            },
+            textAlign: 'left',
+            [theme.breakpoints.up('md')]: {
+              width: '75%',
+              margin: 'auto'
+            }
           }}
           spacing={4}
           container
@@ -76,9 +76,9 @@ export var UploadForm: FC<Props> = function ({
               <img
                 width="100"
                 style={{
-                  width: "100%",
-                  margin: "auto",
-                  marginBottom: -4,
+                  width: '100%',
+                  margin: 'auto',
+                  marginBottom: -4
                 }}
                 src={imageAsUrl.imgUrl}
                 alt="new"
@@ -90,7 +90,7 @@ export var UploadForm: FC<Props> = function ({
                 <Typography
                   variant="body1"
                   color={theme.palette.primary.main}
-                  sx={{ textAlign: "center", mt: 0.5 }}
+                  sx={{ textAlign: 'center', mt: 0.5 }}
                 >
                   detecting faces, please wait...
                 </Typography>
@@ -100,7 +100,7 @@ export var UploadForm: FC<Props> = function ({
               <Typography
                 variant="body1"
                 color={theme.palette.error.main}
-                sx={{ mt: 1, textAlign: "center" }}
+                sx={{ mt: 1, textAlign: 'center' }}
               >
                 {error}, please consider trying with another photo
               </Typography>
@@ -139,16 +139,16 @@ export var UploadForm: FC<Props> = function ({
               <FormControl
                 sx={{
                   width: {
-                    md: "80%",
-                    xs: "100%",
-                  },
+                    md: '80%',
+                    xs: '100%'
+                  }
                 }}
                 component="fieldset"
               >
                 <FormLabel component="legend">Age within</FormLabel>
                 <Slider
                   size="small"
-                  getAriaLabel={() => "Minimum distance"}
+                  getAriaLabel={() => 'Minimum distance'}
                   value={ageRange}
                   onChange={handleAgeRangeChange}
                   valueLabelDisplay="on"

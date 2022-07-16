@@ -8,16 +8,16 @@ import {
   ListItemIcon,
   ListItemText,
   Tooltip,
-  Typography,
-} from "@mui/material"
-import { Box, useTheme } from "@mui/system"
-import React, { FC, useEffect, useMemo, useState } from "react"
-import { useSelector } from "react-redux"
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline"
-import RateProgressBar from "../../atoms/RateProgressBar/RateProgressBar"
-import firebase from "../../config"
-import { State } from "../../types/state"
-import { UserPhoto } from "../RatingTab/UserPhoto"
+  Typography
+} from '@mui/material'
+import { Box, useTheme } from '@mui/system'
+import React, { FC, useEffect, useMemo, useState } from 'react'
+import { useSelector } from 'react-redux'
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
+import RateProgressBar from '../../atoms/RateProgressBar/RateProgressBar'
+import firebase from '../../config'
+import { State } from '../../types/state'
+import { UserPhoto } from '../RatingTab/UserPhoto'
 
 export var PhotoDetails: FC<Props> = function (props) {
   const [votes, setVotes] = useState<any[]>([])
@@ -53,7 +53,7 @@ export var PhotoDetails: FC<Props> = function (props) {
     for (const chip of uniqueChips) {
       weightedChips.push({
         chip,
-        count: chips.filter((c) => c === chip).length,
+        count: chips.filter((c) => c === chip).length
       })
     }
     return weightedChips.sort((a, b) => (a.count < b.count ? 1 : -1))
@@ -61,10 +61,10 @@ export var PhotoDetails: FC<Props> = function (props) {
 
   const comments = useMemo(() => {
     const cmnts = votes
-      .filter((v) => v.comment && v.comment != "")
+      .filter((v) => v.comment && v.comment != '')
       .flatMap((v) => ({
         comment: v.comment,
-        date: v.ratedAt,
+        date: v.ratedAt
       }))
     return cmnts
   }, [votes])
@@ -86,7 +86,6 @@ export var PhotoDetails: FC<Props> = function (props) {
     return () => {
       votesUnsubscribe()
     }
-    
   }, [user])
 
   useEffect(() => {
@@ -103,7 +102,6 @@ export var PhotoDetails: FC<Props> = function (props) {
     return () => {
       photoUnsubscribe()
     }
-    
   }, [user])
 
   const displayOverview = () => (
@@ -111,7 +109,7 @@ export var PhotoDetails: FC<Props> = function (props) {
       {Object.entries(overview).map((c: any[]) => (
         <React.Fragment key={c[0]}>
           <Tooltip
-            title={`${c[1]} ${c[1] === 1 ? "user" : "users"} out of ${
+            title={`${c[1]} ${c[1] === 1 ? 'user' : 'users'} out of ${
               votes.length
             } rated this photo as ${c[0] * 2 - 1} or ${c[0] * 2}`}
           >
@@ -149,7 +147,7 @@ export var PhotoDetails: FC<Props> = function (props) {
               secondary={
                 <Typography
                   sx={{
-                    fontSize: 11,
+                    fontSize: 11
                   }}
                   component="span"
                   variant="body2"
@@ -180,7 +178,7 @@ export var PhotoDetails: FC<Props> = function (props) {
     <Container>
       <Grid sx={{ pt: 2 }} container>
         <Grid md={4} xs={12} sx={{ pl: { xs: 0, md: 1 } }} item>
-          <Box sx={{ width: "100%", minWidth: 100 }}>
+          <Box sx={{ width: '100%', minWidth: 100 }}>
             <UserPhoto photo={photo} />
           </Box>
           <Box sx={{ mt: 2 }}>
@@ -194,7 +192,7 @@ export var PhotoDetails: FC<Props> = function (props) {
               variant="h6"
               color={theme.palette.primary.main}
             >
-              {`Score: ${(photo?.rate || 0) * 2}/10`}{" "}
+              {`Score: ${(photo?.rate || 0) * 2}/10`}{' '}
             </Typography>
           ) : (
             <Typography
@@ -202,14 +200,14 @@ export var PhotoDetails: FC<Props> = function (props) {
               variant="h6"
               color={theme.palette.primary.main}
             >
-              No votes yet{" "}
+              No votes yet{' '}
             </Typography>
           )}
 
           {chips.length > 0 && (
             <>
               <Typography variant="body2" color={theme.palette.primary.main}>
-                Impressions{" "}
+                Impressions{' '}
               </Typography>
               <Box sx={{ mt: 1, mb: 1 }}>{displayImpressions()}</Box>
               <Divider sx={{ m: 1 }} variant="middle" />
@@ -223,7 +221,7 @@ export var PhotoDetails: FC<Props> = function (props) {
                     variant="body2"
                     color={theme.palette.primary.main}
                   >
-                    Comments{" "}
+                    Comments{' '}
                   </Typography>
                   {displayComments()}
                 </Box>
@@ -237,8 +235,8 @@ export var PhotoDetails: FC<Props> = function (props) {
                     variant="body2"
                     color={theme.palette.primary.main}
                   >
-                    Overview ({votes.length}{" "}
-                    {votes.length === 1 ? "vote" : "votes"})
+                    Overview ({votes.length}{' '}
+                    {votes.length === 1 ? 'vote' : 'votes'})
                   </Typography>
 
                   {displayOverview()}
@@ -253,7 +251,7 @@ export var PhotoDetails: FC<Props> = function (props) {
               variant="body2"
               color={theme.palette.text.secondary}
             >
-              Voters age range: {photo?.ageRange[0]} - {photo?.ageRange[1]}{" "}
+              Voters age range: {photo?.ageRange[0]} - {photo?.ageRange[1]}{' '}
             </Typography>
           )}
           {photo?.updatedAt && (
@@ -262,7 +260,7 @@ export var PhotoDetails: FC<Props> = function (props) {
               variant="body2"
               color={theme.palette.text.secondary}
             >
-              Last update: {photo?.updatedAt.toDate().toLocaleString()}{" "}
+              Last update: {photo?.updatedAt.toDate().toLocaleString()}{' '}
             </Typography>
           )}
         </Grid>

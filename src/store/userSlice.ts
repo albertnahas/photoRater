@@ -1,12 +1,12 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { State, UserState } from "../types/state"
-import { User } from "../types/user"
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { State, UserState } from '../types/state'
+import { User } from '../types/user'
 
 const initialState: UserState = {}
 
 export const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {
     setUser: (state: UserState, action: PayloadAction<User>) => {
@@ -18,8 +18,8 @@ export const userSlice = createSlice({
     removeUser: (state: UserState) => {
       state.value = null
       state.serverValue = null
-    },
-  },
+    }
+  }
 })
 export const userSelector = (state: State) => state.user.value
 

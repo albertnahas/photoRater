@@ -1,16 +1,16 @@
-import { Grid, Tooltip, IconButton } from "@mui/material"
-import React, { FC } from "react"
-import SwitchToggle from "../../atoms/SwitchToggle/SwitchToggle"
-import DeleteCircleIcon from "@mui/icons-material/DeleteRounded"
-import useUserPhotos from "../../hooks/useUserPhotos"
-import { useSelector } from "react-redux"
-import { State } from "../../types/state"
+import { Grid, Tooltip, IconButton } from '@mui/material'
+import React, { FC } from 'react'
+import SwitchToggle from '../../atoms/SwitchToggle/SwitchToggle'
+import DeleteCircleIcon from '@mui/icons-material/DeleteRounded'
+import useUserPhotos from '../../hooks/useUserPhotos'
+import { useSelector } from 'react-redux'
+import { State } from '../../types/state'
 
 export const PhotoActions: FC<Props> = ({ photoId, active, condensed }) => {
   const { photoUtils } = useUserPhotos()
   const user = useSelector((state: State) => state.user.value)
   const handleToggleChange = (checked: boolean) => {
-    photoUtils.changePhotoStatus(checked, photoId || "")
+    photoUtils.changePhotoStatus(checked, photoId || '')
   }
   const onDeletePhoto = () => {
     photoUtils.deletePhoto(photoId)
@@ -19,13 +19,13 @@ export const PhotoActions: FC<Props> = ({ photoId, active, condensed }) => {
   return (
     <Grid
       sx={{
-        justifyContent: condensed ? "flex-end" : "space-between",
-        gap: 2,
+        justifyContent: condensed ? 'flex-end' : 'space-between',
+        gap: 2
       }}
       container
     >
-      <Tooltip title={active ? "deactivate" : "activate"}>
-        <Grid style={{ alignSelf: "center" }} item>
+      <Tooltip title={active ? 'deactivate' : 'activate'}>
+        <Grid style={{ alignSelf: 'center' }} item>
           <SwitchToggle
             active={active || false}
             disabled={(user?.points || 0) <= 0}

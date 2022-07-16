@@ -1,11 +1,11 @@
-import React from "react"
-import { FC } from "react"
-import Box from "@mui/material/Box"
-import BottomNavigation from "@mui/material/BottomNavigation"
-import BottomNavigationAction from "@mui/material/BottomNavigationAction"
-import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary"
-import FavoriteIcon from "@mui/icons-material/Favorite"
-import PersonIcon from "@mui/icons-material/Person"
+import React from 'react'
+import { FC } from 'react'
+import Box from '@mui/material/Box'
+import BottomNavigation from '@mui/material/BottomNavigation'
+import BottomNavigationAction from '@mui/material/BottomNavigationAction'
+import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import PersonIcon from '@mui/icons-material/Person'
 
 export var TabsNav: FC<Props> = function ({ tabId, setTabId }) {
   return (

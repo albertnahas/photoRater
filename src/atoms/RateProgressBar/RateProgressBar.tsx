@@ -1,8 +1,8 @@
-import * as React from "react"
-import Box from "@mui/material/Box"
-import { linearProgressClasses } from "@mui/material/LinearProgress"
-import { Theme, useTheme } from "@mui/system"
-import { ProgressLine } from "../ProgressLine/ProgressLine"
+import * as React from 'react'
+import Box from '@mui/material/Box'
+import { linearProgressClasses } from '@mui/material/LinearProgress'
+import { Theme, useTheme } from '@mui/system'
+import { ProgressLine } from '../ProgressLine/ProgressLine'
 
 export const getRatingColor = (theme: Theme, val?: number) => {
   if (!val) return theme.palette.primary.light
@@ -22,8 +22,8 @@ const RateProgressBar: React.FC<Props> = (props) => {
         sx={{
           [`& .${linearProgressClasses.bar}`]: {
             background: getRatingColor(theme, props.value || 0),
-            backgroundPositionX: translateX * -1,
-          },
+            backgroundPositionX: translateX * -1
+          }
         }}
         variant="determinate"
         value={props.value || 0}

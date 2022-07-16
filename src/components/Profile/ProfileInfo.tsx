@@ -5,14 +5,14 @@ import {
   CardContent,
   Grid,
   Typography,
-  useTheme,
-} from "@mui/material"
-import React, { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder"
-import HowToRegIcon from "@mui/icons-material/HowToReg"
-import firebase from "../../config"
-import { State } from "../../types/state"
+  useTheme
+} from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import HowToRegIcon from '@mui/icons-material/HowToReg'
+import firebase from '../../config'
+import { State } from '../../types/state'
 
 export var ProfileInfo = function () {
   const [votes, setVotes] = useState<any[]>([])
@@ -38,12 +38,12 @@ export var ProfileInfo = function () {
   return (
     <Grid container spacing={2}>
       <Grid item xs={6}>
-        <Card sx={{ height: "100%" }}>
+        <Card sx={{ height: '100%' }}>
           <CardContent>
             <Grid
               container
               spacing={3}
-              sx={{ justifyContent: "space-between" }}
+              sx={{ justifyContent: 'space-between' }}
             >
               <Grid item>
                 <Typography
@@ -60,9 +60,9 @@ export var ProfileInfo = function () {
               <Grid item>
                 <Avatar
                   sx={{
-                    backgroundColor: "error.main",
+                    backgroundColor: 'error.main',
                     height: 56,
-                    width: 56,
+                    width: 56
                   }}
                 >
                   <FavoriteBorderIcon />
@@ -72,8 +72,8 @@ export var ProfileInfo = function () {
             <Box
               sx={{
                 pt: 2,
-                display: "flex",
-                alignItems: "center",
+                display: 'flex',
+                alignItems: 'center'
               }}
             >
               <Typography color="textSecondary" variant="caption">
@@ -84,12 +84,12 @@ export var ProfileInfo = function () {
         </Card>
       </Grid>
       <Grid item xs={6}>
-        <Card sx={{ height: "100%" }}>
+        <Card sx={{ height: '100%' }}>
           <CardContent>
             <Grid
               container
               spacing={3}
-              sx={{ justifyContent: "space-between" }}
+              sx={{ justifyContent: 'space-between' }}
             >
               <Grid item>
                 <Typography
@@ -106,9 +106,9 @@ export var ProfileInfo = function () {
               <Grid item>
                 <Avatar
                   sx={{
-                    backgroundColor: "success.main",
+                    backgroundColor: 'success.main',
                     height: 56,
-                    width: 56,
+                    width: 56
                   }}
                 >
                   <HowToRegIcon />
@@ -118,8 +118,8 @@ export var ProfileInfo = function () {
             <Box
               sx={{
                 pt: 2,
-                display: "flex",
-                alignItems: "center",
+                display: 'flex',
+                alignItems: 'center'
               }}
             >
               <Typography color="textSecondary" variant="caption">

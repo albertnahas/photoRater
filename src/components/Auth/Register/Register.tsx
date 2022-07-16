@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC } from 'react'
 import {
   Container,
   Typography,
@@ -8,39 +8,39 @@ import {
   FormControlLabel,
   FormLabel,
   Radio,
-  RadioGroup,
-} from "@mui/material"
-import { Box } from "@mui/system"
-import { useFormik } from "formik"
-import * as Yup from "yup"
-import firebase from "../../../config"
-import { useSelector } from "react-redux"
-import { State } from "../../../types/state"
-import { Navigate } from "react-router"
-import { Link } from "react-router-dom"
+  RadioGroup
+} from '@mui/material'
+import { Box } from '@mui/system'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import firebase from '../../../config'
+import { useSelector } from 'react-redux'
+import { State } from '../../../types/state'
+import { Navigate } from 'react-router'
+import { Link } from 'react-router-dom'
 
 export var Register: FC<Props> = function (props) {
   const user = useSelector((state: State) => state.user.value)
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      firstName: "",
-      lastName: "",
-      password: "",
-      age: "",
-      gender: "male",
+      email: '',
+      firstName: '',
+      lastName: '',
+      password: '',
+      age: '',
+      gender: 'male'
     },
     validationSchema: Yup.object({
       email: Yup.string()
-        .email("Must be a valid email")
+        .email('Must be a valid email')
         .max(255)
-        .required("Email is required"),
-      firstName: Yup.string().max(255).required("First name is required"),
-      lastName: Yup.string().max(255).required("Last name is required"),
-      password: Yup.string().max(255).required("Password is required"),
-      age: Yup.number().max(90).min(16).required("Age is required"),
-      gender: Yup.string().required("Age is required"),
+        .required('Email is required'),
+      firstName: Yup.string().max(255).required('First name is required'),
+      lastName: Yup.string().max(255).required('Last name is required'),
+      password: Yup.string().max(255).required('Password is required'),
+      age: Yup.number().max(90).min(16).required('Age is required'),
+      gender: Yup.string().required('Age is required')
     }),
     onSubmit: (values, { resetForm, setErrors, setSubmitting }) => {
       props
@@ -48,14 +48,14 @@ export var Register: FC<Props> = function (props) {
         .then((res: any) => {
           if (res.message) {
             setErrors({
-              email: res.message,
+              email: res.message
             })
             setSubmitting(false)
           } else {
             const newUser = res.user
             firebase
               .firestore()
-              .collection("users")
+              .collection('users')
               .doc(newUser.uid)
               .set({
                 uid: newUser.uid,
@@ -63,25 +63,25 @@ export var Register: FC<Props> = function (props) {
                 email: values.email,
                 age: values.age,
                 gender: values.gender,
-                complete: true,
+                complete: true
               })
           }
         })
         .catch((e: any) => {
           console.log(e)
         })
-    },
+    }
   })
 
   return user === null ? (
     <Box
       component="main"
       sx={{
-        display: "flex",
+        display: 'flex',
         flexGrow: 1,
-        minHeight: "100%",
-        textAlign: "center",
-        pb: 2,
+        minHeight: '100%',
+        textAlign: 'center',
+        pb: 2
       }}
     >
       <Container maxWidth="sm">
@@ -91,7 +91,7 @@ export var Register: FC<Props> = function (props) {
               color="textPrimary"
               aria-label="create account"
               variant="h1"
-              sx={{ fontSize: "2.1rem", fontWeight: 400 }}
+              sx={{ fontSize: '2.1rem', fontWeight: 400 }}
             >
               Create a new account
             </Typography>
@@ -199,11 +199,11 @@ export var Register: FC<Props> = function (props) {
           </Box>
 
           <Typography color="textSecondary" variant="body2">
-            Have an account?{" "}
+            Have an account?{' '}
             <Link
               role="button"
               aria-label="login"
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: 'none' }}
               to="/login"
             >
               <Button>Login</Button>

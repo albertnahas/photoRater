@@ -1,4 +1,4 @@
-import { User } from "./user"
+import { User } from './user'
 
 export interface State {
   user: UserState
@@ -27,7 +27,7 @@ export interface LoginModalState {
 export interface SnackbarState {
   open?: boolean
   message?: string
-  type?: "success" | "warning" | "error"
+  type?: 'success' | 'warning' | 'error'
   duration?: number
   cta?: JSX.Element
 }

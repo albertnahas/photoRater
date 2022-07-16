@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState } from 'react'
 import {
   Container,
   Box,
   Typography,
   Grid,
   CircularProgress,
-  Alert,
-} from "@mui/material"
-import ModalDialog from "../../molecules/ModalDialog/ModalDialog"
-import { PhotoDetails } from "./PhotoDetails"
-import { UploadFormContainer } from "../Profile/UploadForm/UploadFormContainer"
-import useUserPhotos, { PhotoState, sort } from "../../hooks/useUserPhotos"
-import { PhotoCard } from "./PhotoCard"
-import { SortByControl } from "../../atoms/SortByControl/SortByControl"
-import { PhotoActions } from "./PhotoActions"
-import { useSelector } from "react-redux"
-import { State } from "../../types/state"
+  Alert
+} from '@mui/material'
+import ModalDialog from '../../molecules/ModalDialog/ModalDialog'
+import { PhotoDetails } from './PhotoDetails'
+import { UploadFormContainer } from '../Profile/UploadForm/UploadFormContainer'
+import useUserPhotos, { PhotoState, sort } from '../../hooks/useUserPhotos'
+import { PhotoCard } from './PhotoCard'
+import { SortByControl } from '../../atoms/SortByControl/SortByControl'
+import { PhotoActions } from './PhotoActions'
+import { useSelector } from 'react-redux'
+import { State } from '../../types/state'
 
 export var MyPhotos = function () {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [view, setView] = useState("classic")
+  const [view, setView] = useState('classic')
   const user = useSelector((state: State) => state.user.value)
 
   const [selectedPhoto, setSelectedPhoto] = useState<PhotoState | null>()
@@ -32,7 +32,7 @@ export var MyPhotos = function () {
     photos.map((p: any) => {
       const photo = p.data()
       return (
-        <Grid key={p.id} item xs={view !== "two-col" ? 12 : 6} md={3}>
+        <Grid key={p.id} item xs={view !== 'two-col' ? 12 : 6} md={3}>
           <PhotoCard
             view={view}
             photo={photo}
@@ -50,7 +50,6 @@ export var MyPhotos = function () {
       const updatedPhoto = photos.find((p) => selectedPhoto?.id === p.id)
       setSelectedPhoto(updatedPhoto || null)
     }
-    
   }, [photos])
 
   useEffect(() => {
@@ -71,23 +70,23 @@ export var MyPhotos = function () {
   const onHideForm = () => setShowForm(false)
 
   const containerStyle = {
-    mb: 2,
+    mb: 2
   }
 
   const controlsContainerStyle = {
     mb: 2,
     mt: 2,
-    display: "flex",
+    display: 'flex'
   }
 
   return (
     <Box
       sx={{
-        bgcolor: "background.paper",
+        bgcolor: 'background.paper',
         pt: 2,
         pb: 6,
         pl: { xs: 2, md: 0 },
-        pr: { xs: 2, md: 0 },
+        pr: { xs: 2, md: 0 }
       }}
     >
       <Container maxWidth="lg">
@@ -108,14 +107,14 @@ export var MyPhotos = function () {
         )}
         {!showForm && (
           <>
-            <Box sx={{ ...containerStyle, textAlign: "left" }}>
+            <Box sx={{ ...containerStyle, textAlign: 'left' }}>
               {photosLoaded &&
                 photos.filter((p) => p.data().active).length === 0 &&
                 !!user?.points && (
                   <Alert severity="info">
                     {photos.length === 0
-                      ? "Start uploading your photos here"
-                      : "Activate your photo using the switch button to start receiving votes"}
+                      ? 'Start uploading your photos here'
+                      : 'Activate your photo using the switch button to start receiving votes'}
                   </Alert>
                 )}
               {photosLoaded && !user?.points && (

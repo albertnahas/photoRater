@@ -1,17 +1,17 @@
-import * as React from "react"
-import clsx from "clsx"
-import { styled } from "@mui/system"
-import { useSwitch } from "@mui/core"
-import { InputProps } from "@mui/material"
+import * as React from 'react'
+import clsx from 'clsx'
+import { styled } from '@mui/system'
+import { useSwitch } from '@mui/core'
+import { InputProps } from '@mui/material'
 
-const SwitchRoot = styled("span")`
+const SwitchRoot = styled('span')`
   display: inline-block;
   position: relative;
   width: 34px;
   height: 16px;
 `
 
-const SwitchInput = styled("input")`
+const SwitchInput = styled('input')`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -23,11 +23,11 @@ const SwitchInput = styled("input")`
   cursor: pointer;
 `
 
-const SwitchThumb = styled("span")(
+const SwitchThumb = styled('span')(
   ({ theme }) => `
   position: absolute;
   display: block;
-  background-color: ${theme.palette.mode === "dark" ? "#003892" : "#001e3c"};
+  background-color: ${theme.palette.mode === 'dark' ? '#003892' : '#001e3c'};
   width: 12px;
   height: 12px;
   border-radius: 16px;
@@ -62,10 +62,10 @@ const SwitchThumb = styled("span")(
 `
 )
 
-const SwitchTrack = styled("span")(
+const SwitchTrack = styled('span')(
   ({ theme }) => `
-  background-color: ${theme.palette.mode === "dark" ? "#8796A5" : "#fff"};
-  border-color: ${theme.palette.mode === "dark" ? "#8796A5" : "#666"};
+  background-color: ${theme.palette.mode === 'dark' ? '#8796A5' : '#fff'};
+  border-color: ${theme.palette.mode === 'dark' ? '#8796A5' : '#666'};
   border-style: solid;
   border-width:2px;
   border-radius: 10px;
@@ -88,7 +88,7 @@ const MUISwitch = function (props: any) {
   const stateClasses = {
     checked,
     disabled,
-    focusVisible,
+    focusVisible
   }
 
   return (

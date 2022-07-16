@@ -1,10 +1,10 @@
-import React from "react"
-import ReactDOM from "react-dom"
-import "./index.css"
-import App from "./App"
-import { Providers } from "./components/Providers/Providers"
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+import App from './App'
+import { Providers } from './components/Providers/Providers'
 // @ts-ignore
-import { registerSW } from "virtual:pwa-register"
+import { registerSW } from 'virtual:pwa-register'
 
 const intervalMS = 15 * 60 * 1000
 
@@ -17,7 +17,7 @@ const updateSW = registerSW({
       setInterval(() => {
         r.update()
       }, intervalMS)
-  },
+  }
 })
 
 ReactDOM.render(
@@ -26,5 +26,5 @@ ReactDOM.render(
       <App />
     </Providers>
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById('root')
 )

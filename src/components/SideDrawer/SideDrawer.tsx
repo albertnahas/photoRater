@@ -1,54 +1,54 @@
-import * as React from "react"
-import Box from "@mui/material/Box"
-import Drawer from "@mui/material/Drawer"
-import List from "@mui/material/List"
-import Divider from "@mui/material/Divider"
-import ListItem from "@mui/material/ListItem"
-import ListItemIcon from "@mui/material/ListItemIcon"
-import ListItemText from "@mui/material/ListItemText"
-import GroupsIcon from "@mui/icons-material/Groups"
-import { drawerSelector, setDrawer } from "../../store/drawerSlice"
-import { useDispatch, useSelector } from "react-redux"
-import { Link } from "react-router-dom"
-import HomeIcon from "@mui/icons-material/Home"
-import LogoutIcon from "@mui/icons-material/Logout"
-import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined"
-import GradingOutlinedIcon from "@mui/icons-material/GradingOutlined"
-import PrivacyTipOutlinedIcon from "@mui/icons-material/PrivacyTipOutlined"
-import { userSelector } from "../../store/userSlice"
+import * as React from 'react'
+import Box from '@mui/material/Box'
+import Drawer from '@mui/material/Drawer'
+import List from '@mui/material/List'
+import Divider from '@mui/material/Divider'
+import ListItem from '@mui/material/ListItem'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+import GroupsIcon from '@mui/icons-material/Groups'
+import { drawerSelector, setDrawer } from '../../store/drawerSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import HomeIcon from '@mui/icons-material/Home'
+import LogoutIcon from '@mui/icons-material/Logout'
+import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined'
+import GradingOutlinedIcon from '@mui/icons-material/GradingOutlined'
+import PrivacyTipOutlinedIcon from '@mui/icons-material/PrivacyTipOutlined'
+import { userSelector } from '../../store/userSlice'
 // import SettingsIcon from "@mui/icons-material/Settings"
 
 const sideDrawerLinks = [
   {
-    ariaLabel: "Home",
-    path: "/",
-    primary: "Home",
-    icon: <HomeIcon />,
+    ariaLabel: 'Home',
+    path: '/',
+    primary: 'Home',
+    icon: <HomeIcon />
   },
   {
-    ariaLabel: "about",
-    path: "/about",
-    primary: "About Pollee",
-    icon: <GroupsIcon />,
+    ariaLabel: 'about',
+    path: '/about',
+    primary: 'About Pollee',
+    icon: <GroupsIcon />
   },
   {
-    ariaLabel: "contact",
-    path: "/contact",
-    primary: "Contact us",
-    icon: <ForumOutlinedIcon />,
+    ariaLabel: 'contact',
+    path: '/contact',
+    primary: 'Contact us',
+    icon: <ForumOutlinedIcon />
   },
   {
-    ariaLabel: "privacy",
-    path: "/privacy",
-    primary: "Privacy policy",
-    icon: <PrivacyTipOutlinedIcon />,
+    ariaLabel: 'privacy',
+    path: '/privacy',
+    primary: 'Privacy policy',
+    icon: <PrivacyTipOutlinedIcon />
   },
   {
-    ariaLabel: "terms",
-    path: "/terms",
-    primary: "Terms & Conditions",
-    icon: <GradingOutlinedIcon />,
-  },
+    ariaLabel: 'terms',
+    path: '/terms',
+    primary: 'Terms & Conditions',
+    icon: <GradingOutlinedIcon />
+  }
 ]
 
 export const SideDrawer: React.FC<Props> = (props) => {
@@ -59,9 +59,9 @@ export const SideDrawer: React.FC<Props> = (props) => {
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
-        event.type === "keydown" &&
-        ((event as React.KeyboardEvent).key === "Tab" ||
-          (event as React.KeyboardEvent).key === "Shift")
+        event.type === 'keydown' &&
+        ((event as React.KeyboardEvent).key === 'Tab' ||
+          (event as React.KeyboardEvent).key === 'Shift')
       ) {
         return
       }
@@ -109,7 +109,7 @@ export const SideDrawer: React.FC<Props> = (props) => {
       <Divider />
       {user && (
         <List>
-          <ListItem aria-label={"signout"} button onClick={props.signOut}>
+          <ListItem aria-label={'signout'} button onClick={props.signOut}>
             <ListItemIcon>
               <LogoutIcon />
             </ListItemIcon>

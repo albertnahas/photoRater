@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC } from 'react'
 import {
   Container,
   Typography,
@@ -8,13 +8,13 @@ import {
   FormControlLabel,
   FormLabel,
   Radio,
-  RadioGroup,
-} from "@mui/material"
-import { Box } from "@mui/system"
-import { useFormik } from "formik"
-import * as Yup from "yup"
-import { SelectGender } from "../../../atoms/SelectGender/SelectGender"
-import { useUser } from "../../../hooks/useUser"
+  RadioGroup
+} from '@mui/material'
+import { Box } from '@mui/system'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import { SelectGender } from '../../../atoms/SelectGender/SelectGender'
+import { useUser } from '../../../hooks/useUser'
 
 export var RegisterStep2: FC<Props> = function (props) {
   const { updateUser } = useUser()
@@ -22,13 +22,13 @@ export var RegisterStep2: FC<Props> = function (props) {
   const formik = useFormik({
     initialValues: {
       age: 25,
-      gender: "male",
-      showGender: "both",
+      gender: 'male',
+      showGender: 'both'
     },
     validationSchema: Yup.object({
-      age: Yup.number().max(90).min(16).required("Age is required"),
-      gender: Yup.string().required("Gender is required"),
-      showGender: Yup.string().required("Show gender is required"),
+      age: Yup.number().max(90).min(16).required('Age is required'),
+      gender: Yup.string().required('Gender is required'),
+      showGender: Yup.string().required('Show gender is required')
     }),
     onSubmit: (values, { resetForm, setErrors, setSubmitting }) => {
       updateUser({
@@ -36,20 +36,20 @@ export var RegisterStep2: FC<Props> = function (props) {
         age: values.age,
         gender: values.gender,
         showGender: values.showGender,
-        complete: true,
+        complete: true
       })
-    },
+    }
   })
 
   return (
     <Box
       component="main"
       sx={{
-        display: "flex",
+        display: 'flex',
         flexGrow: 1,
-        minHeight: "100%",
-        textAlign: "center",
-        pb: 2,
+        minHeight: '100%',
+        textAlign: 'center',
+        pb: 2
       }}
     >
       <Container maxWidth="sm">

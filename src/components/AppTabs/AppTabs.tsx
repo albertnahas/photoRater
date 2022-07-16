@@ -1,12 +1,12 @@
-import React, { useEffect } from "react"
-import { AppBar, BottomNavigation, BottomNavigationAction } from "@mui/material"
-import { Link, useLocation } from "react-router-dom"
+import React, { useEffect } from 'react'
+import { AppBar, BottomNavigation, BottomNavigationAction } from '@mui/material'
+import { Link, useLocation } from 'react-router-dom'
 
-import PersonIcon from "@mui/icons-material/Person"
-import { useSelector } from "react-redux"
-import { State } from "../../types/state"
-import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary"
-import FavoriteIcon from "@mui/icons-material/Favorite"
+import PersonIcon from '@mui/icons-material/Person'
+import { useSelector } from 'react-redux'
+import { State } from '../../types/state'
+import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 
 export var AppTabs = function () {
   const [value, setValue] = React.useState(1)
@@ -15,22 +15,22 @@ export var AppTabs = function () {
   const location = useLocation()
 
   useEffect(() => {
-    if (location.pathname.indexOf("profile") > -1) {
+    if (location.pathname.indexOf('profile') > -1) {
       setValue(2)
       return
     }
-    if (location.pathname.indexOf("rate") > -1) {
+    if (location.pathname.indexOf('rate') > -1) {
       setValue(1)
       return
     }
-    if (location.pathname.indexOf("photos") > -1) {
+    if (location.pathname.indexOf('photos') > -1) {
       setValue(1)
       return
     }
     setValue(0)
   }, [location])
 
-  return user !== null ? (
+  return user !== null && user?.complete ? (
     <BottomNavigation
       showLabels
       value={value}
@@ -38,9 +38,9 @@ export var AppTabs = function () {
         setValue(newValue)
       }}
       sx={{
-        "& > a": {
-          minWidth: 60,
-        },
+        '& > a': {
+          minWidth: 60
+        }
       }}
     >
       <BottomNavigationAction

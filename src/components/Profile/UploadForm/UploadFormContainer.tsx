@@ -1,11 +1,11 @@
-import React, { FC, useState } from "react"
-import { useSelector } from "react-redux"
+import React, { FC, useState } from 'react'
+import { useSelector } from 'react-redux'
 
-import firebase from "../../../config"
-import { getResizedName } from "../../../utils/utils"
-import { State } from "../../../types/state"
-import { UploadForm } from "./UploadForm"
-import * as nsfwjs from "./nsfwjs"
+import firebase from '../../../config'
+import { getResizedName } from '../../../utils/utils'
+import { State } from '../../../types/state'
+import { UploadForm } from './UploadForm'
+import * as nsfwjs from './nsfwjs'
 // import nodejs bindings to native tensorflow,
 // not required, but will speed up things drastically (python required)
 // import * as tf from "@tensorflow/tfjs"
@@ -18,8 +18,8 @@ const storage = firebase.storage()
 
 export var UploadFormContainer: FC<Props> = function (props) {
   const [imageAsFile, setImageAsFile] = useState<any>()
-  const [imageAsUrl, setImageAsUrl] = useState<any>("")
-  const [showToGender, setShowToGender] = useState("both")
+  const [imageAsUrl, setImageAsUrl] = useState<any>('')
+  const [showToGender, setShowToGender] = useState('both')
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [predictions, setPredictions] = useState<Array<nsfwjs.predictionType>>()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -40,7 +40,7 @@ export var UploadFormContainer: FC<Props> = function (props) {
     const image = e.target.files[0]
     setImageAsFile((imageFile: any) => image)
     setImageAsUrl({ imgUrl: URL.createObjectURL(image) })
-    const img = document.createElement("img")
+    const img = document.createElement('img')
     img.src = URL.createObjectURL(image)
     // nsfwjs
     //     .load()
@@ -90,14 +90,14 @@ export var UploadFormContainer: FC<Props> = function (props) {
   const handlePhotoSubmit = (e: any) => {
     e.preventDefault()
     // async magic goes here...
-    if (!imageAsFile || imageAsFile === "") {
+    if (!imageAsFile || imageAsFile === '') {
       console.error(`not an image, the image file is a ${typeof imageAsFile}`)
     } else {
       const uploadTask = storage
         .ref(`/images/${user?.uid}/${imageAsFile?.name}`)
         .put(imageAsFile)
       uploadTask.on(
-        "state_changed",
+        'state_changed',
         (snapShot: any) => {
           // takes a snap shot of the process as it is happening
           setUploading(true)
@@ -117,7 +117,7 @@ export var UploadFormContainer: FC<Props> = function (props) {
             .then((fireBaseUrl: string) => {
               setImageAsUrl((prevObject: any) => ({
                 ...prevObject,
-                imgUrl: fireBaseUrl,
+                imgUrl: fireBaseUrl
               }))
               firebase
                 .firestore()
@@ -133,11 +133,11 @@ export var UploadFormContainer: FC<Props> = function (props) {
                   expressions: expressions || [],
                   predictions: predictions || [],
                   active: true,
-                  uploadedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                  uploadedAt: firebase.firestore.FieldValue.serverTimestamp()
                 })
                 .catch((err: any) => {
                   console.log(err)
-                  setError("Error while uploading photo")
+                  setError('Error while uploading photo')
                 })
               setUploading(false)
               props.onCancel()
@@ -168,12 +168,12 @@ export var UploadFormContainer: FC<Props> = function (props) {
     if (activeThumb === 0) {
       setAgeRange([
         Math.min(newValue[0], ageRange[1] - minDistance),
-        ageRange[1],
+        ageRange[1]
       ])
     } else {
       setAgeRange([
         ageRange[0],
-        Math.max(newValue[1], ageRange[0] + minDistance),
+        Math.max(newValue[1], ageRange[0] + minDistance)
       ])
     }
   }

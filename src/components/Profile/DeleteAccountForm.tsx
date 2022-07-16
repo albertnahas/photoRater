@@ -1,12 +1,12 @@
-import React, { FC } from "react"
-import { Container, Typography, TextField, Button } from "@mui/material"
-import { Box } from "@mui/system"
-import { useFormik } from "formik"
-import * as Yup from "yup"
-import { useSelector } from "react-redux"
-import firebase from "../../config"
-import { State } from "../../types/state"
-import { useUser } from "../../hooks/useUser"
+import React, { FC } from 'react'
+import { Container, Typography, TextField, Button } from '@mui/material'
+import { Box } from '@mui/system'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import { useSelector } from 'react-redux'
+import firebase from '../../config'
+import { State } from '../../types/state'
+import { useUser } from '../../hooks/useUser'
 
 export var DeleteAccountForm: FC<Props> = function (props) {
   const user = useSelector((state: State) => state.user.value)
@@ -14,18 +14,18 @@ export var DeleteAccountForm: FC<Props> = function (props) {
 
   const formik = useFormik({
     initialValues: {
-      message: "",
+      message: ''
     },
     validationSchema: Yup.object({
-      message: Yup.string().max(255).min(12).required("reason is required"),
+      message: Yup.string().max(255).min(12).required('reason is required')
     }),
     onSubmit: (values, { resetForm, setErrors, setSubmitting }) => {
       firebase
         .firestore()
-        .collection("removals")
+        .collection('removals')
         .add({
           message: values.message,
-          uid: user?.uid || null,
+          uid: user?.uid || null
         })
         .then(() => {
           deleteAccount()
@@ -34,18 +34,18 @@ export var DeleteAccountForm: FC<Props> = function (props) {
         .catch((e: any) => {
           console.log(e)
         })
-    },
+    }
   })
 
   return (
     <Box
       component="main"
       sx={{
-        display: "flex",
+        display: 'flex',
         flexGrow: 1,
-        minHeight: "100%",
-        textAlign: "center",
-        p: 5,
+        minHeight: '100%',
+        textAlign: 'center',
+        p: 5
       }}
     >
       <Container maxWidth="sm">

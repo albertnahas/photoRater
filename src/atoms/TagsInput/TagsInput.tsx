@@ -1,9 +1,9 @@
 import {
   Autocomplete,
   AutocompleteRenderInputParams,
-  TextField,
-} from "@mui/material"
-import React, { FC } from "react"
+  TextField
+} from '@mui/material'
+import React, { FC } from 'react'
 
 export const TagsInput: FC<Props> = ({
   id,
@@ -12,13 +12,13 @@ export const TagsInput: FC<Props> = ({
   value,
   setValue,
   error,
-  helperText,
+  helperText
 }) => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement
     switch (event.key) {
-      case ",":
-      case " ": {
+      case ',':
+      case ' ': {
         event.preventDefault()
         event.stopPropagation()
         if (target?.value.length > 0) {
@@ -37,10 +37,10 @@ export const TagsInput: FC<Props> = ({
       id={id}
       options={options || []}
       getOptionLabel={(option) => {
-        if (typeof option === "string") {
+        if (typeof option === 'string') {
           return option
         }
-        return ""
+        return ''
       }}
       value={value || []}
       onBlur={(event: React.FocusEvent<HTMLInputElement>) => {

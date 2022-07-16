@@ -1,8 +1,8 @@
-import React, { FC } from "react"
-import { TabsNav } from "./TabsNav/TabsNav"
-import { MyPhotos } from "../MyPhotos/MyPhotos"
-import { Profile } from "../Profile/Profile"
-import { RatingTab } from "../RatingTab/RatingTab"
+import React, { FC } from 'react'
+import { TabsNav } from './TabsNav/TabsNav'
+import { MyPhotos } from '../MyPhotos/MyPhotos'
+import { Profile } from '../Profile/Profile'
+import { RatingTab } from '../RatingTab/RatingTab'
 
 export var Tabs: FC<Props> = function (props) {
   return (
