@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import firebase from '../config';
 import { Photo } from '../types/photo';
 import { useConfirm } from 'material-ui-confirm';

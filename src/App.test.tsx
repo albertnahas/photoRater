@@ -2,9 +2,7 @@ import React from 'react';
 import { mount, shallow } from 'enzyme';
 import App from './App';
 import { Providers } from './components/Providers/Providers';
-import { unmountComponentAtNode } from 'react-dom';
 import firebase from './config';
-import { Tabs } from './components/Tabs/Tabs';
 
 let wrapper: JSX.Element;
 

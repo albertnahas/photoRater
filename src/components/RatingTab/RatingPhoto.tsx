@@ -1,36 +1,30 @@
+import React from 'react';
 import {
     Container,
     Grid,
-    Paper,
     Typography,
     TextField,
     Stack,
     Chip,
     Button,
     Divider,
-    Grow,
-    Fade,
     List,
     ListItem,
     ListItemButton,
-    ListItemIcon,
     ListItemText,
     IconButton,
-    CircularProgress,
     LinearProgress
 } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import PhotoRating from '../../atoms/PhotoRating/PhotoRating';
 import { Photo } from '../../types/photo';
-import { getResizedImageUrl, reportReasons, tags } from '../../utils/utils';
+import { reportReasons, tags } from '../../utils/utils';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import FlagIcon from '@mui/icons-material/Flag';
 import ModalDialog from '../../molecules/ModalDialog/ModalDialog';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { keyframes } from '@emotion/react';
-import { userPlaceholderPhoto } from '../../utils/constants';
 import { UserPhoto } from './UserPhoto';
 
 export const RatingPhoto: FC<Props> = ({
@@ -123,6 +117,8 @@ export const RatingPhoto: FC<Props> = ({
                                             label={t}
                                         />
                                     );
+                                } else {
+                                    return <></>;
                                 }
                             })}
                             <Button

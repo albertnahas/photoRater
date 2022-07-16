@@ -1,9 +1,9 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import { ProgressRing } from './ProgressRing';
+import React from "react"
+import { shallow } from "enzyme"
+import { ProgressRing } from "./ProgressRing"
 
-describe('Progress Ring widget', function () {
-    it('renders without crashing', () => {
-        shallow(<ProgressRing value={0} />);
-    });
-});
+describe("Progress Ring widget", function () {
+  it("renders without crashing", () => {
+    shallow(<ProgressRing value={0} />)
+  })
+})
