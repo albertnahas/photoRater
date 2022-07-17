@@ -20,7 +20,7 @@
   "dependencies": {
     "@emotion/react": "^11.6.0",
     "@emotion/styled": "^11.6.0",
-    "@mui/icons-material": "^5.0.5",
+    "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.0.6",
     "@mui/styled-engine-sc": "^5.0.4",
     "@nsfw-filter/gif-frames": "^1.0.2",
