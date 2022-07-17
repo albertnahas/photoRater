@@ -18,10 +18,13 @@ import RateProgressBar from '../../atoms/RateProgressBar/RateProgressBar'
 import firebase from '../../config'
 import { State } from '../../types/state'
 import { UserPhoto } from '../RatingTab/UserPhoto'
+import _ from 'lodash'
 
 export var PhotoDetails: FC<Props> = function (props) {
   const [votes, setVotes] = useState<any[]>([])
   const [photo, setPhoto] = useState<any>()
+  const [sortedRates, setSortedRates] = useState<Array<number>>([])
+  const [topPercentile, setTopPercentile] = useState<number>(0)
 
   const user = useSelector((state: State) => state.user.value)
   const theme = useTheme()
@@ -35,6 +38,40 @@ export var PhotoDetails: FC<Props> = function (props) {
     const avg = votesTotal / votes.length
     return avg
   }, [votes])
+
+  let photosQuery = firebase.firestore().collection('stats').doc('stats')
+
+  photosQuery
+    .get()
+    .then((sortedRatesDoc: any) => {
+      setSortedRates(sortedRatesDoc.data().sortedRates)
+    })
+    .catch((err: any) => {
+      console.log('error', err)
+    })
+
+  const getPercentile = (array: Array<number>, value: number) => {
+    const originalLength = array.length
+    const a = [...array]
+    let alen: Array<number>
+    const equalsValue = (v: number) => v === value
+
+    if (!array.some(equalsValue)) {
+      a.push(value)
+      alen = _.range(a.length)
+    } else {
+      alen = _.range(a.length + 1)
+    }
+    const idx = array.map(equalsValue)
+    const alenTrue = alen.filter((v: number) => idx[alen.indexOf(v)])
+    const meanVal = _.mean(alenTrue)
+    const percent = meanVal / originalLength
+    return Math.round(percent * 100)
+  }
+
+  useEffect(() => {
+    setTopPercentile(getPercentile(sortedRates, photo?.rate))
+  }, [sortedRates, photo])
 
   // const overview: any[] = [];
   const overview = useMemo(() => {
@@ -245,6 +282,15 @@ export var PhotoDetails: FC<Props> = function (props) {
             )}
           </Grid>
 
+          {sortedRates && photo?.rate && topPercentile <= 70 && (
+            <Typography
+              sx={{ mt: 2, fontSize: 12 }}
+              variant="body2"
+              color={theme.palette.text.secondary}
+            >
+              Your photo is in top {topPercentile}%!
+            </Typography>
+          )}
           {photo?.ageRange && photo?.ageRange.length === 2 && (
             <Typography
               sx={{ mt: 2, fontSize: 12 }}
