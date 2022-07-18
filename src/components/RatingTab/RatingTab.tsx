@@ -71,10 +71,13 @@ export var RatingTab = function () {
     })
   }
 
-  const onRatingChange = (event: any, newValue: number | null) => {
+  const onRatingChange = (
+    newValue: number | null,
+    scrollIntoView?: boolean
+  ) => {
     if (newValue === null) return
     setCurrentPhotoRating(newValue)
-    commentRef.current && commentRef.current?.scrollIntoView()
+    scrollIntoView && commentRef.current && commentRef.current?.scrollIntoView()
   }
 
   const handleCommentChange = (event: React.ChangeEvent<HTMLInputElement>) => {

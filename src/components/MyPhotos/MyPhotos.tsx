@@ -16,6 +16,7 @@ import { SortByControl } from '../../atoms/SortByControl/SortByControl'
 import { PhotoActions } from './PhotoActions'
 import { useSelector } from 'react-redux'
 import { State } from '../../types/state'
+import { SwipableCard } from '../RatingTab/SwipableCard'
 
 export var MyPhotos = function () {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
