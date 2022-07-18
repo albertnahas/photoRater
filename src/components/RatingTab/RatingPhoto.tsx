@@ -26,6 +26,7 @@ import FlagIcon from '@mui/icons-material/Flag'
 import ModalDialog from '../../molecules/ModalDialog/ModalDialog'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { UserPhoto } from './UserPhoto'
+import { SwipableCard } from './SwipableCard'
 
 export const RatingPhoto: FC<Props> = ({
   photo,
@@ -49,7 +50,13 @@ export const RatingPhoto: FC<Props> = ({
     <Container maxWidth="lg">
       <Grid container>
         <Grid item md={4} xs={12}>
-          <UserPhoto photo={photo} animation={true} />
+          <SwipableCard
+            onSwipe={(rate: number, done?: boolean) =>
+              onRatingChange.apply(null, [rate, done])
+            }
+          >
+            <UserPhoto photo={photo} animation={true} />
+          </SwipableCard>
         </Grid>
 
         <Grid item md={8}>
@@ -70,7 +77,9 @@ export const RatingPhoto: FC<Props> = ({
             </Typography>
             <PhotoRating
               value={currentPhotoRating}
-              onRatingChange={onRatingChange}
+              onRatingChange={(e, newValue) =>
+                onRatingChange.apply(null, [newValue, true])
+              }
             />
             <TextField
               sx={{
@@ -263,7 +272,7 @@ interface Props {
   comment: string
   handleCommentChange: (e: any) => void
   currentPhotoRating: number
-  onRatingChange: (e: any, newValue: number | null) => void
+  onRatingChange: (newValue: number | null, scrollIntoView?: boolean) => void
   commentRef: any
   loadingSubmit?: boolean
 }
