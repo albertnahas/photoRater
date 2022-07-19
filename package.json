@@ -22,7 +22,7 @@
     "@emotion/styled": "^11.6.0",
     "@mui/icons-material": "^5.0.5",
     "@mui/material": "^5.0.6",
-    "@mui/styled-engine-sc": "^5.0.4",
+    "@mui/styled-engine-sc": "^5.8.0",
     "@nsfw-filter/gif-frames": "^1.0.2",
     "@paypal/react-paypal-js": "^7.5.0",
     "@reduxjs/toolkit": "^1.6.2",
