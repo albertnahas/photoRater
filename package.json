@@ -25,7 +25,7 @@
     "@mui/styled-engine-sc": "^5.0.4",
     "@nsfw-filter/gif-frames": "^1.0.2",
     "@paypal/react-paypal-js": "^7.5.0",
-    "@reduxjs/toolkit": "^1.6.2",
+    "@reduxjs/toolkit": "^1.8.2",
     "@tensorflow/tfjs": "1.7.4",
     "@tensorflow/tfjs-node": "1.7.4",
     "@types/animejs": "^3.1.5",
