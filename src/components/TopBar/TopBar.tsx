@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent } from 'react'
+import React, { FC, MouseEvent, useContext, useEffect } from 'react'
 import styled from '@emotion/styled'
 import {
   AppBar,
@@ -24,6 +24,9 @@ import { Bell as BellIcon } from '../../icons/bell'
 import { State } from '../../types/state'
 import { useNavigate, Link } from 'react-router-dom'
 import DownloadIcon from '@mui/icons-material/Download'
+import { Brightness7, Brightness4 } from '@mui/icons-material'
+import { useUser } from '../../hooks/useUser'
+import { ColorModeContext } from '../Providers/Providers'
 
 const StyledMenu = styled((props: any) => (
   <Menu
@@ -77,8 +80,17 @@ export var TopBar: FC<Props> = function (props) {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
   const theme = useTheme()
+  const colorMode = useContext(ColorModeContext)
+  const { updateUser } = useUser()
+
   const user = useSelector((state: State) => state.user.value)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (user && user?.colorMode !== theme.palette.mode) {
+      updateUser({ ...user, colorMode: theme.palette.mode })
+    }
+  }, [theme.palette.mode, user])
 
   const open = Boolean(anchorEl)
 
@@ -131,6 +143,18 @@ export var TopBar: FC<Props> = function (props) {
                 >
                   <BellIcon fontSize="small" />
                 </Badge>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={`${theme.palette.mode} mode`}>
+              <IconButton
+                onClick={colorMode.toggleColorMode}
+                color="default"
+              >
+                {theme.palette.mode === 'dark' ? (
+                  <Brightness7 />
+                ) : (
+                  <Brightness4 />
+                )}
               </IconButton>
             </Tooltip>
             <Avatar

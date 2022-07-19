@@ -64,8 +64,8 @@ const SwitchThumb = styled('span')(
 
 const SwitchTrack = styled('span')(
   ({ theme }) => `
-  background-color: ${theme.palette.mode === 'dark' ? '#8796A5' : '#fff'};
-  border-color: ${theme.palette.mode === 'dark' ? '#8796A5' : '#666'};
+  background-color: ${theme.palette.background.paper};
+  border-color: ${theme.palette.mode === 'dark' ? '#fff' : '#666'};
   border-style: solid;
   border-width:2px;
   border-radius: 10px;

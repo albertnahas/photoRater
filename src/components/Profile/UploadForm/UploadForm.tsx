@@ -109,7 +109,9 @@ export var UploadForm: FC<Props> = function ({
           <Grid xs={12} md={8} item>
             <Box sx={{ mb: 2 }}>
               <FormControl component="fieldset">
-                <FormLabel component="legend">Show this photo to</FormLabel>
+                <FormLabel sx={{ color: 'text.primary' }} component="legend">
+                  Show this photo to
+                </FormLabel>
                 <RadioGroup
                   row
                   aria-label="gender"
@@ -120,17 +122,38 @@ export var UploadForm: FC<Props> = function ({
                   <FormControlLabel
                     value="female"
                     control={<Radio size="small" />}
-                    label="Females"
+                    label={
+                      <FormLabel
+                        sx={{ color: 'text.primary' }}
+                        component="legend"
+                      >
+                        Females
+                      </FormLabel>
+                    }
                   />
                   <FormControlLabel
                     value="male"
                     control={<Radio size="small" />}
-                    label="Males"
+                    label={
+                      <FormLabel
+                        sx={{ color: 'text.primary' }}
+                        component="legend"
+                      >
+                        Males
+                      </FormLabel>
+                    }
                   />
                   <FormControlLabel
                     value="both"
                     control={<Radio size="small" />}
-                    label="Both"
+                    label={
+                      <FormLabel
+                        sx={{ color: 'text.primary' }}
+                        component="legend"
+                      >
+                        Both
+                      </FormLabel>
+                    }
                   />
                 </RadioGroup>
               </FormControl>
@@ -145,7 +168,9 @@ export var UploadForm: FC<Props> = function ({
                 }}
                 component="fieldset"
               >
-                <FormLabel component="legend">Age within</FormLabel>
+                <FormLabel sx={{ color: 'text.primary' }} component="legend">
+                  Age within
+                </FormLabel>
                 <Slider
                   size="small"
                   getAriaLabel={() => 'Minimum distance'}

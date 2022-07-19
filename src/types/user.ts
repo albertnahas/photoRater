@@ -14,6 +14,7 @@ export interface User {
   showGender?: string
   uid?: string
   messagingToken?: string
+  colorMode?: "light" | "dark"
   blocks?: string[]
   feedback?: boolean
 }
