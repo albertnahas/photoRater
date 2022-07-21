@@ -281,14 +281,13 @@ export var PhotoDetails: FC<Props> = function (props) {
               </Grid>
             )}
           </Grid>
-
-          {sortedRates && photo?.rate && topPercentile <= 70 && (
+          {sortedRates && photo?.rate && votes.length >= 3 && topPercentile <= 70 && (
             <Typography
-              sx={{ mt: 2, fontSize: 12 }}
+              sx={{ mt: 2, fontSize: 14 }}
               variant="body2"
-              color={theme.palette.text.secondary}
+              color={theme.palette.success.light}
             >
-              Your photo is in top {topPercentile}%!
+              &#127881; Wow! Your photo is in top {topPercentile}%!
             </Typography>
           )}
           {photo?.ageRange && photo?.ageRange.length === 2 && (
