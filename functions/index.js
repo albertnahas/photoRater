@@ -404,6 +404,28 @@ exports.scheduledUpdatePhotos = functions.pubsub
     return true
   })
 
+exports.scheduledUpdateSortedRates = functions.pubsub
+  .schedule('every 24 hours')
+  .onRun(() => {
+    let photosQuery =
+      admin.firestore().collectionGroup(`photos`)
+
+    photosQuery
+      .get()
+      .then(photos => {
+        let fetchedRates = []
+        if (!photos.size) {
+          return
+        }
+        photos?.forEach(photo => {
+          fetchedRates.push(photo?.data().rate)
+        })
+        const sortedRates = fetchedRates.filter((rate) => !isNaN(rate)).sort((a, b) => b - a)
+        admin.firestore().collection('stats').doc('stats').set({ sortedRates }, { merge: true })
+      })
+    return true
+  })
+
 exports.scheduledFunctionRate = functions.pubsub
   .schedule('every 20 hours')
   .onRun(() => {
@@ -434,7 +456,7 @@ exports.scheduledFunctionRate = functions.pubsub
 
         const rating = Math.min(
           Math.round(sexyPrediction * 5 + Math.random() * 3 + happy * 2 + 2) /
-            2,
+          2,
           5
         )
         functions.logger.log('rating', rating)
